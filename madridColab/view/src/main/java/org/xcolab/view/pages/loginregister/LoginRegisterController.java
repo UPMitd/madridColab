@@ -22,6 +22,7 @@ import org.xcolab.client.admin.attributes.platform.PlatformAttributeKey;
 import org.xcolab.client.members.MembersClient;
 import org.xcolab.client.tracking.TrackingClient;
 import org.xcolab.client.tracking.pojo.Location;
+import org.xcolab.commons.CommunityUtil;
 import org.xcolab.commons.CountryUtil;
 import org.xcolab.commons.recaptcha.RecaptchaValidator;
 import org.xcolab.commons.servlet.RequestParamUtil;
@@ -89,8 +90,8 @@ public class LoginRegisterController {
         }
 
         // append SSO attributes
-        CreateUserBean userBean = new CreateUserBean();
-        model.addAttribute("createUserBean", userBean);
+        CreateUserBeanExtended userBean = new CreateUserBeanExtended();
+        model.addAttribute("createUserBeanExtended", userBean);
 
         // Get country location
         if (StringUtils.isEmpty(userBean.getCountry())) {
@@ -105,6 +106,7 @@ public class LoginRegisterController {
         model.addAttribute("hasLoginInfoText", StringUtils.isNotBlank(loginInfoText));
         model.addAttribute("loginInfoText", loginInfoText);
         model.addAttribute("countrySelectItems", CountryUtil.getSelectOptions());
+        model.addAttribute("communitySelectItems", CommunityUtil.getSelectOptions());
 
         model.addAttribute("isI18NActive",ConfigurationAttributeKey.IS_I18N_ACTIVE.get());
         model.addAttribute("languageSelectItems", I18nUtils.getSelectList());
@@ -127,7 +129,7 @@ public class LoginRegisterController {
 
     @PostMapping("/register")
     public String registerUser(HttpServletRequest request, HttpServletResponse response, Model model,
-            @Valid CreateUserBean newAccountBean, BindingResult result,
+            @Valid CreateUserBeanExtended newAccountBean, BindingResult result,
             @RequestParam(required = false) String redirect) throws IOException {
 
         if (result.hasErrors()) {

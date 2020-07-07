@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.xcolab.client.tracking.TrackingClient;
 import org.xcolab.client.tracking.pojo.Location;
 import org.xcolab.commons.exceptions.ReferenceResolutionException;
+import org.xcolab.model.tables.pojos.CommunityRegistry;
 import org.xcolab.model.tables.pojos.LoginLog;
 import org.xcolab.model.tables.pojos.User;
+import org.xcolab.service.members.domain.communityregistry.CommunityRegistryDao;
 import org.xcolab.service.members.domain.loginlog.LoginLogDao;
 import org.xcolab.service.members.domain.member.UserDao;
 import org.xcolab.service.members.domain.role.RoleDao;
@@ -32,14 +34,17 @@ public class UserService {
     private final UserDao memberDao;
     private final RoleDao roleDao;
     private final LoginLogDao loginLogDao;
+    private final CommunityRegistryDao communityRegistryDao;
     private final ConnectorEmmaAPI connectorEmmaAPI;
 
     @Autowired
     public UserService(UserDao memberDao, RoleDao roleDao, LoginLogDao loginLogDao,
+            CommunityRegistryDao communityRegistryDao,
             ConnectorEmmaAPI connectorEmmaAPI) {
         this.memberDao = memberDao;
         this.roleDao = roleDao;
         this.loginLogDao = loginLogDao;
+        this.communityRegistryDao = communityRegistryDao;
         this.connectorEmmaAPI = connectorEmmaAPI;
     }
 
@@ -112,6 +117,14 @@ public class UserService {
         }
 
         return loginLogDao.create(loginLog);
+    }
+
+    public CommunityRegistry createCommunityRegistry(long userId, long roleId) {
+        CommunityRegistry communityRegistry = new CommunityRegistry();
+        communityRegistry.setIdRole(roleId);
+        communityRegistry.setIdUser(userId);
+
+        return communityRegistryDao.create(communityRegistry);
     }
 
     public boolean validateForgotPasswordToken(String passwordToken) throws NotFoundException {

@@ -15,6 +15,7 @@ import org.xcolab.client.balloons.pojo.BalloonUserTracking;
 import org.xcolab.client.members.MembersClient;
 import org.xcolab.client.members.MessagingClient;
 import org.xcolab.client.members.exceptions.MemberNotFoundException;
+import org.xcolab.client.members.pojo.CommunityRegistry;
 import org.xcolab.client.members.pojo.LoginToken;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.members.pojo.MessagingUserPreference;
@@ -58,14 +59,14 @@ public class LoginRegisterService {
      * @param redirect Redirect URL for this request (may be null)
      */
     public void completeRegistration(HttpServletRequest request, HttpServletResponse response,
-            CreateUserBean newAccountBean, String redirect, boolean postRegistration)
+            CreateUserBeanExtended newAccountBean, String redirect, boolean postRegistration)
             throws IOException {
 
         final Member member = register(newAccountBean.getScreenName(), newAccountBean.getPassword(),
                 newAccountBean.getEmail(), newAccountBean.getFirstName(),
                 newAccountBean.getLastName(), newAccountBean.getShortBio(),
                 newAccountBean.getCountry(), newAccountBean.getImageId(),
-                false, newAccountBean.getLanguage());
+                false, newAccountBean.getLanguage(), newAccountBean.getCommunity());
 
         authenticationService.authenticate(request, response, member);
         updateBalloonTracking(member, request);
@@ -139,7 +140,23 @@ public class LoginRegisterService {
 
     public Member autoRegister(String emailAddress, String firstName, String lastName) {
         return register(null, null, emailAddress, firstName, lastName,
-                "", null, null, true, null);
+                "", null, null, true, null, 5l);
+    }
+
+    public Member register(String screenName, String password, String email, String firstName,
+            String lastName, String shortBio, String country, Long imageId,
+            boolean generateLoginUrl, String language, Long role) {
+
+        final Member member = register( screenName,  password,  email,  firstName,
+                 lastName,  shortBio,  country,  imageId, generateLoginUrl,  language);
+
+        CommunityRegistry registry = new CommunityRegistry(member.getId(), role);
+
+        System.out.println("Patata " + registry.toString());
+
+        registry = MembersClient.createCommunityRegistry(registry);
+
+        return member;
     }
 
     public Member register(String screenName, String password, String email, String firstName,

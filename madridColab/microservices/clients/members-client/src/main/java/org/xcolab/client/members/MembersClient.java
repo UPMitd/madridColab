@@ -6,6 +6,7 @@ import org.xcolab.client.admin.attributes.configuration.ConfigurationAttributeKe
 import org.xcolab.client.members.exceptions.MemberCategoryNotFoundException;
 import org.xcolab.client.members.exceptions.MemberNotFoundException;
 import org.xcolab.client.members.exceptions.UncheckedMemberNotFoundException;
+import org.xcolab.client.members.pojo.CommunityRegistry;
 import org.xcolab.client.members.pojo.LoginLog;
 import org.xcolab.client.members.pojo.LoginToken;
 import org.xcolab.client.members.pojo.Member;
@@ -40,6 +41,9 @@ public final class MembersClient {
 
     private static final RestResource<LoginLog, Long> loginLogResource =
             new RestResource1<>(UserResource.LOGIN_LOG, LoginLog.TYPES);
+
+    private static final RestResource<CommunityRegistry, Long> CommunityRegistryResource =
+            new RestResource1<>(UserResource.COMMUNITY_REGISTRY, CommunityRegistry.TYPES);
 
     private static final RestResource<LoginToken, String> loginTokenResource =
             new RestResource1<>(UserResource.LOGIN_TOKEN, LoginToken.TYPES);
@@ -487,6 +491,19 @@ public final class MembersClient {
         return loginLogResource.create(loginLog)
                 .execute();
     }
+
+    public static CommunityRegistry createCommunityRegistry(CommunityRegistry role) {
+        return CommunityRegistryResource.create(role).execute();
+    }
+
+    /*public static CommunityRegistry createCommunityRegistry(long userId, long roleId) {
+        CommunityRegistry communityRegistry = new CommunityRegistry();
+        communityRegistry.setIdRole(roleId);
+        communityRegistry.setIdUser(userId);
+
+        return communityRegistryResource.create(communityRegistry)
+                .execute();
+    }*/
 
     public static boolean subscribeToNewsletter(long userId) {
         return memberResource.elementService(userId, "subscribe", Boolean.class).put();

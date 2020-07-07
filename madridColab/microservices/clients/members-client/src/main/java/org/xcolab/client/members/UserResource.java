@@ -13,7 +13,8 @@ public enum UserResource implements ResourceEnum {
     STAFF_MEMBER("staffMembers"),
     USER_GROUP("usersGroups"),
     PLATFORM_TEAM("platformteams"),
-    SSO_CLIENT_DETAILS("ssoClientDetails")
+    SSO_CLIENT_DETAILS("ssoClientDetails"),
+    COMMUNITY_REGISTRY("communityRegistry")
     ;
 
     private final String resourceName;

@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.xcolab.service.members.domain.communityregistry.CommunityRegistryDao;
+import org.xcolab.service.members.domain.communityregistry.CommunityRegistryDaoImpl;
 import org.xcolab.service.members.domain.loginlog.LoginLogDaoImpl;
 import org.xcolab.service.members.domain.member.UserDaoImpl;
 import org.xcolab.service.members.domain.role.RoleDaoImpl;
@@ -22,7 +24,8 @@ public class UserServiceTest {
     public void setUp() {
         DSLContext dslContext = new DefaultDSLContext(SQLDialect.MYSQL);
         memberService = new UserService(new UserDaoImpl(dslContext),
-                new RoleDaoImpl(dslContext), new LoginLogDaoImpl(dslContext), null);
+                new RoleDaoImpl(dslContext), new LoginLogDaoImpl(dslContext),
+                new CommunityRegistryDaoImpl(dslContext), null);
     }
 
     @Test

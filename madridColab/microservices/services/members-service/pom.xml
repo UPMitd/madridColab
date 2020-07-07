@@ -81,6 +81,7 @@
                                 | activity__activity_entry
                                 | contest__contest_team_member
 
+                                | xcolab__CommunityRegistry
 
                                 <!-- User/Role/Team entities (8) -->
                                 | members_Member

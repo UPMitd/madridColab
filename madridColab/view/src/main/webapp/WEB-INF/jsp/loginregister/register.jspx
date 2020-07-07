@@ -61,7 +61,7 @@
             </div>
         </c:if>
 
-        <form:form action="/register" method="post" commandName="createUserBean" id="registrationForm">
+        <form:form action="/register" method="post" commandName="createUserBeanExtended" id="registrationForm">
             <c:if test="${not empty redirect}">
                 <input type="hidden" name="redirect" value="${redirect}" />
             </c:if>
@@ -139,6 +139,22 @@
                     <form:errors cssClass="invalid-feedback" path="retypePassword" />
                 </div>
             </div>
+
+            <div class="form-row">
+                <label class="cb-form-col-label required-field" for="community">
+                    <spring:message code="register.form.fields.community"/>
+                </label>
+                <div class="cb-form-col-input">
+                    <form:select cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                 autocomplete="community" path="community" id="community">
+                        <spring:message code="register.form.fields.community.defaultselectoption" var="communityOption"/>
+                        <form:option value="" label="${communityOption}"/>
+                        <form:options items="${communitySelectItems}" itemValue="value" itemLabel="lable"/>
+                    </form:select>
+                    <form:errors cssClass="invalid-feedback" path="country" />
+                </div>
+            </div>
+
             <div class="form-row">
                 <label class="cb-form-col-label required-field" for="country">
                     <spring:message code="register.form.fields.country"/>
