@@ -53,6 +53,11 @@
                         <li class="nav-item ${activePageLink == 'community' ? 'active' : ''}" >
                             <a class="nav-link" href="/members"><spring:message code="homepage.menu.community" /></a>
                         </li>
+                        <!--
+                        <li class="nav-item ${activePageLink == 'intercommunity' ? 'active' : ''}" >
+                            <a class="nav-link" href="/intercommunity"><spring:message code="homepage.menu.intercommunity" /></a>
+                        </li>
+                        -->
                         <c:if test="${showSearch}">
                             <!--#if ($pageName == 'search') isCurrent #end-->
                             <c:set var="navbarSearchActive" value="${activePageLink == 'search' ? 'active' : ''}" />

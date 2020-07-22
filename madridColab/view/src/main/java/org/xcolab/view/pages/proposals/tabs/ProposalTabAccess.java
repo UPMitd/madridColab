@@ -9,6 +9,7 @@ public enum ProposalTabAccess implements ProposalTabCanAccessAlgorithm {
     ALWAYS(proposalContext -> true),
     NEVER(proposalContext -> false),
     PROPOSAL_ADMIN(proposalContext -> proposalContext.getPermissions().getCanAdminProposal()),
+    COMMENT(proposalContext -> proposalContext.getProposal().getName().contains("H.C.")),
     ADMIN(proposalContext -> proposalContext.getPermissions().getCanAdminAll()),
     EDIT(proposalContext -> proposalContext.getPermissions().getCanEdit())
     ;
