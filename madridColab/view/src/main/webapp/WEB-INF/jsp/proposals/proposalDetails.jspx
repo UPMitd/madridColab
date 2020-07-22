@@ -212,9 +212,11 @@
             <br/>
             <br/>
 
-            <xcolab:discussionComments threadId="${proposal.discussionIdOrCreate}"
-                                       proposalId="${proposal.id}"
-                                       shareTitle="Discussion for ${proposal.name} in ${contest.title}" />
+            <c:if test="${proposal.name.contains('H.C.')}">
+                <xcolab:discussionComments threadId="${proposal.discussionIdOrCreate}"
+                                           proposalId="${proposal.id}"
+                                           shareTitle="Discussion for ${proposal.name} in ${contest.title}" />
+            </c:if>
 
         </div>
         <div class="l-Content__sidebar l-Content__sidebar--large l-Content__sidebar--right">
