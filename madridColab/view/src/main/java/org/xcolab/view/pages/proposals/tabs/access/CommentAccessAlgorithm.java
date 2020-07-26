@@ -8,6 +8,7 @@ public class CommentAccessAlgorithm implements ProposalTabCanAccessAlgorithm {
 
     @Override
     public boolean canAccess(ProposalContext proposalContext) {
-        return ConfigurationAttributeKey.PROPOSALS_COMMENTS_IN_SEPARATE_TAB.get();
+        return !proposalContext.getProposal().getName().contains("H.C.");
+        //ConfigurationAttributeKey.PROPOSALS_COMMENTS_IN_SEPARATE_TAB.get();
     }
 }

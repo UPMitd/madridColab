@@ -29,7 +29,7 @@ public enum ProposalTab {
             Type.NORMAL, ProposalTabAccess.ALWAYS, ProposalTabAccess.NEVER,
             ProposalTabActivityCountAlgorithm.membersCount),
     COMMENTS("Comments", "contests.proposal.tabs.comments",
-            Type.NORMAL, new CommentAccessAlgorithm(), ProposalTabAccess.NEVER,
+            Type.NORMAL, new CommentAccessAlgorithm(), ProposalTabAccess.COMMENT,
             ProposalTabActivityCountAlgorithm.commentsCount),
     SCREENING("Screening", "contests.proposal.tabs.screening",
             Type.HIGHLIGHT, new ScreeningAccessAlgorithm(),
