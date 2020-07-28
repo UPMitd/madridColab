@@ -13,7 +13,9 @@ public class EmailToAdminDispatcher {
 
     private static final Recipient[] ADMIN_EMAIL_RECIPIENTS = {
             new Recipient("livinglabmadrid@upm.es", VERBOSITY_DEBUG),
-            new Recipient("m.gamallo@alumnos.upm.es", VERBOSITY_ERROR)
+            new Recipient("luiscal4a@gmail.com", VERBOSITY_ERROR),
+            new Recipient("valentina.oquendo@upm.es", VERBOSITY_ERROR),
+            new Recipient("js.ochoa@upm.es", VERBOSITY_ERROR)
     };
 
     private final String subject;

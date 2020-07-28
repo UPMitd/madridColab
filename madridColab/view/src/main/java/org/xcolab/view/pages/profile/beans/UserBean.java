@@ -65,6 +65,7 @@ public class UserBean implements Serializable {
     private boolean sendEmailOnMessage;
     private boolean sendEmailOnActivity;
     private boolean sendDailyEmailOnActivity;
+    private boolean sendWeeklyEmailOnActivity;
 
     public UserBean() { }
 
@@ -95,6 +96,9 @@ public class UserBean implements Serializable {
         sendEmailOnActivity = messagingPreferences.getEmailOnActivity();
         sendDailyEmailOnActivity = messagingPreferences
                 .getEmailActivityDailyDigest();
+        sendWeeklyEmailOnActivity= messagingPreferences
+                .getEmailActivityWeeklyDigest();
+
     }
 
     public String getPortrait() {
@@ -227,6 +231,10 @@ public class UserBean implements Serializable {
     public void setSendDailyEmailOnActivity(boolean send) {
         sendDailyEmailOnActivity = send;
     }
+
+    public boolean getSendWeeklyEmailOnActivity(){return sendWeeklyEmailOnActivity;}
+
+    public void setSendWeeklyEmailOnActivity(boolean send){ sendWeeklyEmailOnActivity = send; }
 
     public long getUserId() {
         return userId;

@@ -14,6 +14,7 @@ public class DefaultMessagingUserPreference extends MessagingUserPreference {
         setEmailOnReceipt(ConfigurationAttributeKey.MESSAGING_EMAIL_ON_RECEIPT_DEFAULT.get());
         setEmailOnActivity(ConfigurationAttributeKey.MESSAGING_EMAIL_ON_ACTIVITY_DEFAULT.get());
         setEmailActivityDailyDigest(ConfigurationAttributeKey.MESSAGING_DAILY_DIGEST_DEFAULT.get());
+        setEmailActivityWeeklyDigest(ConfigurationAttributeKey.MESSAGING_WEEKLY_DIGEST_DEFAULT.get());
     }
 
 }

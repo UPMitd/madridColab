@@ -25,6 +25,7 @@ public class MessagingUserPreference implements Serializable {
     private boolean emailOnActivity;
     private boolean emailActivityDailyDigest;
     private Integer dailyMessageLimit;
+    private boolean emailActivityWeeklyDigest;
 
     public MessagingUserPreference() {
     }
@@ -37,16 +38,18 @@ public class MessagingUserPreference implements Serializable {
         this.emailOnActivity = value.emailOnActivity;
         this.emailActivityDailyDigest = value.emailActivityDailyDigest;
         this.dailyMessageLimit = value.dailyMessageLimit;
+        this.emailActivityWeeklyDigest= value.emailActivityWeeklyDigest;
     }
 
     public MessagingUserPreference(long id, long userId, boolean emailOnSend,
-            boolean emailOnReceipt, boolean emailOnActivity, boolean emailActivityDailyDigest) {
+            boolean emailOnReceipt, boolean emailOnActivity, boolean emailActivityDailyDigest, boolean emailActivityWeeklyDigest) {
         this.id = id;
         this.userId = userId;
         this.emailOnSend = emailOnSend;
         this.emailOnReceipt = emailOnReceipt;
         this.emailOnActivity = emailOnActivity;
         this.emailActivityDailyDigest = emailActivityDailyDigest;
+        this.emailActivityWeeklyDigest = emailActivityWeeklyDigest;
     }
 
     public Long getId() {
@@ -97,6 +100,15 @@ public class MessagingUserPreference implements Serializable {
         this.emailActivityDailyDigest = emailActivityDailyDigest;
     }
 
+    public boolean getEmailActivityWeeklyDigest() {
+        return this.emailActivityWeeklyDigest;
+    }
+
+    public void setEmailActivityWeeklyDigest(boolean emailActivityWeeklyDigest) {
+        this.emailActivityWeeklyDigest = emailActivityWeeklyDigest;
+    }
+
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -120,7 +132,8 @@ public class MessagingUserPreference implements Serializable {
                 && emailOnSend == other.emailOnSend
                 && emailOnReceipt == other.emailOnReceipt
                 && emailOnActivity == other.emailOnActivity
-                && emailActivityDailyDigest == other.emailActivityDailyDigest;
+                && emailActivityDailyDigest == other.emailActivityDailyDigest
+                && emailActivityWeeklyDigest == other.emailActivityWeeklyDigest;
 
     }
 
@@ -135,6 +148,7 @@ public class MessagingUserPreference implements Serializable {
         result = prime * result + (emailOnReceipt ? 1 : 0);
         result = prime * result + (emailOnActivity ? 1 : 0);
         result = prime * result + (emailActivityDailyDigest ? 1 : 0);
+        result = prime * result + (emailActivityWeeklyDigest ? 1 : 0);
         return result;
     }
 
@@ -147,6 +161,7 @@ public class MessagingUserPreference implements Serializable {
                 ", " + emailOnReceipt +
                 ", " + emailOnActivity +
                 ", " + emailActivityDailyDigest +
+                ", " + emailActivityWeeklyDigest +
                 ")";
     }
 

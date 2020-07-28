@@ -58,6 +58,8 @@ public class MessagingUserPreferenceDaoImpl implements MessagingUserPreferenceDa
                         messagingUserPreferences.getEmailOnActivity())
                 .set(MESSAGING_USER_PREFERENCE.EMAIL_ACTIVITY_DAILY_DIGEST,
                         messagingUserPreferences.getEmailActivityDailyDigest())
+                .set(MESSAGING_USER_PREFERENCE.EMAIL_ACTIVITY_WEEKLY_DIGEST,
+                        messagingUserPreferences.getEmailActivityWeeklyDigest())
                 .returning(MESSAGING_USER_PREFERENCE.ID)
                 .fetchOne();
         if (record == null) {
@@ -80,6 +82,8 @@ public class MessagingUserPreferenceDaoImpl implements MessagingUserPreferenceDa
                         messagingUserPreferences.getEmailOnActivity())
                 .set(MESSAGING_USER_PREFERENCE.EMAIL_ACTIVITY_DAILY_DIGEST,
                         messagingUserPreferences.getEmailActivityDailyDigest())
+                .set(MESSAGING_USER_PREFERENCE.EMAIL_ACTIVITY_WEEKLY_DIGEST,
+                        messagingUserPreferences.getEmailActivityWeeklyDigest())
                 .where(MESSAGING_USER_PREFERENCE.ID.eq(messagingUserPreferences.getId()))
                 .execute() > 0;
     }

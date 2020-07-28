@@ -11,6 +11,7 @@ import org.xcolab.client.contest.pojo.phases.ContestPhaseRibbonType;
 import org.xcolab.client.contest.pojo.phases.ContestPhaseType;
 import org.xcolab.util.http.client.enums.ServiceNamespace;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +33,10 @@ public final class ContestClientUtil {
 
     public static Contest getContest(long contestId, String lang) {
         return contestClient.getContest(contestId, lang);
+    }
+
+    public static List<Contest> getContestAfter(Date date){
+        return  contestClient.getContestsAfter(date);
     }
 
     public static Contest createContest(Long userId, String name) {

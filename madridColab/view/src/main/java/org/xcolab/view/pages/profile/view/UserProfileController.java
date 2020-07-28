@@ -244,7 +244,7 @@ public class UserProfileController {
             final String currentPassword = updatedUserBean.getCurrentPassword();
             if (MembersClient.validatePassword(currentPassword.trim(), currentUserProfile.getUser().getId())
                     || (permissions.getCanAdmin() && MembersClient.validatePassword(
-                            currentPassword.trim(), permissions.getLoggedInMember().getId()))) {
+                    currentPassword.trim(), permissions.getLoggedInMember().getId()))) {
                 validator.validate(updatedUserBean, result, UserBean.PasswordChanged.class);
 
                 if (!result.hasErrors()) {
@@ -406,6 +406,10 @@ public class UserProfileController {
         if (updatedUserBean.getSendDailyEmailOnActivity() != messagingPreferences.getEmailActivityDailyDigest()) {
             messagingPreferences.setEmailActivityDailyDigest(updatedUserBean.getSendDailyEmailOnActivity());
             changedMessagingPreferences = true;
+        }
+        if(updatedUserBean.getSendWeeklyEmailOnActivity()!= messagingPreferences.getEmailActivityWeeklyDigest()){
+            messagingPreferences.setEmailActivityWeeklyDigest(updatedUserBean.getSendWeeklyEmailOnActivity());
+            changedMessagingPreferences=true;
         }
 
         if (changedMessagingPreferences) {

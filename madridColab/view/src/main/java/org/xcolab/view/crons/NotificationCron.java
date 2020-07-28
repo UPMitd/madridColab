@@ -10,10 +10,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.xcolab.view.util.entity.activityEntry.ActivitySubscriptionEmailHelper;
-
 import java.io.IOException;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +38,7 @@ public class NotificationCron {
 
     @Scheduled(fixedRate = RATE, initialDelay = DELAY)
     public void sendNotifications() {
-        _log.debug("Sending notifications...");
+        _log.info("Sending notifications...");
         activitySubscriptionEmailHelper.sendEmailNotifications();
     }
 
@@ -61,6 +60,7 @@ public class NotificationCron {
         public ResponseEntity<String> sendEmailNotifications(HttpServletRequest request,
                 HttpServletResponse response) throws IOException {
             _log.debug("Cron triggered via http endpoint.");
+
             notificationCron.sendNotifications();
             return ResponseEntity.ok("Emails sent.");
         }

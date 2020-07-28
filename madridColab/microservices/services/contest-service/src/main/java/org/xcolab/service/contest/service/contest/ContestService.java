@@ -40,6 +40,7 @@ public class ContestService {
     private final ContestPhaseTypeDao contestPhaseTypeDao;
     private final OntologyService ontologyService;
 
+
     @Autowired
     public ContestService(ContestDao contestDao, ContestTranslationDao contestTranslationDao,
             ContestPhaseDao contestPhaseDao, ContestPhaseTypeDao contestPhaseTypeDao,
@@ -103,6 +104,10 @@ public class ContestService {
 
     public boolean isContestTitleYearUnique(String contestShortName, Long year, Long currentContestId){
         return contestDao.isContestTitleYearUnique(contestShortName, year,currentContestId);
+    }
+
+    public List<Contest> getContestAfter(String date){
+        return contestDao.getContestAfter(date);
     }
 
     public List<Contest> getContestsByOntologyTerm(Long ontologyTerm, Boolean active, Boolean onlyPrivate) {
