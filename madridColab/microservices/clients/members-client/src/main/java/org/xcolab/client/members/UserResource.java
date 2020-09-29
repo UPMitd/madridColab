@@ -14,6 +14,10 @@ public enum UserResource implements ResourceEnum {
     USER_GROUP("usersGroups"),
     PLATFORM_TEAM("platformteams"),
     SSO_CLIENT_DETAILS("ssoClientDetails"),
+    DATA_PEOPLE("dataPeople"),
+    DATA_COMPANY("dataCompany"),
+    DATA_CITY("dataCity"),
+    ODS_REGISTRY("odsRegistry"),
     COMMUNITY_REGISTRY("communityRegistry")
     ;
 

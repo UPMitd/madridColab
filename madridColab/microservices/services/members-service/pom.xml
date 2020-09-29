@@ -83,6 +83,11 @@
 
                                 | xcolab__CommunityRegistry
 
+                                | xcolab__OdsRegistry
+                                | xcolab__DataPeople
+                                | xcolab__DataCity
+                                | xcolab__DataCompany
+
                                 <!-- User/Role/Team entities (8) -->
                                 | members_Member
                                 | Users_Roles | Role_ | xcolab_MemberCategory

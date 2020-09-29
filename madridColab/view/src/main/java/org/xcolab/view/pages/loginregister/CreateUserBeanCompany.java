@@ -7,47 +7,46 @@ import java.util.List;
 
 @CompareStrings(propertyNames = {"password", "retypePassword"},
         message = "{register.form.validation.passwordequal}")
-public class CreateUserBeanExtended extends CreateUserBean implements Serializable {
+public class CreateUserBeanCompany extends CreateUserBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     /*@NotNull
     private Long community;*/
 
-    private Long id_sector;
+    private Long id_sector_company;
 
     private String twitter;
-    private String linkedin;
+    private String web;
 
-    private String cod_postal;
 
     private Boolean is_community;
 
     private List<Long> communities;
     private List<Long> ods;
 
-    public Long getId_sector() {
-        return id_sector;
+    public Long getId_sector_company() {
+        return id_sector_company;
     }
 
-    public void setId_sector(Long id_sector) {
-        this.id_sector = id_sector;
+    public void setId_sector_company(Long id_sector_company) {
+        this.id_sector_company = id_sector_company;
     }
 
     public String getTwitter() {
         return twitter;
     }
 
-    public String getLinkedin() {
-        return linkedin;
+    public String getWeb() {
+        return web;
     }
 
     public void setTwitter(String twitter) {
         this.twitter = twitter;
     }
 
-    public void setLinkedin(String linkedin) {
-        this.linkedin = linkedin;
+    public void setWeb(String web) {
+        this.web = web;
     }
 
     public Boolean getIs_community() {
@@ -74,19 +73,4 @@ public class CreateUserBeanExtended extends CreateUserBean implements Serializab
         this.ods = ods;
     }
 
-    public String getCod_postal() {
-        return cod_postal;
-    }
-
-    public void setCod_postal(String cod_postal) {
-        this.cod_postal = cod_postal;
-    }
-
-    /*public Long getCommunity() {
-        return community;
-    }
-
-    public void setCommunity(Long community) {
-        this.community = community;
-    }*/
 }

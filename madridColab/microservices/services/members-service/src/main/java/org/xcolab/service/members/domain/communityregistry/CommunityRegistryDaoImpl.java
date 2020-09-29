@@ -40,7 +40,7 @@ public class CommunityRegistryDaoImpl implements CommunityRegistryDao {
     public CommunityRegistry create(CommunityRegistry communityRegistry) {
         final CommunityRegistryRecord record = dslContext.insertInto(COMMUNITY_REGISTRY)
                 .set(COMMUNITY_REGISTRY.ID_USER, communityRegistry.getIdUser())
-                .set(COMMUNITY_REGISTRY.ID_ROLE, communityRegistry.getIdRole())
+                .set(COMMUNITY_REGISTRY.ID_COMMUNITY, communityRegistry.getIdCommunity())
                 .returning(COMMUNITY_REGISTRY.ID_USER)
                 .fetchOne();
 
