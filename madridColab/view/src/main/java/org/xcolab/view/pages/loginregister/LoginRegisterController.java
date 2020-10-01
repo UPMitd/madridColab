@@ -248,7 +248,7 @@ public class LoginRegisterController {
 
         if (result.hasErrors()) {
             //_log.error("User2");
-            return showRegistrationError(model);
+            return showRegistrationError(model, REGISTER_VIEW_NAME);
         }
         boolean captchaValid = true;
         //_log.error("User3");
@@ -261,7 +261,7 @@ public class LoginRegisterController {
             //_log.error("User4");
             result.addError(new ObjectError("createUserBean", resourceMessageResolver.
                     getLocalizedMessage("register.form.validation.captcha.message")));
-            return showRegistrationError(model);
+            return showRegistrationError(model, REGISTER_VIEW_NAME);
         }
         //TODO COLAB-2617: improve redirect to avoid double handling
         //_log.error("User5");
@@ -272,7 +272,7 @@ public class LoginRegisterController {
 
     @PostMapping("/registerCity")
     public String registerUser(HttpServletRequest request, HttpServletResponse response, Model model,
-            @Valid @ModelAttribute("createUserBeanCity")  CreateUserBeanCity newAccountBean, BindingResult result,
+            @Valid CreateUserBeanCity newAccountBean, BindingResult result,
             @RequestParam(required = false) String redirect) throws IOException {
 
         //_log.error("City1");
@@ -280,7 +280,7 @@ public class LoginRegisterController {
 
         if (result.hasErrors()) {
             //_log.error("City2");
-            return showRegistrationError(model);
+            return showRegistrationError(model, REGISTER_CITY_VIEW_NAME);
         }
         boolean captchaValid = true;
         //_log.error("City3");
@@ -291,9 +291,9 @@ public class LoginRegisterController {
         }
         if (!captchaValid) {
             //_log.error("City4");
-            result.addError(new ObjectError("createUserBean", resourceMessageResolver.
+            result.addError(new ObjectError("createUserBeanCity", resourceMessageResolver.
                     getLocalizedMessage("register.form.validation.captcha.message")));
-            return showRegistrationError(model);
+            return showRegistrationError(model, REGISTER_CITY_VIEW_NAME);
         }
         //TODO COLAB-2617: improve redirect to avoid double handling
         //_log.error("City5");
@@ -304,7 +304,7 @@ public class LoginRegisterController {
 
     @PostMapping("/registerCompany")
     public String registerUser(HttpServletRequest request, HttpServletResponse response, Model model,
-            @Valid @ModelAttribute("createUserBeanCompany") CreateUserBeanCompany newAccountBean, BindingResult result,
+            @Valid CreateUserBeanCompany newAccountBean, BindingResult result,
             @RequestParam(required = false) String redirect) throws IOException {
 
         //_log.error("Company1");
@@ -312,7 +312,7 @@ public class LoginRegisterController {
 
         if (result.hasErrors()) {
             //_log.error("Company2");
-            return showRegistrationError(model);
+            return showRegistrationError(model, REGISTER_COMPANY_VIEW_NAME);
         }
         boolean captchaValid = true;
         //_log.error("Company3");
@@ -323,9 +323,9 @@ public class LoginRegisterController {
         }
         if (!captchaValid) {
             //_log.error("Company4");
-            result.addError(new ObjectError("createUserBean", resourceMessageResolver.
+            result.addError(new ObjectError("createUserBeanCompany", resourceMessageResolver.
                     getLocalizedMessage("register.form.validation.captcha.message")));
-            return showRegistrationError(model);
+            return showRegistrationError(model, REGISTER_COMPANY_VIEW_NAME);
         }
         //TODO COLAB-2617: improve redirect to avoid double handling
         //_log.error("Company5");
@@ -334,11 +334,11 @@ public class LoginRegisterController {
         return REGISTER_COMPANY_VIEW_NAME;
     }
 
-    private String showRegistrationError(Model model) {
+    private String showRegistrationError(Model model, String URL) {
         model.addAttribute("countrySelectItems", CountryUtil.getSelectOptions());
         model.addAttribute("isI18NActive",ConfigurationAttributeKey.IS_I18N_ACTIVE.get());
         model.addAttribute("languageSelectItems", I18nUtils.getSelectList());
-        return REGISTER_VIEW_NAME;
+        return URL;
     }
 
     @ModelAttribute("recaptchaDataSiteKey")
