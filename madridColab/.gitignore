@@ -1,6 +1,7 @@
 *.class
 
 util/xcolab-commons/target/
+conf
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
