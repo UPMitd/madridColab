@@ -20,7 +20,7 @@ public final class SectorUtil {
     static {
         codeToSectorMap.put(0l, "Académico");
         codeToSectorMap.put(1l, "Empresa");
-        codeToSectorMap.put(2l, "Gobierno");
+        codeToSectorMap.put(2l, "Administración pública");
         codeToSectorMap.put(3l, "Autónomo");
         codeToSectorMap.put(4l, "Start-up (o PYME)");
         codeToSectorMap.put(5l, "Tercer sector (o ONG/Fundación)");

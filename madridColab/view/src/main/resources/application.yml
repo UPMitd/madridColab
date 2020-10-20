@@ -57,19 +57,20 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka/
 
 logging:
+  file: /home/xcolab/logs/test.log
   level:
-    ROOT: WARN
-    com.netflix.eureka: INFO
-    org.xcolab.util.http.caching.provider: INFO
-    org.xcolab.view.config: INFO
-    org.xcolab.view.crons: INFO
-    org.springframework: INFO
-    org.springframework.jmx: WARN
-    org.springframework.web: WARN
-    org.springframework.boot.web: WARN
-    org.springframework.boot.actuate: WARN
-    org.springframework.context.annotation: WARN
-    org.springframework.beans.factory.annotation: WARN
+    ROOT: ERROR
+    com.netflix.eureka: ERROR
+    org.xcolab.util.http.caching.provider: ERROR
+    org.xcolab.view.config: ERROR
+    org.xcolab.view.crons: ERROR
+    org.springframework: ERROR
+    org.springframework.jmx: ERROR
+    org.springframework.web: ERROR
+    org.springframework.boot.web: ERROR
+    org.springframework.boot.actuate: ERROR
+    org.springframework.context.annotation: ERROR
+    org.springframework.beans.factory.annotation: ERROR
 
 security:
   filter-dispatcher-types: ASYNC,REQUEST,ERROR

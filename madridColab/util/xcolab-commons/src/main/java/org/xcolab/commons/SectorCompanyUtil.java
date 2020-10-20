@@ -22,14 +22,20 @@ public final class SectorCompanyUtil {
         codeToSectorMap.put(1l, "Construcción");
         codeToSectorMap.put(2l, "Industria y energía");
         codeToSectorMap.put(3l, "Actividades profesionales");
-        codeToSectorMap.put(4l, "Inmobiliarias, financieras y seguros");
-        codeToSectorMap.put(5l, "Resto servicios");
-        codeToSectorMap.put(6l, "Actividades administrativas y servicios auxiliares");
-        codeToSectorMap.put(7l, "Hostelería");
-        codeToSectorMap.put(8l, "Información y comunicaciones");
-        codeToSectorMap.put(9l, "Transporte y almacenamiento");
-        codeToSectorMap.put(10l, "Agricultura y pesca");
-        codeToSectorMap.put(11l, "Otro");
+        codeToSectorMap.put(4l, "Inmobiliario");
+        codeToSectorMap.put(5l, "Financiero y seguros");
+        codeToSectorMap.put(6l, "Resto servicios");
+        codeToSectorMap.put(7l, "Actividades administrativas y servicios auxiliares");
+        codeToSectorMap.put(8l, "Hostelería");
+        codeToSectorMap.put(9l, "Información y comunicaciones");
+        codeToSectorMap.put(10l, "Transporte y almacenamiento");
+        codeToSectorMap.put(11l, "Agricultura y pesca");
+        codeToSectorMap.put(12l, "Salud");
+        codeToSectorMap.put(13l, "Tecnología");
+        codeToSectorMap.put(14l, "Turismo");
+        codeToSectorMap.put(15l, "Consultoría");
+        codeToSectorMap.put(16l, "Educación");
+        codeToSectorMap.put(17l, "Otro");
 
         List<LabelLongValue> rawSelectOptions = new ArrayList<>(
                 LabelLongValue.fromMap(codeToSectorMap));

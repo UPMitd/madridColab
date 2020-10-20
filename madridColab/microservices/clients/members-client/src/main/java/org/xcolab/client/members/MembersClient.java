@@ -515,7 +515,10 @@ public final class MembersClient {
     }
 
     public static CommunityRegistry createCommunityRegistry(CommunityRegistry role) {
-        return CommunityRegistryResource.create(role).execute();
+        CommunityRegistry newData = new CommunityRegistry();
+        newData.setIdUser(role.getIdUser());
+        newData.setIdCommunity(role.getIdCommunity());
+        return CommunityRegistryResource.create(newData).execute();
     }
 
     public static DataPeople createDataPeople(DataPeople data) {

@@ -18,7 +18,7 @@ public final class CommunityUtil {
     // Material: https://developers.google.com/public-data/docs/canonical/countries_csv
     // License: https://creativecommons.org/licenses/by/3.0/
     static {
-        codeToCommunityMap.put(0l, "Ciudades");
+        codeToCommunityMap.put(0l, "Transformación de ciudades");
         codeToCommunityMap.put(1l, "Desigualdad y nuevo modelo económico");
         codeToCommunityMap.put(2l, "Gobernanza global y cooperación");
         codeToCommunityMap.put(3l, "Medio ambiente y salud");

@@ -280,8 +280,6 @@ public class LoginRegisterService {
             boolean generateLoginUrl, String language) {
 
         Assert.notNull(email, "Email address is required");
-        Assert.notNull(email, "First name is required");
-        Assert.notNull(email, "Last name is required");
 
         Member member = new Member();
         if (screenName == null) {
@@ -289,10 +287,13 @@ public class LoginRegisterService {
         } else {
             member.setScreenName(screenName);
         }
-        member.setEmailAddress(email);
-        member.setFirstName(firstName);
+        if(email != null)
+            member.setEmailAddress(email);
+        if(firstName != null)
+            member.setFirstName(firstName);
         member.setHashedPassword(password);
-        member.setLastName(lastName);
+        if(lastName != null)
+            member.setLastName(lastName);
         member.setDefaultLocale(language != null ? language : I18nUtils.DEFAULT_LANGUAGE);
         member.setStatus(0);
 

@@ -30,7 +30,7 @@ public final class ODSUtil {
         codeToODSMap.put(9l, "10. Reducción de las desigualdades");
         codeToODSMap.put(10l, "11. Ciudades y comunidades sostenibles");
         codeToODSMap.put(11l, "12. Producción y consumo responsables");
-        codeToODSMap.put(12l, "13. Ación por el clima");
+        codeToODSMap.put(12l, "13. Acción por el clima");
         codeToODSMap.put(13l, "14. Vida submarina");
         codeToODSMap.put(14l, "15. Vida de ecosistemas terrestres");
         codeToODSMap.put(15l, "16. Paz, justicia e instituciones sólidas");
