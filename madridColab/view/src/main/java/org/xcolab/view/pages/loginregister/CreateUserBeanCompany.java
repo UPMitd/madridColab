@@ -18,10 +18,9 @@ public class CreateUserBeanCompany extends CreateUserBean implements Serializabl
 
     private String twitter;
     private String web;
-
-
+    private String cod_postal;
+    private String other;
     private Boolean is_community;
-
     private List<Long> communities;
     private List<Long> ods;
 
@@ -73,4 +72,19 @@ public class CreateUserBeanCompany extends CreateUserBean implements Serializabl
         this.ods = ods;
     }
 
+    public String getCod_postal() {
+        return cod_postal;
+    }
+
+    public String getOther() {
+        return other;
+    }
+
+    public void setCod_postal(String cod_postal) {
+        this.cod_postal = cod_postal;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
+    }
 }

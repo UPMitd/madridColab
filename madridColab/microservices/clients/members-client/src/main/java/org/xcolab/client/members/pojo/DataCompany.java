@@ -25,6 +25,8 @@ public class DataCompany implements Serializable {
     private String web;
     private Boolean is_community;
     private Long id_sector_company;
+    private String other;
+    private String cod_postal;
 
 
     public DataCompany() {}
@@ -35,23 +37,23 @@ public class DataCompany implements Serializable {
         this.web = value.web;
         this.is_community = value.is_community;
         this.id_sector_company = value.id_sector_company;
+        this.other = value.other;
+        this.cod_postal = value.cod_postal;
     }
 
     public DataCompany(Long id_user, String twitter, String web, Boolean is_community,
-            Long id_sector) {
+            Long id_sector, String other, String cod_postal) {
         this.id_user = id_user;
         this.twitter = twitter;
         this.web = web;
         this.is_community = is_community;
         this.id_sector_company = id_sector;
+        this.other = other;
+        this.cod_postal = cod_postal;
     }
 
     public Long getIdUser() {
         return this.id_user;
-    }
-
-    public void setIdUser(Long id_user) {
-        this.id_user = id_user;
     }
 
     public String getTwitter() {
@@ -70,6 +72,17 @@ public class DataCompany implements Serializable {
         return id_sector_company;
     }
 
+    public String getOther() {
+        return other;
+    }
+
+    public String getCodPostal() {
+        return cod_postal;
+    }
+
+    public void setIdUser(Long id_user) {
+        this.id_user = id_user;
+    }
 
     public void setTwitter(String twitter) {
         this.twitter = twitter;
@@ -87,6 +100,13 @@ public class DataCompany implements Serializable {
         this.id_sector_company = id_sector;
     }
 
+    public void setOther(String other) {
+        this.other = other;
+    }
+
+    public void setCodPostal(String cod_postal) {
+        this.cod_postal = cod_postal;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -117,6 +137,8 @@ public class DataCompany implements Serializable {
                 .append("linkedin", web)
                 .append("is_community", is_community)
                 .append("id_sector_company", id_sector_company)
+                .append("other", other)
+                .append("cod_postal", cod_postal)
                 .toString();
     }
 }

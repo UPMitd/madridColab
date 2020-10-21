@@ -111,7 +111,7 @@
                     </label>
                     <div class="cb-form-col-input">
                         <form:select cssClass="form-control" cssErrorClass="form-control is-invalid"
-                                     autocomplete="id_sector_company" path="id_sector_company" id="id_sector_company">
+                                     autocomplete="id_sector_company" path="id_sector_company" id="id_sector_company" onchange="showOther()">
                             <spring:message code="register.form.fields.sector.defaultselectoption" var="sectorOption"/>
                             <form:option value="" label="${sectorOption}"/>
                             <form:options items="${sectorCompanySelectItems}" itemValue="value" itemLabel="lable"/>
@@ -119,6 +119,20 @@
                         <form:errors cssClass="invalid-feedback" path="id_sector_company" />
                     </div>
                 </div>
+
+                <div class="form-row" id="divOther" style="display:none">
+                    <label class="cb-form-col-label" for="other">
+                        <spring:message code="register.form.fields.other"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                    autocomplete="other-name" id="other"
+                                    path="other"/>
+                        <form:errors cssClass="invalid-feedback" path="other" />
+                    </div>
+                </div>
+
+
                 <div class="form-row">
                     <label class="cb-form-col-label required-field" for="password">
                         <spring:message code="register.form.fields.password"/>
@@ -140,6 +154,18 @@
                         <form:password cssClass="form-control" cssErrorClass="form-control is-invalid"
                                        autocomplete="new-password" path="retypePassword" id="retypePassword"/>
                         <form:errors cssClass="invalid-feedback" path="retypePassword" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label class="cb-form-col-label required-field" for="postal">
+                        <spring:message code="register.form.fields.company.postal"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                    autocomplete="postal" id="postal" maxlength="5"
+                                    path="cod_postal"/>
+                        <form:errors cssClass="invalid-feedback" path="cod_postal" />
                     </div>
                 </div>
 
@@ -313,6 +339,18 @@
                     var checkBox = document.getElementById("isCommunity");
                     var text = document.getElementById("divCommunities");
                     if (checkBox.checked == true){
+                        text.style.display = "flex";
+                    } else {
+                        text.style.display = "none";
+                    }
+                }
+
+                function showOther() {
+                    var sector = document.getElementById("id_sector_company");
+                    var text = document.getElementById("divOther");
+                    var sectorValue = sector.options[parseInt(sector.value, 10) + 1].innerHTML;
+
+                    if (sectorValue.toLowerCase() === 'otro'){
                         text.style.display = "flex";
                     } else {
                         text.style.display = "none";

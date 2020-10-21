@@ -20,6 +20,7 @@ public class CreateUserBeanExtended extends CreateUserBean implements Serializab
     private String linkedin;
 
     private String cod_postal;
+    private String other;
 
     private Boolean is_community;
 
@@ -80,6 +81,14 @@ public class CreateUserBeanExtended extends CreateUserBean implements Serializab
 
     public void setCod_postal(String cod_postal) {
         this.cod_postal = cod_postal;
+    }
+
+    public String getOther() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
     }
 
     /*public Long getCommunity() {

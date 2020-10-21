@@ -244,12 +244,24 @@
                 </label>
                 <div class="cb-form-col-input">
                     <form:select cssClass="form-control" cssErrorClass="form-control is-invalid"
-                                 autocomplete="sector" path="id_sector" id="sector">
+                                 autocomplete="sector" path="id_sector" id="sector" onchange="showOther()">
                         <spring:message code="register.form.fields.sector.defaultselectoption" var="sectorOption"/>
                         <form:option value="" label="${sectorOption}"/>
                         <form:options items="${sectorSelectItems}" itemValue="value" itemLabel="lable"/>
                     </form:select>
                     <form:errors cssClass="invalid-feedback" path="id_sector" />
+                </div>
+            </div>
+
+            <div class="form-row" id="divOther" style="display:none">
+                <label class="cb-form-col-label" for="other">
+                    <spring:message code="register.form.fields.other"/>
+                </label>
+                <div class="cb-form-col-input">
+                    <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                autocomplete="other-name" id="other"
+                                path="other"/>
+                    <form:errors cssClass="invalid-feedback" path="other" />
                 </div>
             </div>
 
@@ -339,6 +351,18 @@
                 var checkBox = document.getElementById("isCommunity");
                 var text = document.getElementById("divCommunities");
                 if (checkBox.checked == true){
+                    text.style.display = "flex";
+                } else {
+                    text.style.display = "none";
+                }
+            }
+
+            function showOther() {
+                var sector = document.getElementById("sector");
+                var text = document.getElementById("divOther");
+                var sectorValue = sector.options[parseInt(sector.value, 10) + 1].innerHTML;
+
+                if (sectorValue.toLowerCase() === 'otro'){
                     text.style.display = "flex";
                 } else {
                     text.style.display = "none";

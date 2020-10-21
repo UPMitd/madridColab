@@ -151,7 +151,7 @@ public class UserService {
 
         return odsRegistryDao.create(odsRegistry);
     }
-
+/*
     public DataPeople createDataPeople(long userId, String twitter, String linkedin,
             Boolean is_community, Long id_sector) {
         DataPeople dataPeople = new DataPeople();
@@ -162,7 +162,7 @@ public class UserService {
         dataPeople.setIdSector(id_sector);
 
         return dataPeopleDao.create(dataPeople);
-    }
+    }*/
 
     public DataPeople createDataPeople(DataPeople dataPeople) {
         return dataPeopleDao.create(dataPeople);

@@ -75,7 +75,8 @@ public class LoginRegisterService {
                 newAccountBean.getCountry(), newAccountBean.getImageId(),
                 false, newAccountBean.getLanguage(), newAccountBean.getCommunities(),
                 newAccountBean.getOds(), newAccountBean.getTwitter(), newAccountBean.getLinkedin(),
-                newAccountBean.getIs_community(), newAccountBean.getId_sector(), newAccountBean.getCod_postal());
+                newAccountBean.getIs_community(), newAccountBean.getId_sector(), newAccountBean.getOther(),
+                newAccountBean.getCod_postal());
 
         _log.error("RegUser2");
 
@@ -113,7 +114,8 @@ public class LoginRegisterService {
                 newAccountBean.getCountry(), newAccountBean.getImageId(),
                 false, newAccountBean.getLanguage(), newAccountBean.getCommunities(),
                 newAccountBean.getOds(), newAccountBean.getTwitter(), newAccountBean.getWeb(),
-                newAccountBean.getIs_community(), newAccountBean.getId_sector_company());
+                newAccountBean.getIs_community(), newAccountBean.getId_sector_company(),
+                newAccountBean.getOther(), newAccountBean.getCod_postal());
 
         _log.error("RegCompany2");
 
@@ -195,18 +197,18 @@ public class LoginRegisterService {
     public Member autoRegister(String emailAddress, String firstName, String lastName) {
         return register(null, null, emailAddress, firstName, lastName,
                 "", null, null, true, null,
-                null, null, null, null, false, 5l, null);
+                null, null, null, null, false, 5l, null, null);
     }
 
     public Member register(String screenName, String password, String email, String firstName,
             String lastName, String shortBio, String country, Long imageId,
             boolean generateLoginUrl, String language, List<Long> communities, List<Long> ods,
-            String twitter, String linkedin, boolean is_community, Long sector, String cod_postal) {
+            String twitter, String linkedin, boolean is_community, Long sector, String other, String cod_postal) {
 
         final Member member = register( screenName,  password,  email,  firstName,
                  lastName,  shortBio,  country,  imageId, generateLoginUrl,  language);
 
-        DataPeople data = new DataPeople(member.getId(), twitter, linkedin, is_community, sector, cod_postal);
+        DataPeople data = new DataPeople(member.getId(), twitter, linkedin, is_community, sector, other, cod_postal);
         data = MembersClient.createDataPeople(data);
 
         if(communities != null && communities.size() > 0) {
@@ -250,12 +252,12 @@ public class LoginRegisterService {
     public Member registerCompany(String screenName, String password, String email, String firstName,
             String lastName, String shortBio, String country, Long imageId,
             boolean generateLoginUrl, String language, List<Long> communities, List<Long> ods,
-            String twitter, String web, boolean is_community, Long sector) {
+            String twitter, String web, boolean is_community, Long sector, String other, String cod_postal) {
 
         final Member member = register( screenName,  password,  email,  firstName,
                 lastName,  shortBio,  country,  imageId, generateLoginUrl,  language);
 
-        DataCompany data = new DataCompany(member.getId(), twitter, web, is_community, sector);
+        DataCompany data = new DataCompany(member.getId(), twitter, web, is_community, sector, other, cod_postal);
         data = MembersClient.createDataCompany(data);
 
         if(communities != null && communities.size() > 0) {

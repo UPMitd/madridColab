@@ -54,6 +54,7 @@ public class DataPeopleDaoImpl implements DataPeopleDao {
                 .set(DATA_PEOPLE.LINKEDIN, dataPeople.getLinkedin())
                 .set(DATA_PEOPLE.IS_COMMUNITY, dataPeople.getIsCommunity())
                 .set(DATA_PEOPLE.ID_SECTOR, dataPeople.getIdSector())
+                .set(DATA_PEOPLE.OTHER, dataPeople.getOther())
                 .set(DATA_PEOPLE.COD_POSTAL, dataPeople.getCodPostal())
                 .returning(DATA_PEOPLE.ID_USER)
                 .fetchOne();

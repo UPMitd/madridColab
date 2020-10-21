@@ -528,6 +528,7 @@ public final class MembersClient {
         newData.setLinkedin(data.getLinkedin());
         newData.setIsCommunity(data.getIsCommunity());
         newData.setIdSector(data.getIdSector());
+        newData.setOther(data.getOther());
         newData.setCodPostal(data.getCodPostal());
         return DataPeopleResource.create(newData).execute();
     }
@@ -539,6 +540,8 @@ public final class MembersClient {
         newData.setWeb(data.getWeb());
         newData.setIsCommunity(data.getIsCommunity());
         newData.setIdSectorCompany(data.getIdSectorCompany());
+        newData.setOther(data.getOther());
+        newData.setCodPostal(data.getCodPostal());
         return DataCompanyResource.create(newData).execute();
     }
 

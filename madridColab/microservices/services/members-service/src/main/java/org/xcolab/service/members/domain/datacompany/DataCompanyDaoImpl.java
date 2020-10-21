@@ -48,6 +48,8 @@ public class DataCompanyDaoImpl implements DataCompanyDao {
                 .set(DATA_COMPANY.WEB, dataCompany.getWeb())
                 .set(DATA_COMPANY.IS_COMMUNITY, dataCompany.getIsCommunity())
                 .set(DATA_COMPANY.ID_SECTOR_COMPANY, dataCompany.getIdSectorCompany())
+                .set(DATA_COMPANY.OTHER, dataCompany.getOther())
+                .set(DATA_COMPANY.COD_POSTAL, dataCompany.getCodPostal())
                 .returning(DATA_COMPANY.ID_USER)
                 .fetchOne();
 
