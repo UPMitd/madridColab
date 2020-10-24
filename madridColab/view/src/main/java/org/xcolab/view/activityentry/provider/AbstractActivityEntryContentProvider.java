@@ -38,6 +38,7 @@ public abstract class AbstractActivityEntryContentProvider implements ActivityEn
         if (user == null) {
             return "(Removed)";
         }
+
         return String.format(HYPERLINK_FORMAT, getUser().getProfileLinkUrl(),
                 getUser().getDisplayName());
     }

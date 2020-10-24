@@ -183,11 +183,11 @@ public final class ConfigurationAttributeKey {
                     .build();
     public static final AttributeGetter<Boolean> MESSAGING_EMAIL_ON_ACTIVITY_DEFAULT =
             ConfigurationAttributes.newBooleanAttribute("MESSAGING_EMAIL_ON_ACTIVITY_DEFAULT")
-                    .defaultValue(true)
+                    .defaultValue(false)
                     .build();
     public static final AttributeGetter<Boolean> MESSAGING_DAILY_DIGEST_DEFAULT =
             ConfigurationAttributes.newBooleanAttribute("MESSAGING_DAILY_DIGEST_DEFAULT")
-                    .defaultValue(true)
+                    .defaultValue(false)
                     .build();
     public static final AttributeGetter<List<String>> MESSAGING_SPAM_ALERT_EMAILS =
             ConfigurationAttributes.newListAttribute("MESSAGING_SPAM_ALERT_EMAILS", s -> s)
@@ -201,6 +201,19 @@ public final class ConfigurationAttributeKey {
     public static final AttributeGetter<Long> DAILY_DIGEST_TRIGGER_HOUR =
             ConfigurationAttributes.newLongAttribute("DAILY_DIGEST_TRIGGER_HOUR")
                     .defaultValue(1L)
+                    .build();
+    /// attributes for weekly digest
+    public static final AttributeGetter<Boolean> MESSAGING_WEEKLY_DIGEST_DEFAULT=
+            ConfigurationAttributes.newBooleanAttribute("MESSAGING_WEEKLY_DIGEST_DEFAULT")
+                    .defaultValue(false)
+                    .build();
+    public static final AttributeGetter<Long> WEEKLY_DIGEST_TRIGGER_HOUR =
+            ConfigurationAttributes.newLongAttribute("WEEKLY_DIGEST_TRIGGER_HOUR")
+                    .defaultValue(1L)
+                    .build();
+    public static final AttributeGetter<String> WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION =
+            ConfigurationAttributes.newStringAttribute("WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION")
+                    .defaultValue("")
                     .build();
 
     //lastEmailNotification

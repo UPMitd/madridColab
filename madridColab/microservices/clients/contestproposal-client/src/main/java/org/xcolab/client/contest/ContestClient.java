@@ -44,7 +44,9 @@ import org.xcolab.util.http.exceptions.EntityNotFoundException;
 import org.xcolab.util.http.exceptions.UncheckedEntityNotFoundException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -427,6 +429,19 @@ public class ContestClient {
                 .withCache(CacheName.CONTEST_LIST)
                 .execute(), serviceNamespace);
     }
+
+    public List<Contest> getContestsAfter(Date afterDate) {
+        if (afterDate == null) {
+            return null;        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d=sdf.format(afterDate);
+        return  DtoUtil.toPojos(contestResource
+                .collectionService("getContestsAfter", ContestDto.TYPES.getTypeReference())
+                .queryParam("afterDate", d)
+                .getList(), serviceNamespace);
+    }
+
+
 
     public Map<Long, String> getModelIdsAndNames(long contestId) {
         try {

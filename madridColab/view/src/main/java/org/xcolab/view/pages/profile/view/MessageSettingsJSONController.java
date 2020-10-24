@@ -76,6 +76,12 @@ public class MessageSettingsJSONController extends JSONHelper {
         MessagingClient.updateMessagingPreferences(preferences);
     }
 
+    private void updateUserSendWeeklyEmailOnActivityPreferences(long userId, boolean setting) {
+        MessagingUserPreference preferences = MessagingClient.getMessagingPreferencesForMember(userId);
+        preferences.setEmailActivityWeeklyDigest(setting);
+        MessagingClient.updateMessagingPreferences(preferences);
+    }
+
     @PostMapping("updateDailyEmail")
     public @ResponseBody void handleUpdateUserSendDailyEmailOnActivityAJAXRequest(
             HttpServletRequest request, HttpServletResponse response,
@@ -90,6 +96,23 @@ public class MessageSettingsJSONController extends JSONHelper {
     private boolean updateSendDailyEmailOnActivitySettings(HttpServletRequest request, boolean messageSetting) {
         long userId = MemberAuthUtil.getuserId(request);
         updateUserSendDailyEmailOnActivityPreferences(userId, messageSetting);
+        return true;
+    }
+
+    @PostMapping("updateWeeklyEmail")
+    public @ResponseBody void handleUpdateUserSendWeeklyEmailOnActivityAJAXRequest(
+            HttpServletRequest request, HttpServletResponse response,
+            @PathVariable long userId,
+            @RequestParam("messageSetting") String messageSettingParameter) {
+
+        boolean messageSetting = Boolean.parseBoolean(messageSettingParameter);
+        boolean result = updateSendWeeklyEmailOnActivitySettings(request, messageSetting);
+        this.writeSuccessResultResponseJSON(result, response);
+    }
+
+    private boolean updateSendWeeklyEmailOnActivitySettings(HttpServletRequest request, boolean messageSetting) {
+        long userId = MemberAuthUtil.getuserId(request);
+        updateUserSendWeeklyEmailOnActivityPreferences(userId, messageSetting);
         return true;
     }
 

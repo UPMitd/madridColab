@@ -4,6 +4,7 @@ import org.xcolab.model.tables.pojos.Contest;
 import org.xcolab.service.contest.exceptions.NotFoundException;
 import org.xcolab.service.utils.PaginationHelper;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ContestDao {
@@ -20,6 +21,8 @@ public interface ContestDao {
         Long contestYear, Boolean active, Boolean featured, List<Long> contestTiers,
         List<Long> focusAreaIds, Long contestScheduleId, Long proposalTemplateId,
         List<Long> contestTypeIds, Boolean contestPrivate, String searchTerm);
+
+    List<Contest> getContestAfter(String date);
 
     int countByGiven(String contestUrlName, Long contestYear, Boolean active, Boolean featured,
             List<Long> contestTiers, List<Long> focusAreaOntologyTerms, Long contestScheduleId,

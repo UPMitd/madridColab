@@ -34,6 +34,7 @@
 	<c:set var="updateUserSendEmailOnMessageSettings" value="/members/profile/${userBean.userId}/api/settings/messaging/updateEmailOnMessage" />
 	<c:set var="updateUserSendEmailOnActivitySettings" value="/members/profile/${userBean.userId}/api/settings/messaging/updateEmailOnActivity" />
 	<c:set var="updateUserSendDailyEmailOnActivitySettings" value="/members/profile/${userBean.userId}/api/settings/messaging/updateDailyEmail" />
+    <c:set var="updateUserSendWeeklyEmailOnActivitySettings" value="/members/profile/${userBean.userId}/api/settings/messaging/updateWeeklyEmail" />
 
 	<c:set var="newsletterSubscribe" value="/members/profile/${userBean.userId}/api/settings/newsletter/subscribe" />
 	<c:set var="newsletterUnSubscribe" value="/members/profile/${userBean.userId}/api/settings/newsletter/subscribe" />
@@ -263,6 +264,17 @@
                         </td>
                         <td class="profile_settings">
                             <spring:message code="profile.message.settings.emaildailydigest"/>
+                        </td>
+                    </tr>
+                    <tr class="colabRow">
+                        <td class="actionColumn">
+                            <form:checkbox id="sendWeeklyEmailOnActivity"
+                                           cssClass="cmn-toggle cmn-toggle-round" path="sendWeeklyEmailOnActivity"
+                                           onchange="updateUserSendWeeklyEmailOnActivitySettings(this)" />
+                            <form:label path="sendWeeklyEmailOnActivity"/>
+                        </td>
+                        <td class="profile_settings">
+                            <spring:message code="profile.message.settings.emailweeklydigest"/>
                         </td>
                     </tr>
                 </table>
@@ -516,6 +528,16 @@
 				}
 			});
 		}
+
+        function updateUserSendWeeklyEmailOnActivitySettings(element) {
+            var updateMessageSettingsURL = '${updateUserSendWeeklyEmailOnActivitySettings}';
+            var checkedFormData = createCheckedFormData(element.checked);
+            updateMessageSettingsOnServer(updateMessageSettingsURL, checkedFormData).done(function (result) {
+                if(!result) {
+                    jQuery("#updateUserSendWeeklyEmailOnActivitySettings").attr('checked', !element.checked);
+                }
+            });
+        }
 
 		function updateNewsletterSettings(element) {
 			//console.log("updateNewsletterSettings", element.checked);

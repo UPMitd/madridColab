@@ -20,11 +20,16 @@ import org.xcolab.service.contest.exceptions.NotFoundException;
 import org.xcolab.service.utils.PaginationHelper;
 import org.xcolab.util.activities.enums.ActivityCategory;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static org.jooq.impl.DSL.trim;
 import static org.jooq.impl.DSL.val;
 import static org.xcolab.model.Tables.CONTEST;
 import static org.xcolab.model.Tables.CONTEST_DISCUSSION;
@@ -258,6 +263,25 @@ public class ContestDaoImpl implements ContestDao {
             }
         }
         query.addLimit(paginationHelper.getStartRecord(), paginationHelper.getCount());
+        return query.fetchInto(Contest.class);
+    }
+
+    @Override
+    public List<Contest> getContestAfter(String afterDate) {
+        if (afterDate == null) {
+            return null;
+        }
+        Date date;
+        try{
+            date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(afterDate);
+        }catch (ParseException e){
+            return null;
+        }
+        final SelectQuery<Record> query = dslContext.select()
+                .from(CONTEST)
+                .getQuery();
+        query.addConditions(CONTEST.CREATED_AT.gt(new Timestamp(date.getTime())));
+        query.addOrderBy(CONTEST.CREATED_AT.desc());
         return query.fetchInto(Contest.class);
     }
 

@@ -168,6 +168,12 @@ public class ContestController {
                 .getContestsByOntologyTerm(focusAreaOntologyTerm, getActive, onlyPrivate);
     }
 
+    @ListMapping("/contests/getContestsAfter")
+    public List<Contest> getContestsByOntologyTerm(
+            @RequestParam(required = false) String afterDate) {
+        return contestService.getContestAfter(afterDate);
+    }
+
     @GetMapping("/contests/getNumberOfContestsByOntologyTerm")
     public int getNumberOfContestsByOntologyTerm(
             @RequestParam(required = false) Long focusAreaOntologyTerm) {
