@@ -253,7 +253,7 @@
                     </div>
                 </div>
 
-                <c:if test="${createUserBean.captchaNeeded}">
+                <c:if test="${createUserBeanCity.captchaNeeded}">
                     <div class="form-row">
                         <div class="cb-form-col-label required-field">
                             <spring:message code="register.form.fields.captcha"/>
