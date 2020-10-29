@@ -22,12 +22,14 @@ import org.xcolab.client.proposals.exceptions.ProposalNotFoundException;
 import org.xcolab.model.tables.pojos.Proposal;
 import org.xcolab.model.tables.pojos.Proposal2Phase;
 import org.xcolab.model.tables.pojos.ProposalAttribute;
+import org.xcolab.model.tables.pojos.ProposalFusionRequest;
 import org.xcolab.model.tables.pojos.ProposalReference;
 import org.xcolab.model.tables.pojos.ProposalTeamMember;
 import org.xcolab.service.contest.exceptions.NotFoundException;
 import org.xcolab.service.proposal.domain.proposal.ProposalDao;
 import org.xcolab.service.proposal.domain.proposal2phase.Proposal2PhaseDao;
 import org.xcolab.service.proposal.domain.proposalattribute.ProposalAttributeDao;
+import org.xcolab.service.proposal.domain.proposalfusionrequest.ProposalFusionRequestDao;
 import org.xcolab.service.proposal.domain.proposalreference.ProposalReferenceDao;
 import org.xcolab.service.proposal.domain.proposalteammember.ProposalTeamMemberDao;
 import org.xcolab.service.proposal.domain.proposalversion.ProposalVersionDao;
@@ -53,17 +55,21 @@ public class ProposalService {
 
     private final ProposalTeamMemberDao proposalTeamMemberDao;
 
+    private final ProposalFusionRequestDao proposalFusionRequestDao;
+
 
     @Autowired
     public ProposalService(ProposalDao proposalDao, ProposalReferenceDao proposalReferenceDao,
             ProposalAttributeDao proposalAttributeDao, Proposal2PhaseDao proposal2PhaseDao,
-            ProposalVersionDao proposalVersionDao, ProposalTeamMemberDao proposalTeamMemberDao) {
+            ProposalVersionDao proposalVersionDao, ProposalTeamMemberDao proposalTeamMemberDao,
+            ProposalFusionRequestDao proposalFusionRequestDao) {
         this.proposalDao = proposalDao;
         this.proposalReferenceDao = proposalReferenceDao;
         this.proposalAttributeDao = proposalAttributeDao;
         this.proposal2PhaseDao = proposal2PhaseDao;
         this.proposalVersionDao = proposalVersionDao;
         this.proposalTeamMemberDao = proposalTeamMemberDao;
+        this.proposalFusionRequestDao = proposalFusionRequestDao;
     }
 
     public Proposal create(long authorUserId, long contestPhaseId, boolean publishActivity) {
@@ -118,6 +124,11 @@ public class ProposalService {
 
         }
         return null;
+    }
+
+
+    public ProposalFusionRequest createProposalFusionRequest(ProposalFusionRequest proposalFusionRequest) {
+        return proposalFusionRequestDao.create(proposalFusionRequest);
     }
 
     public void subscribeMemberToProposal(long proposalId, long userId, boolean automatic) {

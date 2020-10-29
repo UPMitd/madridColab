@@ -12,6 +12,7 @@ import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.proposals.exceptions.ProposalNotFoundException;
 import org.xcolab.client.proposals.pojo.Proposal;
 import org.xcolab.client.proposals.pojo.ProposalDto;
+import org.xcolab.client.proposals.pojo.ProposalFusionRequest;
 import org.xcolab.client.proposals.pojo.ProposalVersion;
 import org.xcolab.client.proposals.pojo.ProposalVersionDto;
 import org.xcolab.client.proposals.pojo.tiers.ProposalReference;
@@ -46,6 +47,8 @@ public final class ProposalClient {
     private final RestResource1<ProposalVersionDto, Long> proposalVersionResource;
     private final RestResource1<ProposalReferenceDto, Long> proposalReferenceResource;
 
+    private final RestResource1<ProposalFusionRequest, Long> proposalFusionRequestResource;
+
     //TODO COLAB-2600: methods that use this should be in the service!
     private final ContestClient contestClient;
 
@@ -64,6 +67,9 @@ public final class ProposalClient {
                 ProposalVersionDto.TYPES, serviceNamespace);
         proposalReferenceResource = new RestResource1<>(ProposalResource.PROPOSAL_REFERENCE,
                 ProposalReferenceDto.TYPES, serviceNamespace);
+
+        proposalFusionRequestResource = new RestResource1<>(ProposalResource.PROPOSAL_FUSION_REQUEST,
+                ProposalFusionRequest.TYPES);
 
         contestClient = ContestClient.fromNamespace(serviceNamespace);
         activitiesClient = ActivitiesClient.fromNamespace(serviceNamespace);
@@ -482,6 +488,10 @@ public final class ProposalClient {
         }
         parameterList += list.get(list.size()-1);
         return parameterList;
+    }
+
+    public ProposalFusionRequest createProposalFusionRequest(ProposalFusionRequest data) {
+        return proposalFusionRequestResource.create(data).execute();
     }
 
 }
