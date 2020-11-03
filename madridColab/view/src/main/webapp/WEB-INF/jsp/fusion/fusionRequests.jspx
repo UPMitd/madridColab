@@ -43,11 +43,11 @@
                     <table class="table">
                         <thead class="thead-light">
                         <tr >
-                            <th ><spring:message code="message.fusion.from"/> </th>
-                            <th ><spring:message code="message.fusion.proposal.from"/> </th>
-                            <th ><spring:message code="message.fusion.proposal.to"/> </th>
-                            <th ><spring:message code="message.fusion.proposal.status"/> </th>
-                            <th ><spring:message code="message.fusion.proposal.link"/> </th>
+                            <th ><spring:message code="fusion.fusions.from"/> </th>
+                            <th ><spring:message code="fusion.fusions.proposal.from"/> </th>
+                            <th ><spring:message code="fusion.fusions.proposal.to"/> </th>
+                            <th ><spring:message code="fusion.fusions.proposal.status"/> </th>
+                            <th ><spring:message code="fusion.fusions.proposal.link"/> </th>
                         </tr>
                         </thead>
                         <tbody>
