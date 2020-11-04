@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.xcolab.client.members.pojo.Member;
+import org.xcolab.client.proposals.ProposalClientUtil;
 import org.xcolab.client.proposals.exceptions.ProposalNotFoundException;
+import org.xcolab.client.proposals.pojo.ProposalFusionRequest;
 import org.xcolab.commons.spring.web.annotation.ListMapping;
 import org.xcolab.model.tables.pojos.Proposal;
 import org.xcolab.model.tables.pojos.ProposalContestPhaseAttribute;
@@ -385,5 +387,16 @@ public class ProposalsController {
                             contestPhaseId, ribbon));
         }
         return threadIds;
+    }
+
+    @PostMapping("createFusion")
+    public void createFusion() {
+        ProposalFusionRequest proposalFusionRequest = new ProposalFusionRequest();
+        proposalFusionRequest.setFromProposalId(1l);
+        proposalFusionRequest.setToProposalId(2l);
+        proposalFusionRequest.setFromUserId(10146l);
+        proposalFusionRequest.setToUserId(10147l);
+
+        ProposalClientUtil.createProposalFusionRequest(proposalFusionRequest);
     }
 }

@@ -19,6 +19,7 @@ import org.xcolab.model.tables.pojos.ContestTranslation;
 import org.xcolab.service.contest.domain.contest.ContestDao;
 import org.xcolab.service.contest.domain.contestcollectioncard.ContestCollectionCardDao;
 import org.xcolab.service.contest.domain.contestdiscussion.ContestDiscussionDao;
+import org.xcolab.service.contest.domain.contestfusion.ContestFusionDao;
 import org.xcolab.service.contest.domain.contesttranslation.ContestTranslationDao;
 import org.xcolab.service.contest.exceptions.NotFoundException;
 import org.xcolab.service.contest.service.collectioncard.CollectionCardService;
@@ -46,11 +47,14 @@ public class ContestController {
     private final CollectionCardService collectionCardService;
     private final OntologyService ontologyService;
 
+    private final ContestFusionDao contestFusionDao;
+
     @Autowired
     public ContestController(ContestTranslationDao contestTranslationDao,
             ContestService contestService, CollectionCardService collectionCardService,
             ContestDao contestDao, ContestCollectionCardDao contestCollectionCardDao,
-            ContestDiscussionDao contestDiscussionDao, OntologyService ontologyService) {
+            ContestDiscussionDao contestDiscussionDao, OntologyService ontologyService,
+            ContestFusionDao contestFusionDao) {
         this.contestTranslationDao = contestTranslationDao;
         this.contestService = contestService;
         this.collectionCardService = collectionCardService;
@@ -58,6 +62,7 @@ public class ContestController {
         this.contestCollectionCardDao = contestCollectionCardDao;
         this.contestDiscussionDao = contestDiscussionDao;
         this.ontologyService = ontologyService;
+        this.contestFusionDao = contestFusionDao;
     }
 
     @GetMapping("/contestCollectionCards/{contestCollectionCardId}")

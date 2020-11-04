@@ -4,6 +4,7 @@ import org.xcolab.client.activities.ActivitiesClient;
 import org.xcolab.client.admin.ContestTypeClient;
 import org.xcolab.client.admin.pojo.ContestType;
 import org.xcolab.client.contest.ContestClient;
+import org.xcolab.client.contest.ContestClientUtil;
 import org.xcolab.client.contest.exceptions.ContestNotFoundException;
 import org.xcolab.client.contest.pojo.Contest;
 import org.xcolab.client.contest.pojo.phases.ContestPhase;
@@ -491,6 +492,23 @@ public final class ProposalClient {
     }
 
     public ProposalFusionRequest createProposalFusionRequest(ProposalFusionRequest data) {
+        Long fromContestId = ProposalClientUtil.getProposal(data.getFromProposalId()).getcontestId();
+        Long toContestId = ProposalClientUtil.getProposal(data.getToProposalId()).getcontestId();
+
+        Long contestId = ContestClientUtil.getContestFusion(fromContestId, toContestId);
+
+        if(contestId == null) {
+            contestId = ContestClientUtil.createContest(null, "Fusion " +
+                    ContestClientUtil.getContest(fromContestId).getTitle() + " - " +
+                    ContestClientUtil.getContest(toContestId).getTitle()).getId();
+        }
+
+        Long proposalId = createProposal(data.getFromUserId(),
+                ContestClientUtil.getActivePhase(contestId).getId(), true).getId();
+
+        data.setContestId(contestId);
+        data.setProposalId(proposalId);
+
         return proposalFusionRequestResource.create(data).execute();
     }
 

@@ -9,6 +9,7 @@ import org.xcolab.client.contest.pojo.phases.ContestPhase;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.proposals.exceptions.ProposalNotFoundException;
 import org.xcolab.client.proposals.pojo.Proposal;
+import org.xcolab.client.proposals.pojo.ProposalFusionRequest;
 import org.xcolab.client.proposals.pojo.ProposalVersion;
 import org.xcolab.client.proposals.pojo.tiers.ProposalReference;
 import org.xcolab.util.http.client.enums.ServiceNamespace;
@@ -277,6 +278,10 @@ public final class ProposalClientUtil {
             return string;
         }
         return defaultString;
+    }
+
+    public static ProposalFusionRequest createProposalFusionRequest(ProposalFusionRequest data) {
+        return client.createProposalFusionRequest(data);
     }
 
 }

@@ -4,6 +4,7 @@ import org.xcolab.client.contest.exceptions.ContestNotFoundException;
 import org.xcolab.client.contest.pojo.Contest;
 import org.xcolab.client.contest.pojo.ContestCollectionCard;
 import org.xcolab.client.contest.pojo.ContestDiscussion;
+import org.xcolab.client.contest.pojo.ContestFusion;
 import org.xcolab.client.contest.pojo.ContestSchedule;
 import org.xcolab.client.contest.pojo.ContestTranslation;
 import org.xcolab.client.contest.pojo.phases.ContestPhase;
@@ -356,5 +357,14 @@ public final class ContestClientUtil {
 
     public static boolean deleteContest(long contestId) {
         return contestClient.deleteContest(contestId);
+    }
+
+    public static ContestFusion createProposalFusionRequest(
+            org.xcolab.client.contest.pojo.ContestFusion data) {
+        return contestClient.createContestFusion(data);
+    }
+
+    public static Long getContestFusion(Long id_1, Long id_2) {
+        return contestClient.getContestFusion(id_1, id_2);
     }
 }
