@@ -14,25 +14,6 @@
         <c:if test="${proposal.id > 0}">
 
             <div class="c-Box c-Box--colorDark c-Box--hasShadow c-Box--straightCorners mb-3">
-                <p>aqui</p>
-                <p>${proposal.getAuthor().screenName}</p>
-                <div>
-                    <c:choose>
-                        <c:when test="${member != null}">
-                            <c:set var="userAuthorId" value="${proposal.getAuthor().id}" />
-                            <c:set var="userAuthorName" value="${proposal.getAuthor().screenName}" />
-                            <c:set var="requestUserID" value="${member.id}" />
-                            <p>${userAuthorId}</p>
-                            <div>
-                                <p>hay usuario</p>
-                            <a href="#">
-                                ${member.displayName}
-                            </a>
-                            </div>
-                        </c:when>
-                    </c:choose>
-                </div>
-
                 <c:if test="${contestPhase.canVote or (contestPhase.completed and (not contest.hideRibbons or proposalsPermissions.canAdminAll))}">
                     <div class="c-Box__bodyFlex c-Box__bodyFlex--columns">
                         <div class="w-100">
