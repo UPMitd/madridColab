@@ -20,22 +20,18 @@
                     <a href="/members">Members</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <!-- <xcolab:userLinkSimple userId="${messagingBean.user.id}" text="${messagingBean.user.displayName}" /> -->
+                     <xcolab:userLinkSimple userId="${user.id}" text="${user.displayName}" />
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">Fusion Request</li>
             </ol>
         </nav>
-
-        <collab:script src="/js/lib/jquery.validate.pack.js"/>
-
-
         <div class="l-Content">
             <div class="l-Content__main">
 
                 <div class="cb-d-flex-between flex-column flex-sm-row">
                     <div class="c-Count">
                        <!-- <span class="c-Count__number">${messagingBean.messagesCount}</span> -->
-                        <spring:message code="message.messages.numberof.messages"/>
+                        <spring:message code="fusion.fusions.numberof.requests" />
                     </div>
                 </div>
 
@@ -43,21 +39,50 @@
                     <table class="table">
                         <thead class="thead-light">
                         <tr >
-                            <th ><spring:message code="fusion.fusions.from"/> </th>
+                            <spring:message code="fusion.fusions.from" var="from"/>
+                            <spring:message code="fusion.fusions.to" var="to"/>
+                            <th>${sent == true ? to : from}</th>
                             <th ><spring:message code="fusion.fusions.proposal.from"/> </th>
                             <th ><spring:message code="fusion.fusions.proposal.to"/> </th>
                             <th ><spring:message code="fusion.fusions.proposal.status"/> </th>
-                            <th ><spring:message code="fusion.fusions.proposal.link"/> </th>
                         </tr>
                         </thead>
                         <tbody>
-
+                            <c:if test="${not empty fusionRequests}">
+                                <c:forEach var="fusionRequest" items="${fusionRequests}">
+                                    <tr>
+                                        <td>
+                                            <a href="${fusionRequest.fromUser.profileLinkUrl}">${fusionRequest.fromUser.displayName}</a>
+                                        </td>
+                                        <td>
+                                            <a href="${fusionRequest.fromProposal.proposalUrl}">${fusionRequest.fromProposal.name}</a>
+                                        </td>
+                                        <td>
+                                            <a href="${fusionRequest.toProposal.proposalUrl}">${fusionRequest.toProposal.name}</a>
+                                        </td>
+                                        <td>
+                                            <a href="/fusionRequest/${fusionRequest.id}">${fusionRequest.status.name()}</a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
                         </tbody>
                     </table>
                 </form:form>
             </div>
+            <div class="l-Content__sidebar l-Content__sidebar--right l-Content__sidebar--small">
+                <div class="comm_list">
+                    <h3><spring:message code="fusion.fusions.requests.title"/> </h3>
+                    <ul>
+                        <li class="${sent == false ? 'c' : ''}">
+                            <a href="/fusionRequests"><spring:message code="fusion.fusions.requests.received"/></a>
+                        </li>
+                        <li class="${sent == true ? 'c' : ''}">
+                            <a href="/fusionRequests/sent"><spring:message code="fusion.fusions.requests.sent"/></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-
-
     </xcolab:layout>
 </jsp:root>
