@@ -9,10 +9,30 @@
 
     <!--@elvariable id="linkedProposalContestTypeProposalWrappersByContestTypeId" type="java.util.Map<java.lang.Long, org.xcolab.wrappers.ContestTypeProposalWrapper>"-->
     <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
-
+    <xcolab:requireLibrary name="requestFusion"/>
     <c:if test="${contestType.showProposalSummary}">
         <c:if test="${proposal.id > 0}">
+
             <div class="c-Box c-Box--colorDark c-Box--hasShadow c-Box--straightCorners mb-3">
+                <p>aqui</p>
+                <p>${proposal.getAuthor().screenName}</p>
+                <div>
+                    <c:choose>
+                        <c:when test="${member != null}">
+                            <c:set var="userAuthorId" value="${proposal.getAuthor().id}" />
+                            <c:set var="userAuthorName" value="${proposal.getAuthor().screenName}" />
+                            <c:set var="requestUserID" value="${member.id}" />
+                            <p>${userAuthorId}</p>
+                            <div>
+                                <p>hay usuario</p>
+                            <a href="#">
+                                ${member.displayName}
+                            </a>
+                            </div>
+                        </c:when>
+                    </c:choose>
+                </div>
+
                 <c:if test="${contestPhase.canVote or (contestPhase.completed and (not contest.hideRibbons or proposalsPermissions.canAdminAll))}">
                     <div class="c-Box__bodyFlex c-Box__bodyFlex--columns">
                         <div class="w-100">
@@ -84,7 +104,8 @@
                 <div class="c-Box__bodyFlex justify-content-center">
                         <a type="button" class="btn btn-primary btn-sm js-EnhancedLink float-right"
                                 data-require-login="true"
-                                href="${fusionRequest}">
+                                data-toggle="modal" data-target="#requestFusionModal"
+                                href="#">
                             <collab:message var="fusionRequestText" code="contests.request.fusion" contestType="${contestType}" />
                             ${fusionRequestText}
                         </a>
@@ -107,6 +128,7 @@
                    style="${(proposal.ribbonWrapper.ribbonText.length() gt 8 and proposal.ribbonWrapper.ribbonText.length() lt 14)
                 ? 'top: 26px;' : ''}">
                     ${proposal.ribbonWrapper.ribbonTitle}
+
                 </a>
                 <div class="c-Badge__text--big" style="${proposal.ribbonWrapper.ribbonText.length() gt 15 ? 'font-size: 7px;' : ''}${fn:substring(proposal.ribbonWrapper.ribbonText,0,6) eq 'Judges' ? 'width: 47px;' : ''}">${proposal.ribbonWrapper.ribbonText.length() gt 13 ? proposal.ribbonWrapper.ribbonText : ''}</div>
                 <span class="c-Badge__year--big">${contest.activePhase.phaseReferenceYear}</span>
