@@ -5,10 +5,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
-public class FusionRequest {
+public class Fusion {
 
     private Long id;
     private Long fromUserId;
@@ -20,37 +21,16 @@ public class FusionRequest {
     private String status;
     private Long contestId;
     private Long proposalId;
+    private String requestText;
+    private String commonText;
 
-    public String getReason() {
-        return reason;
+    public Fusion() {
+
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    private String reason;
-
-    public FusionRequest() {
-    }
-
-    public FusionRequest(FusionRequest value){
-        this.id=value.id;
-        this.fromUserId=value.fromUserId;
-        this.toUserId=value.toUserId;
-        this.fromProposalId=value.fromProposalId;
-        this.toProposalId=value.toProposalId;
-        this.createdAt=value.createdAt;
-        this.updatedAt=value.updatedAt;
-        this.status=value.status;
-        this.contestId=value.contestId;
-        this.proposalId=value.proposalId;
-        this.reason=value.reason;
-    }
-
-    public FusionRequest(Long id, Long fromUserId, Long toUserId, Long fromProposalId,
+    public Fusion(Long id, Long fromUserId, Long toUserId, Long fromProposalId,
             Long toProposalId, Timestamp createdAt, Timestamp updatedAt, String status,
-            Long contestId, Long proposalId, String reason) {
+            Long contestId, Long proposalId, String requestText, String commonText) {
         this.id = id;
         this.fromUserId = fromUserId;
         this.toUserId = toUserId;
@@ -61,7 +41,8 @@ public class FusionRequest {
         this.status = status;
         this.contestId = contestId;
         this.proposalId = proposalId;
-        this.reason = reason;
+        this.requestText = requestText;
+        this.commonText = commonText;
     }
 
     public Long getId() {
@@ -144,9 +125,25 @@ public class FusionRequest {
         this.proposalId = proposalId;
     }
 
+    public String getRequestText() {
+        return requestText;
+    }
+
+    public void setRequestText(String requestText) {
+        this.requestText = requestText;
+    }
+
+    public String getCommonText() {
+        return commonText;
+    }
+
+    public void setCommonText(String commonText) {
+        this.commonText = commonText;
+    }
+
     @Override
     public String toString() {
-        return "FusionRequest{" +
+        return "Fusion{" +
                 "id=" + id +
                 ", fromUserId=" + fromUserId +
                 ", toUserId=" + toUserId +
@@ -157,7 +154,34 @@ public class FusionRequest {
                 ", status='" + status + '\'' +
                 ", contestId=" + contestId +
                 ", proposalId=" + proposalId +
-                ", reason=" + reason +
+                ", requestText='" + requestText + '\'' +
+                ", commonText='" + commonText + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
+        Fusion fusion = (Fusion) o;
+        return Objects.equals(id, fusion.id) &&
+                Objects.equals(fromUserId, fusion.fromUserId) &&
+                Objects.equals(toUserId, fusion.toUserId) &&
+                Objects.equals(fromProposalId, fusion.fromProposalId) &&
+                Objects.equals(toProposalId, fusion.toProposalId) &&
+                Objects.equals(createdAt, fusion.createdAt) &&
+                Objects.equals(updatedAt, fusion.updatedAt) &&
+                Objects.equals(status, fusion.status) &&
+                Objects.equals(contestId, fusion.contestId) &&
+                Objects.equals(proposalId, fusion.proposalId) &&
+                Objects.equals(requestText, fusion.requestText) &&
+                Objects.equals(commonText, fusion.commonText);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects
+                .hash(id, fromUserId, toUserId, fromProposalId, toProposalId, createdAt, updatedAt,
+                        status, contestId, proposalId, requestText, commonText);
     }
 }
