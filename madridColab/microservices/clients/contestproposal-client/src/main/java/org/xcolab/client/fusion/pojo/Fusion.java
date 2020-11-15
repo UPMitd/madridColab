@@ -3,13 +3,22 @@ package org.xcolab.client.fusion.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import org.springframework.core.ParameterizedTypeReference;
+import sun.print.resources.serviceui_it;
 
+import org.xcolab.client.members.pojo.Member;
+import org.xcolab.util.http.client.types.TypeProvider;
+
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
-public class Fusion {
+public class Fusion implements Serializable {
+
+    private static final long serialVersionUID = 1;
 
     private Long id;
     private Long fromUserId;
@@ -23,6 +32,12 @@ public class Fusion {
     private Long proposalId;
     private String requestText;
     private String commonText;
+
+
+   public static final TypeProvider<Fusion> TYPES =
+            new TypeProvider<>(Fusion.class,
+                    new ParameterizedTypeReference<List<Fusion>>() {
+                    });
 
     public Fusion() {
 
@@ -159,29 +174,5 @@ public class Fusion {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) { return true; }
-        if (o == null || getClass() != o.getClass()) { return false; }
-        Fusion fusion = (Fusion) o;
-        return Objects.equals(id, fusion.id) &&
-                Objects.equals(fromUserId, fusion.fromUserId) &&
-                Objects.equals(toUserId, fusion.toUserId) &&
-                Objects.equals(fromProposalId, fusion.fromProposalId) &&
-                Objects.equals(toProposalId, fusion.toProposalId) &&
-                Objects.equals(createdAt, fusion.createdAt) &&
-                Objects.equals(updatedAt, fusion.updatedAt) &&
-                Objects.equals(status, fusion.status) &&
-                Objects.equals(contestId, fusion.contestId) &&
-                Objects.equals(proposalId, fusion.proposalId) &&
-                Objects.equals(requestText, fusion.requestText) &&
-                Objects.equals(commonText, fusion.commonText);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects
-                .hash(id, fromUserId, toUserId, fromProposalId, toProposalId, createdAt, updatedAt,
-                        status, contestId, proposalId, requestText, commonText);
-    }
 }
