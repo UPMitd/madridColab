@@ -29,6 +29,8 @@ public enum ProposalResource implements ResourceEnum {
     PROPOSAL_ID("proposalIds"),
     PROPOSAL_THREAD_ID("proposalThreadIds");
 
+
+
     private final String resourceName;
 
     ProposalResource(String resourceName) {
