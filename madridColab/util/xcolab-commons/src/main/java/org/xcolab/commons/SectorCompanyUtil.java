@@ -18,28 +18,28 @@ public final class SectorCompanyUtil {
     // Material: https://developers.google.com/public-data/docs/canonical/countries_csv
     // License: https://creativecommons.org/licenses/by/3.0/
     static {
-        codeToSectorMap.put(0l, "Comercio");
-        codeToSectorMap.put(1l, "Construcción");
-        codeToSectorMap.put(2l, "Industria y energía");
-        codeToSectorMap.put(3l, "Actividades profesionales");
-        codeToSectorMap.put(4l, "Inmobiliario");
-        codeToSectorMap.put(5l, "Financiero y seguros");
-        codeToSectorMap.put(6l, "Resto servicios");
-        codeToSectorMap.put(7l, "Actividades administrativas y servicios auxiliares");
+        codeToSectorMap.put(0l, "Actividades profesionales");
+        codeToSectorMap.put(1l, "Actividades administrativas y servicios auxiliares");
+        codeToSectorMap.put(2l, "Agricultura y pesca");
+        codeToSectorMap.put(3l, "Comercio");
+        codeToSectorMap.put(4l, "Construcción");
+        codeToSectorMap.put(5l, "Consultoría");
+        codeToSectorMap.put(6l, "Educación");
+        codeToSectorMap.put(7l, "Financiero y seguros");
         codeToSectorMap.put(8l, "Hostelería");
-        codeToSectorMap.put(9l, "Información y comunicaciones");
-        codeToSectorMap.put(10l, "Transporte y almacenamiento");
-        codeToSectorMap.put(11l, "Agricultura y pesca");
-        codeToSectorMap.put(12l, "Salud");
-        codeToSectorMap.put(13l, "Tecnología");
-        codeToSectorMap.put(14l, "Turismo");
-        codeToSectorMap.put(15l, "Consultoría");
-        codeToSectorMap.put(16l, "Educación");
+        codeToSectorMap.put(9l, "Industria y energía");
+        codeToSectorMap.put(10l, "Información y comunicaciones");
+        codeToSectorMap.put(11l, "Inmobiliario");
+        codeToSectorMap.put(12l, "Resto servicios");
+        codeToSectorMap.put(13l, "Salud");
+        codeToSectorMap.put(14l, "Tecnología");
+        codeToSectorMap.put(15l, "Transporte y almacenamiento");
+        codeToSectorMap.put(16l, "Turismo");
         codeToSectorMap.put(17l, "Otro");
 
         List<LabelLongValue> rawSelectOptions = new ArrayList<>(
                 LabelLongValue.fromMap(codeToSectorMap));
-        rawSelectOptions.sort(Comparator.comparing(LabelLongValue::getLable));
+        //rawSelectOptions.sort(Comparator.comparing(LabelLongValue::getLable));
         selectOptions = Collections.unmodifiableList(rawSelectOptions);
     }
 

@@ -1,17 +1,27 @@
 package org.xcolab.client.proposals;
 
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.xcolab.client.activities.ActivitiesClient;
 import org.xcolab.client.admin.ContestTypeClient;
+import org.xcolab.client.admin.attributes.configuration.ConfigurationAttributeKey;
 import org.xcolab.client.admin.pojo.ContestType;
 import org.xcolab.client.contest.ContestClient;
+import org.xcolab.client.contest.ContestClientUtil;
 import org.xcolab.client.contest.exceptions.ContestNotFoundException;
 import org.xcolab.client.contest.pojo.Contest;
+import org.xcolab.client.contest.pojo.ContestFusion;
 import org.xcolab.client.contest.pojo.phases.ContestPhase;
+import org.xcolab.client.contest.pojo.templates.ProposalTemplateSectionDefinition;
 import org.xcolab.client.contest.resources.ProposalResource;
+import org.xcolab.client.contest.util.ContestScheduleChangeHelper;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.proposals.exceptions.ProposalNotFoundException;
 import org.xcolab.client.proposals.pojo.Proposal;
 import org.xcolab.client.proposals.pojo.ProposalDto;
+import org.xcolab.client.proposals.pojo.ProposalFusionRequest;
 import org.xcolab.client.proposals.pojo.ProposalVersion;
 import org.xcolab.client.proposals.pojo.ProposalVersionDto;
 import org.xcolab.client.proposals.pojo.tiers.ProposalReference;
@@ -46,6 +56,8 @@ public final class ProposalClient {
     private final RestResource1<ProposalVersionDto, Long> proposalVersionResource;
     private final RestResource1<ProposalReferenceDto, Long> proposalReferenceResource;
 
+    private final RestResource1<ProposalFusionRequest, Long> proposalFusionRequestResource;
+
     //TODO COLAB-2600: methods that use this should be in the service!
     private final ContestClient contestClient;
 
@@ -67,6 +79,9 @@ public final class ProposalClient {
 
         contestClient = ContestClient.fromNamespace(serviceNamespace);
         activitiesClient = ActivitiesClient.fromNamespace(serviceNamespace);
+
+        proposalFusionRequestResource = new RestResource1<>(ProposalResource.PROPOSAL_FUSION_REQUEST,
+                ProposalFusionRequest.TYPES, serviceNamespace);
     }
 
     public static ProposalClient fromNamespace(ServiceNamespace proposalService) {
@@ -482,6 +497,54 @@ public final class ProposalClient {
         }
         parameterList += list.get(list.size()-1);
         return parameterList;
+    }
+
+    public ProposalFusionRequest createProposalFusionRequest(ProposalFusionRequest data) {
+        Long fromContestId = ProposalClientUtil.getProposal(data.getFromProposalId()).getcontestId();
+        Long toContestId = ProposalClientUtil.getProposal(data.getToProposalId()).getcontestId();
+
+
+        Long contestId = ContestClientUtil.getContestFusion(fromContestId, toContestId);
+        Contest contest = null;
+
+
+        if(contestId == null) {
+            contest = createContest("Fusion " +
+                    ContestClientUtil.getContest(fromContestId).getTitle() + " - " +
+                    ContestClientUtil.getContest(toContestId).getTitle(), 10146);
+            ContestClientUtil.createContestFusion(new ContestFusion(contest.getId(), fromContestId, toContestId));
+            contestId = contest.getId();
+        }
+
+        else contest = ContestClientUtil.getContest(contestId);
+
+        Long proposalId = createProposal(data.getFromUserId(),
+                ContestClientUtil.getActivePhase(contest.getId()).getId(), true).getId();
+
+        data.setContestId(contestId);
+        data.setProposalId(proposalId);
+        return proposalFusionRequestResource.create(data).execute();
+    }
+
+    public Contest createContest(String title, long authorUserId) {
+        Contest contest = ContestClientUtil.createContest(authorUserId, title);
+        contest.setContestYear((long) DateTime.now().getYear());
+        contest.setContestPrivate(true);
+        contest.setShowInTileView(true);
+        contest.setShowInListView(true);
+        contest.setShowInOutlineView(true);
+        final Long templateId = ConfigurationAttributeKey.DEFAULT_CONTEST_TEMPLATE_ID.get();
+        contest.setProposalTemplateId(templateId);
+        final Long contestScheduleId = ConfigurationAttributeKey
+                .DEFAULT_CONTEST_SCHEDULE_ID.get();
+        contest.setContestScheduleId(contestScheduleId);
+        contest.setContestTypeId(ConfigurationAttributeKey.DEFAULT_CONTEST_TYPE_ID.get());
+        ContestClientUtil.updateContest(contest);
+        ContestScheduleChangeHelper
+                changeHelper = new ContestScheduleChangeHelper(contest.getId(), contestScheduleId);
+        changeHelper.changeScheduleForBlankContest();
+
+        return contest;
     }
 
 }

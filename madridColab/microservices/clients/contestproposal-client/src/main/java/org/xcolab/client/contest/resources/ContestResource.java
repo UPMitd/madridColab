@@ -23,7 +23,8 @@ public enum ContestResource implements ResourceEnum {
     POINTS_DISTRIBUTION_CONFIGURATION("pointsDistributionConfigurations"),
 
     //TODO COLAB-2594: rethink this endpoint
-    CONTEST_YEAR("contestyears")
+    CONTEST_YEAR("contestyears"),
+    CONTEST_FUSION("contestFusion")
     ;
 
     private final String resourceName;

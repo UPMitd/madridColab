@@ -19,16 +19,16 @@ public final class SectorUtil {
     // License: https://creativecommons.org/licenses/by/3.0/
     static {
         codeToSectorMap.put(0l, "Académico");
-        codeToSectorMap.put(1l, "Empresa");
-        codeToSectorMap.put(2l, "Administración pública");
-        codeToSectorMap.put(3l, "Autónomo");
+        codeToSectorMap.put(1l, "Administración pública");
+        codeToSectorMap.put(2l, "Autónomo");
+        codeToSectorMap.put(3l, "Empresa");
         codeToSectorMap.put(4l, "Start-up (o PYME)");
         codeToSectorMap.put(5l, "Tercer sector (o ONG/Fundación)");
         codeToSectorMap.put(6l, "Otro");
 
         List<LabelLongValue> rawSelectOptions = new ArrayList<>(
                 LabelLongValue.fromMap(codeToSectorMap));
-        rawSelectOptions.sort(Comparator.comparing(LabelLongValue::getLable));
+        //rawSelectOptions.sort(Comparator.comparing(LabelLongValue::getLable));
         selectOptions = Collections.unmodifiableList(rawSelectOptions);
     }
 
