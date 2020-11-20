@@ -19,7 +19,6 @@ public class FusionRequestBean implements Serializable {
     @NotBlank
     private String toProposalId;
 
-    @NotBlank
     private String requestText;
 
     public FusionRequestBean() {
