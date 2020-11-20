@@ -71,7 +71,7 @@ public class ContestFusion implements Serializable {
         if (this == o) { return true; }
         if (o == null || getClass() != o.getClass()) { return false; }
         ContestFusion
-                that = (ContestFusion) o
+                that = (ContestFusion) o;
         return Objects.equals(id_fusion, that.id_fusion) &&
                 Objects.equals(id_contest_1, that.id_contest_1) &&
                 Objects.equals(id_contest_2, that.id_contest_2);
