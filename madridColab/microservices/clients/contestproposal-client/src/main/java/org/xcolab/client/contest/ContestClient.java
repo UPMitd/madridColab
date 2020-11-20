@@ -758,24 +758,6 @@ public class ContestClient {
                 .execute();
     }
 
-    public ContestFusion createContestFusion(ContestFusion data) {
-        return contestFusionResource.create(data).execute();
-    }
-
-    public Long getContestFusion(Long id_1, Long id_2) {
-        List<ContestFusion> lq = contestFusionResource.list()
-                .queryParam("contest_id_1", id_1)
-                .queryParam("contest_id_2", id_2).execute();
-
-        if(lq == null || lq.isEmpty()) {
-            lq = contestFusionResource.list()
-                    .queryParam("contest_id_1", id_2)
-                    .queryParam("contest_id_2", id_1).execute();
-        }
-
-        return (lq == null || lq.isEmpty())? null : lq.get(0).getId_fusion();
-    }
-
     @Override
     public String toString() {
         return "ContestClient[" + serviceNamespace + "]";
