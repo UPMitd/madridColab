@@ -2,14 +2,21 @@ package org.xcolab.service.contest.domain.contestfusion;
 
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
-
+import org.xcolab.model.tables.pojos.Contest;
+import org.xcolab.model.tables.pojos.ContestDiscussion;
 import org.xcolab.model.tables.pojos.ContestFusion;
 import org.xcolab.model.tables.records.ContestFusionRecord;
 import org.xcolab.service.contest.exceptions.NotFoundException;
+import org.xcolab.service.contest.utils.promotion.PromotionService;
+import java.util.ArrayList;
+import java.util.List;
 
+import static org.xcolab.model.Tables.CONTEST;
 import static org.xcolab.model.Tables.CONTEST_FUSION;
 
 @Repository
@@ -61,6 +68,29 @@ public class ContestFusionDaoImpl implements ContestFusionDao {
             throw new NotFoundException("ContestFusion with id " + id + " does not exist");
         }
         return record.into(ContestFusion.class);
+
+    }
+
+    @Override
+    public List<ContestFusion> getByContests(Long contest_id_1, Long contest_id_2) {
+        ArrayList<ContestFusion> arlcf = new ArrayList<>();
+        Record record =
+                dslContext.select().from(CONTEST_FUSION)
+                        .where(CONTEST_FUSION.CONTEST_ID_1.eq(contest_id_1))
+                        .and(CONTEST_FUSION.CONTEST_ID_2.eq(contest_id_2))
+                        .fetchOne();
+        if (record == null) {
+            record = dslContext.select().from(CONTEST_FUSION)
+                    .where(CONTEST_FUSION.CONTEST_ID_1.eq(contest_id_2))
+                    .and(CONTEST_FUSION.CONTEST_ID_2.eq(contest_id_1))
+                    .fetchOne();
+
+            if (record == null)
+                return null;
+        }
+        ContestFusion cf = record.into(ContestFusion.class);
+        arlcf.add(cf);
+        return arlcf;
 
     }
 }

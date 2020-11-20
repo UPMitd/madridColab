@@ -1,0 +1,357 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:collab="urn:jsptld:/WEB-INF/tlds/xcolab.tld"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+
+    <spring:message code="register.title.register.city" var="title"/>
+    <xcolab:layout title="${title}" canonicalUrlRelative="/registerCity">
+
+        <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+        <!--@elvariable id="generateScreenName" type="java.lang.Boolean"-->
+        <!--@elvariable id="colabName" type="java.lang.String"-->
+        <!--@elvariable id="colabShortName" type="java.lang.String"-->
+
+        <!--@elvariable id="createUserBean" type="org.xcolab.view.pages.loginregister.CreateUserBean"-->
+
+        <script src='https://www.google.com/recaptcha/api.js'><!-- --></script>
+
+        <div class="popupreg_form">
+
+            <div class="row mb-3">
+                <div class="col-12 col-md">
+                    <h1><collab:message code="register.header.joinmessage"/></h1>
+                    <span class="required-field"><!-- --></span> <spring:message code="register.header.validation.mandatory"/>.
+                </div>
+
+                <c:if test="${_themeContext.authenticationVariables.isAnySsoActive}">
+                    <div class="col text-right">
+                        <h2><spring:message code="register.header.joinwith"/>:</h2>
+                        <c:if test="${_themeContext.authenticationVariables.isFacebookSsoActive}">
+                            <a href="/sso/facebook" rel="nofollow" title="Register with Facebook"
+                               class="c-SocialButton text-dark mx-2 js-Tooltip" >
+                                <collab:image src="/images/icons/social/facebook.svg" ariaHidden="true" />
+                                <span class="c-SocialButton__text">Facebook</span>
+                            </a>
+                        </c:if>
+                        <c:if test="${_themeContext.authenticationVariables.isGoogleSsoActive}">
+                            <a href="/sso/google" rel="nofollow" title="Register with Google"
+                               class="c-SocialButton text-dark mx-2 js-Tooltip">
+                                <collab:image src="/images/icons/social/google.svg" ariaHidden="true"/>
+                                <span class="c-SocialButton__text">Google</span>
+                            </a>
+                        </c:if>
+                        <c:if test="${_themeContext.authenticationVariables.isClimateXSsoActive}">
+                            <a href="/sso/climatex" rel="nofollow" title="Register with ClimateX"
+                               class="c-SocialButton text-dark mx-2 js-Tooltip">
+                                <collab:image src="/images/icons/social/climatex.svg" ariaHidden="true"/>
+                                <span class="c-SocialButton__text">ClimateX</span>
+                            </a>
+                        </c:if>
+                    </div>
+                </c:if>
+            </div>
+
+            <c:if test="${hasLoginInfoText}">
+                <div class="alert alert-info">
+                    ${loginInfoText}
+                </div>
+            </c:if>
+
+            <jsp:directive.include file="./header.jspx"/>
+
+            <form:form action="/registerCity" method="post" modelAttribute="createUserBeanCity" commandName="createUserBeanCity" id="registrationFormCity" style="margin-top: 25px;">
+                <c:if test="${not empty redirect}">
+                    <input type="hidden" name="redirect" value="${redirect}" />
+                </c:if>
+
+
+                <c:if test="${not isI18NActive}">
+                    <form:hidden path="language" />
+                </c:if>
+
+                <form:errors cssClass="alert alert-danger" element="div" htmlEscape="false"/>
+
+                <div class="form-row ${generateScreenName ? 'd-none' : ''}">
+                    <label class="cb-form-col-label required-field" for="screenName">
+                        <spring:message code="register.form.fields.screenname"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:input id="screenName" path="screenName" autocomplete="username"
+                                    cssClass="form-control" cssErrorClass="form-control is-invalid"/>
+                        <form:errors cssClass="invalid-feedback" path="screenName" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label class="cb-form-col-label required-field" for="email">
+                        <spring:message code="register.form.fields.email"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                    autocomplete="email" path="email" id="email"/>
+                        <form:errors cssClass="invalid-feedback" path="email" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="cb-form-col-label required-field" for="firstName">
+                        <spring:message code="register.form.fields.city"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                    autocomplete="city" id="firstName"
+                                    path="firstName" onchange="generateScreenName()"/>
+                        <form:errors cssClass="invalid-feedback" path="firstName" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="cb-form-col-label required-field" for="aut_community">
+                        <spring:message code="register.form.fields.aut.community"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                    autocomplete="aut_community" id="aut_community"
+                                    path="aut_community"/>
+                        <form:errors cssClass="invalid-feedback" path="aut_community" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="cb-form-col-label required-field" for="municipality">
+                        <spring:message code="register.form.fields.municipality"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                    autocomplete="municipality" id="municipality"
+                                    path="municipality" />
+                        <form:errors cssClass="invalid-feedback" path="municipality" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="cb-form-col-label required-field" for="password">
+                        <spring:message code="register.form.fields.password"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:password cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                       autocomplete="new-password" path="password" id="password"/>
+                        <form:errors cssClass="invalid-feedback" path="password" />
+                        <span class="text-muted">
+                        <spring:message code="register.form.fields.password.notemsg"/>
+                    </span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="cb-form-col-label required-field" for="retypeP">
+                        <spring:message code="register.form.fields.retypepassword"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:password cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                       autocomplete="new-password" path="retypePassword" id="retypePassword"/>
+                        <form:errors cssClass="invalid-feedback" path="retypePassword" />
+                    </div>
+                </div>
+
+                <!--
+                <div class="form-row">
+                    <label class="cb-form-col-label required-field" for="country">
+                        <spring:message code="register.form.fields.country"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:select cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                     autocomplete="country" path="country" id="country">
+                            <spring:message code="register.form.fields.country.defaultselectoption" var="countryOption"/>
+                            <form:option value="" label="${countryOption}"/>
+                            <form:options items="${countrySelectItems}" itemValue="value" itemLabel="lable"/>
+                        </form:select>
+                        <form:errors cssClass="invalid-feedback" path="country" />
+                    </div>
+                </div>
+                -->
+
+
+                <c:if test="${isI18NActive}">
+                    <div class="form-row">
+                        <label class="cb-form-col-label required-field" for="language">
+                            <spring:message code="register.form.fields.language"/>
+                        </label>
+                        <div class="cb-form-col-input">
+                            <form:select cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                         autocomplete="language" path="language" id="language">
+                                <spring:message code="register.form.fields.language.defaultselectoption" var="languageOption"/>
+                                <form:option value="" label="${languageOption}"/>
+                                <c:forEach var="lang" items="${languageSelectItems}">
+                                    <form:option value="${lang['value']}" >
+                                        <spring:message code="${lang['lable']}"/>
+                                    </form:option>
+                                </c:forEach>
+                            </form:select>
+                            <form:errors cssClass="invalid-feedback" path="language"/>
+                        </div>
+                    </div>
+                </c:if>
+
+                <div class="form-row">
+                    <div class="cb-form-col-label">
+                        <spring:message code="register.form.fields.photo"/>
+                    </div>
+                    <div class="col-auto mx-auto">
+                        <form:hidden id="userRegistrationImageId" path="imageId" />
+                        <xcolab:imageUpload uniqueName="profileImage" imageIdInput="userRegistrationImageId"
+                                            defaultImage="MEMBER" defaultImageId="${createUserBean.imageId}" />
+                    </div>
+                    <!--
+                    <div class="col-12 col-md">
+                        <form:textarea cssClass="rte-editorPlaceholder form-control shortBioContent"
+                                       cssErrorClass="rte-editorPlaceholder form-control shortBioContent is-invalid"
+                                       path="shortBio" />
+                        <div class="inputLimitContainer" style="margin-top: 10px; float:right; ">
+                            <span class="limit_characterCount"></span>/&#160;
+                            <span class="limit_charactersMax">2000</span> <spring:message code="register.form.fields.shortbio.maxcharmsg"/>
+                        </div>
+                        <form:errors cssClass="invalid-feedback" path="shortBio"/>
+                    </div>
+                    -->
+                </div>
+
+                <div class="form-row">
+                    <label class="cb-form-col-label" for="twitter">
+                        <spring:message code="register.form.fields.twitter"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                    autocomplete="twitter" id="twitter"
+                                    path="twitter"/>
+                        <form:errors cssClass="invalid-feedback" path="twitter" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label class="cb-form-col-label" for="web">
+                        <spring:message code="register.form.fields.web"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                    autocomplete="given-name" id="web"
+                                    path="web"/>
+                        <form:errors cssClass="invalid-feedback" path="web" />
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <label class="cb-form-col-label required-field" for="ods">
+                        <spring:message code="register.form.fields.ods"/>
+                    </label>
+                    <div class="cb-form-col-input">
+                        <form:select cssClass="form-control multiselect" cssErrorClass="form-control is-invalid" multiple="true"
+                                     autocomplete="ods" path="ods" id="ods">
+                            <form:options class="multiOptions" items="${ODSSelectItems}" itemValue="value" itemLabel="lable"/>
+                        </form:select>
+                        <form:errors cssClass="invalid-feedback" path="ods" />
+                    </div>
+                </div>
+
+                <c:if test="${createUserBeanCity.captchaNeeded}">
+                    <div class="form-row">
+                        <div class="cb-form-col-label required-field">
+                            <spring:message code="register.form.fields.captcha"/>
+                        </div>
+                        <div class="cb-form-col-input">
+                            <div class="g-recaptcha" data-sitekey="${recaptchaDataSiteKey}"><!-- --></div>
+                            <form:errors cssClass="invalid-feedback" path="captchaText" />
+                        </div>
+                    </div>
+                </c:if>
+
+                <div class="form-row">
+                    <div class="cb-form-col-label">
+                        <spring:message code="register.form.fields.termsofuse"/>
+                    </div>
+                    <div class="cb-form-col-input">
+                        <spring:message code="register.form.fields.termsofuse.linemsg" />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary"><spring:message code="register.form.buttons.createaccount"/></button>
+
+            </form:form>
+
+            <xcolab:requireLibrary name="CKEditor" />
+            <!-- TODO COLAB-1191: also used in user profile -->
+            <script>
+                $('.multiOptions').mousedown(function(e) {
+                    e.preventDefault();
+                    var originalScrollTop = $(this).parent().scrollTop();
+                    console.log(originalScrollTop);
+                    $(this).prop('selected', $(this).prop('selected') ? false : true);
+                    var self = this;
+                    $(this).parent().focus();
+                    setTimeout(function() {
+                        $(self).parent().scrollTop(originalScrollTop);
+                    }, 0);
+
+                    return false;
+                });
+
+                jQuery(function() {
+                    updateTextarea();
+                });
+
+                function showCommunities() {
+                    var checkBox = document.getElementById("isCommunity");
+                    var text = document.getElementById("divCommunities");
+                    if (checkBox.checked == true){
+                        text.style.display = "flex";
+                    } else {
+                        text.style.display = "none";
+                    }
+                }
+
+                function updateTextarea() {
+                    for ( var instance in CKEDITOR.instances) {
+                        CKEDITOR.instances[instance].updateElement();
+                    }
+                }
+            </script>
+
+            <c:choose>
+                <c:when  test="${generateScreenName}">
+                    <script>
+                        function generateScreenName() {
+                            var submitUrl = '/api/register/generateScreenName';
+                            jQuery.ajax({
+                                type: "POST",
+                                url: submitUrl,
+                                dataType: 'json',
+                                async: false,
+                                data: {
+                                    firstName : jQuery('#firstName').val(),
+                                    lastName: jQuery('#lastName').val()
+                                },
+                                success: function (data) {
+                                    if (data.success == false) {
+                                        console.log(data.error);
+                                    } else {
+                                        jQuery('#screenName').val(data.screenName);
+                                    }
+                                }
+                            });
+                        }
+                    </script>
+                </c:when>
+                <c:otherwise>
+                    <script>
+                        function generateScreenName() {
+                            //do nothing - generate screen name is turned off
+                        }
+                    </script>
+                </c:otherwise>
+            </c:choose>
+
+
+        </div>
+    </xcolab:layout>
+
+</jsp:root>

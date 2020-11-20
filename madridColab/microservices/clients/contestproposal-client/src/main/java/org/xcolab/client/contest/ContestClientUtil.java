@@ -1,5 +1,8 @@
 package org.xcolab.client.contest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.xcolab.client.contest.exceptions.ContestNotFoundException;
 import org.xcolab.client.contest.pojo.Contest;
 import org.xcolab.client.contest.pojo.ContestCollectionCard;
@@ -10,6 +13,7 @@ import org.xcolab.client.contest.pojo.ContestTranslation;
 import org.xcolab.client.contest.pojo.phases.ContestPhase;
 import org.xcolab.client.contest.pojo.phases.ContestPhaseRibbonType;
 import org.xcolab.client.contest.pojo.phases.ContestPhaseType;
+import org.xcolab.client.contest.pojo.templates.ProposalTemplateSectionDefinition;
 import org.xcolab.util.http.client.enums.ServiceNamespace;
 
 import java.util.Date;
@@ -358,13 +362,15 @@ public final class ContestClientUtil {
     public static boolean deleteContest(long contestId) {
         return contestClient.deleteContest(contestId);
     }
-
-    public static ContestFusion createProposalFusionRequest(
-            org.xcolab.client.contest.pojo.ContestFusion data) {
-        return contestClient.createContestFusion(data);
+    public static ContestFusion createContestFusion(ContestFusion data) {
+        ContestFusion cf = new ContestFusion();
+        cf.setIdFusion(data.getIdFusion());
+        cf.setContestId_1(data.getContestId_1());
+        cf.setContestId_2(data.getContestId_2());
+        return contestClient.createContestFusion(cf);
     }
 
     public static Long getContestFusion(Long id_1, Long id_2) {
-        return contestClient.getContestFusion(id_1, id_2);
+        return  contestClient.getContestFusion(id_1, id_2);  
     }
 }

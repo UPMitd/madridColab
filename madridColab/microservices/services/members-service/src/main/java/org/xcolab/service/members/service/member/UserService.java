@@ -8,10 +8,20 @@ import org.springframework.stereotype.Service;
 import org.xcolab.client.tracking.TrackingClient;
 import org.xcolab.client.tracking.pojo.Location;
 import org.xcolab.commons.exceptions.ReferenceResolutionException;
+import org.xcolab.model.tables.pojos.CommunityRegistry;
+import org.xcolab.model.tables.pojos.DataCity;
+import org.xcolab.model.tables.pojos.DataCompany;
+import org.xcolab.model.tables.pojos.DataPeople;
 import org.xcolab.model.tables.pojos.LoginLog;
+import org.xcolab.model.tables.pojos.OdsRegistry;
 import org.xcolab.model.tables.pojos.User;
+import org.xcolab.service.members.domain.communityregistry.CommunityRegistryDao;
+import org.xcolab.service.members.domain.datacity.DataCityDao;
+import org.xcolab.service.members.domain.datacompany.DataCompanyDao;
+import org.xcolab.service.members.domain.datapeople.DataPeopleDao;
 import org.xcolab.service.members.domain.loginlog.LoginLogDao;
 import org.xcolab.service.members.domain.member.UserDao;
+import org.xcolab.service.members.domain.odsregistry.OdsRegistryDao;
 import org.xcolab.service.members.domain.role.RoleDao;
 import org.xcolab.service.members.exceptions.NotFoundException;
 import org.xcolab.service.members.util.PBKDF2PasswordEncryptor;
@@ -32,14 +42,26 @@ public class UserService {
     private final UserDao memberDao;
     private final RoleDao roleDao;
     private final LoginLogDao loginLogDao;
+    private final CommunityRegistryDao communityRegistryDao;
+    private final OdsRegistryDao odsRegistryDao;
+    private final DataPeopleDao dataPeopleDao;
+    private final DataCityDao dataCityDao;
+    private final DataCompanyDao dataCompanyDao;
     private final ConnectorEmmaAPI connectorEmmaAPI;
 
     @Autowired
     public UserService(UserDao memberDao, RoleDao roleDao, LoginLogDao loginLogDao,
+            CommunityRegistryDao communityRegistryDao, OdsRegistryDao odsRegistryDao,
+            DataPeopleDao dataPeopleDao, DataCityDao dataCityDao, DataCompanyDao dataCompanyDao,
             ConnectorEmmaAPI connectorEmmaAPI) {
         this.memberDao = memberDao;
         this.roleDao = roleDao;
         this.loginLogDao = loginLogDao;
+        this.communityRegistryDao = communityRegistryDao;
+        this.odsRegistryDao = odsRegistryDao;
+        this.dataPeopleDao = dataPeopleDao;
+        this.dataCityDao = dataCityDao;
+        this.dataCompanyDao = dataCompanyDao;
         this.connectorEmmaAPI = connectorEmmaAPI;
     }
 
@@ -112,6 +134,46 @@ public class UserService {
         }
 
         return loginLogDao.create(loginLog);
+    }
+
+    public CommunityRegistry createCommunityRegistry(long userId, long communityId) {
+        CommunityRegistry communityRegistry = new CommunityRegistry();
+        communityRegistry.setIdCommunity(communityId);
+        communityRegistry.setIdUser(userId);
+
+        return communityRegistryDao.create(communityRegistry);
+    }
+
+    public OdsRegistry createOdsRegistry(long userId, long odsId) {
+        OdsRegistry odsRegistry = new OdsRegistry();
+        odsRegistry.setIdOds(odsId);
+        odsRegistry.setIdUser(userId);
+
+        return odsRegistryDao.create(odsRegistry);
+    }
+/*
+    public DataPeople createDataPeople(long userId, String twitter, String linkedin,
+            Boolean is_community, Long id_sector) {
+        DataPeople dataPeople = new DataPeople();
+        dataPeople.setIdUser(userId);
+        dataPeople.setTwitter(twitter);
+        dataPeople.setLinkedin(linkedin);
+        dataPeople.setIsCommunity(is_community);
+        dataPeople.setIdSector(id_sector);
+
+        return dataPeopleDao.create(dataPeople);
+    }*/
+
+    public DataPeople createDataPeople(DataPeople dataPeople) {
+        return dataPeopleDao.create(dataPeople);
+    }
+
+    public DataCity createDataCity(DataCity dataCity) {
+        return dataCityDao.create(dataCity);
+    }
+
+    public DataCompany createDataCompany(DataCompany dataCompany) {
+        return dataCompanyDao.create(dataCompany);
     }
 
     public boolean validateForgotPasswordToken(String passwordToken) throws NotFoundException {

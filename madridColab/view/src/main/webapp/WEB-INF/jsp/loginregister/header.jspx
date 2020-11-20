@@ -1,0 +1,32 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: ldela
+  Date: 20/09/2020
+  Time: 14:09
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:collab="urn:jsptld:/WEB-INF/tlds/xcolab.tld"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+
+    <ul class="nav nav-tabs flex-column flex-md-row">
+        <li class="nav-item text-md-center">
+            <a class="nav-link ${activeRegister == 'active' ? 'active' : singleTab.tab.tabType.cssModifier}" href="/register">
+                <spring:message code="register.title.register" />
+            </a>
+        </li>
+        <li class="nav-item text-md-center">
+            <a class="nav-link ${activeRegisterCompany == 'active' ? 'active' : singleTab.tab.tabType.cssModifier}" href="/registerCompany">
+                <spring:message code="register.title.register.company" />
+            </a>
+        </li>
+        <li class="nav-item text-md-center">
+            <a class="nav-link ${activeRegisterCity == 'active' ? 'active' : singleTab.tab.tabType.cssModifier}" href="/registerCity">
+                <spring:message code="register.title.register.city" />
+            </a>
+        </li>
+    </ul>
+</jsp:root>

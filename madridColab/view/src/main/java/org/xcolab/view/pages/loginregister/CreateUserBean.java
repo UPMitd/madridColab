@@ -33,7 +33,6 @@ public class CreateUserBean implements Serializable {
     @NotBlank
     private String firstName;
 
-    @NotBlank
     private String lastName;
 
     @NotBlank
@@ -46,7 +45,6 @@ public class CreateUserBean implements Serializable {
     @HtmlMaxLength(2000)
     private String shortBio;
 
-    @NotBlank
     private String country;
 
     @NotBlank

@@ -61,11 +61,11 @@ public class MemberNotification extends EmailNotification {
 
             switch (tag.nodeName()) {
                 case SENDER_NAME_PLACEHOLDER:
-                    return new TextNode(recipient.getFirstName(),"");
+                    return recipient.getFirstName() == null ? null : new TextNode(recipient.getFirstName(),"");
                 case SENDER_LASTNAME_PLACEHOLDER:
-                    return new TextNode(recipient.getLastName(),"");
+                    return recipient.getLastName() == null ? null : new TextNode(recipient.getLastName(),"");
                 case SENDER_SCREENNAME_PLACEHOLDER:
-                    return new TextNode(recipient.getScreenName(),"");
+                    return recipient.getScreenName() == null ? null : new TextNode(recipient.getScreenName(),"");
                 default:
             }
             return null;

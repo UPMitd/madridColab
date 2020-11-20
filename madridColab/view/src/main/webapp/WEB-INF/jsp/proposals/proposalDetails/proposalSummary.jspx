@@ -12,7 +12,6 @@
     <xcolab:requireLibrary name="requestFusion"/>
     <c:if test="${contestType.showProposalSummary}">
         <c:if test="${proposal.id > 0}">
-
             <div class="c-Box c-Box--colorDark c-Box--hasShadow c-Box--straightCorners mb-3">
                 <c:if test="${contestPhase.canVote or (contestPhase.completed and (not contest.hideRibbons or proposalsPermissions.canAdminAll))}">
                     <div class="c-Box__bodyFlex c-Box__bodyFlex--columns">
@@ -91,7 +90,6 @@
                             ${fusionRequestText}
                         </a>
                 </div>
-
             </div> <!-- /c-Box -->
             <c:if test="${proposalsPermissions.canReportProposal}">
                 <xcolab:requireLibrary name="flagging"/>
@@ -109,7 +107,6 @@
                    style="${(proposal.ribbonWrapper.ribbonText.length() gt 8 and proposal.ribbonWrapper.ribbonText.length() lt 14)
                 ? 'top: 26px;' : ''}">
                     ${proposal.ribbonWrapper.ribbonTitle}
-
                 </a>
                 <div class="c-Badge__text--big" style="${proposal.ribbonWrapper.ribbonText.length() gt 15 ? 'font-size: 7px;' : ''}${fn:substring(proposal.ribbonWrapper.ribbonText,0,6) eq 'Judges' ? 'width: 47px;' : ''}">${proposal.ribbonWrapper.ribbonText.length() gt 13 ? proposal.ribbonWrapper.ribbonText : ''}</div>
                 <span class="c-Badge__year--big">${contest.activePhase.phaseReferenceYear}</span>

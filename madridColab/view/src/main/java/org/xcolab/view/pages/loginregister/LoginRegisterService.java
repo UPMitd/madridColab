@@ -15,9 +15,14 @@ import org.xcolab.client.balloons.pojo.BalloonUserTracking;
 import org.xcolab.client.members.MembersClient;
 import org.xcolab.client.members.MessagingClient;
 import org.xcolab.client.members.exceptions.MemberNotFoundException;
+import org.xcolab.client.members.pojo.CommunityRegistry;
+import org.xcolab.client.members.pojo.DataCity;
+import org.xcolab.client.members.pojo.DataCompany;
+import org.xcolab.client.members.pojo.DataPeople;
 import org.xcolab.client.members.pojo.LoginToken;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.members.pojo.MessagingUserPreference;
+import org.xcolab.client.members.pojo.OdsRegistry;
 import org.xcolab.commons.html.HtmlUtil;
 import org.xcolab.entity.utils.LinkUtils;
 import org.xcolab.entity.utils.notifications.member.MemberBatchRegistrationNotification;
@@ -32,6 +37,7 @@ import org.xcolab.view.util.googleanalytics.GoogleAnalyticsUtils;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,15 +64,66 @@ public class LoginRegisterService {
      * @param redirect Redirect URL for this request (may be null)
      */
     public void completeRegistration(HttpServletRequest request, HttpServletResponse response,
-            CreateUserBean newAccountBean, String redirect, boolean postRegistration)
+            CreateUserBeanExtended newAccountBean, String redirect, boolean postRegistration)
             throws IOException {
+
+        _log.error("RegUser1");
 
         final Member member = register(newAccountBean.getScreenName(), newAccountBean.getPassword(),
                 newAccountBean.getEmail(), newAccountBean.getFirstName(),
                 newAccountBean.getLastName(), newAccountBean.getShortBio(),
                 newAccountBean.getCountry(), newAccountBean.getImageId(),
-                false, newAccountBean.getLanguage());
+                false, newAccountBean.getLanguage(), newAccountBean.getCommunities(),
+                newAccountBean.getOds(), newAccountBean.getTwitter(), newAccountBean.getLinkedin(),
+                newAccountBean.getIs_community(), newAccountBean.getId_sector(), newAccountBean.getOther(),
+                newAccountBean.getCod_postal());
 
+        _log.error("RegUser2");
+
+        authAndRedirect(request, response, redirect, postRegistration, member);
+    }
+
+    public void completeRegistration(HttpServletRequest request, HttpServletResponse response,
+            CreateUserBeanCity newAccountBean, String redirect, boolean postRegistration)
+            throws IOException {
+
+        _log.error("RegCity1");
+
+        final Member member = registerCity(newAccountBean.getScreenName(), newAccountBean.getPassword(),
+                newAccountBean.getEmail(), newAccountBean.getFirstName(),
+                newAccountBean.getLastName(), newAccountBean.getShortBio(),
+                newAccountBean.getCountry(), newAccountBean.getImageId(),
+                false, newAccountBean.getLanguage(),
+                newAccountBean.getOds(), newAccountBean.getTwitter(), newAccountBean.getWeb(),
+                newAccountBean.getAut_community(), newAccountBean.getMunicipality());
+
+        _log.error("RegCity2");
+
+        authAndRedirect(request, response, redirect, postRegistration, member);
+    }
+
+    public void completeRegistration(HttpServletRequest request, HttpServletResponse response,
+            CreateUserBeanCompany newAccountBean, String redirect, boolean postRegistration)
+            throws IOException {
+
+        _log.error("RegCompany1");
+
+        final Member member = registerCompany(newAccountBean.getScreenName(), newAccountBean.getPassword(),
+                newAccountBean.getEmail(), newAccountBean.getFirstName(),
+                newAccountBean.getLastName(), newAccountBean.getShortBio(),
+                newAccountBean.getCountry(), newAccountBean.getImageId(),
+                false, newAccountBean.getLanguage(), newAccountBean.getCommunities(),
+                newAccountBean.getOds(), newAccountBean.getTwitter(), newAccountBean.getWeb(),
+                newAccountBean.getIs_community(), newAccountBean.getId_sector_company(),
+                newAccountBean.getOther(), newAccountBean.getCod_postal());
+
+        _log.error("RegCompany2");
+
+        authAndRedirect(request, response, redirect, postRegistration, member);
+    }
+
+    private void authAndRedirect(HttpServletRequest request, HttpServletResponse response,
+             String redirect, boolean postRegistration, Member member) throws IOException{
         authenticationService.authenticate(request, response, member);
         updateBalloonTracking(member, request);
         recordRegistrationEvent(member);
@@ -139,7 +196,85 @@ public class LoginRegisterService {
 
     public Member autoRegister(String emailAddress, String firstName, String lastName) {
         return register(null, null, emailAddress, firstName, lastName,
-                "", null, null, true, null);
+                "", null, null, true, null,
+                null, null, null, null, false, 5l, null, null);
+    }
+
+    public Member register(String screenName, String password, String email, String firstName,
+            String lastName, String shortBio, String country, Long imageId,
+            boolean generateLoginUrl, String language, List<Long> communities, List<Long> ods,
+            String twitter, String linkedin, boolean is_community, Long sector, String other, String cod_postal) {
+
+        final Member member = register( screenName,  password,  email,  firstName,
+                 lastName,  shortBio,  country,  imageId, generateLoginUrl,  language);
+
+        DataPeople data = new DataPeople(member.getId(), twitter, linkedin, is_community, sector, other, cod_postal);
+        data = MembersClient.createDataPeople(data);
+
+        if(communities != null && communities.size() > 0) {
+            for(Long i: communities) {
+                CommunityRegistry registry = new CommunityRegistry(member.getId(), i);
+                registry = MembersClient.createCommunityRegistry(registry);
+            }
+        }
+
+        if(ods != null && ods.size() > 0) {
+            for(Long i: ods) {
+                OdsRegistry registry = new OdsRegistry(member.getId(), i);
+                registry = MembersClient.createOdsRegistry(registry);
+            }
+        }
+
+        return member;
+    }
+
+    public Member registerCity(String screenName, String password, String email, String firstName,
+            String lastName, String shortBio, String country, Long imageId,
+            boolean generateLoginUrl, String language, List<Long> ods,
+            String twitter, String web, String aut_community, String municipality) {
+
+        final Member member = register( screenName,  password,  email,  firstName,
+                lastName,  shortBio,  country,  imageId, generateLoginUrl,  language);
+
+        DataCity data = new DataCity(member.getId(), twitter, web, aut_community, municipality);
+        data = MembersClient.createDataCity(data);
+
+        if(ods != null && ods.size() > 0) {
+            for(Long i: ods) {
+                OdsRegistry registry = new OdsRegistry(member.getId(), i);
+                registry = MembersClient.createOdsRegistry(registry);
+            }
+        }
+
+        return member;
+    }
+
+    public Member registerCompany(String screenName, String password, String email, String firstName,
+            String lastName, String shortBio, String country, Long imageId,
+            boolean generateLoginUrl, String language, List<Long> communities, List<Long> ods,
+            String twitter, String web, boolean is_community, Long sector, String other, String cod_postal) {
+
+        final Member member = register( screenName,  password,  email,  firstName,
+                lastName,  shortBio,  country,  imageId, generateLoginUrl,  language);
+
+        DataCompany data = new DataCompany(member.getId(), twitter, web, is_community, sector, other, cod_postal);
+        data = MembersClient.createDataCompany(data);
+
+        if(communities != null && communities.size() > 0) {
+            for(Long i: communities) {
+                CommunityRegistry registry = new CommunityRegistry(member.getId(), i);
+                registry = MembersClient.createCommunityRegistry(registry);
+            }
+        }
+
+        if(ods != null && ods.size() > 0) {
+            for(Long i: ods) {
+                OdsRegistry registry = new OdsRegistry(member.getId(), i);
+                registry = MembersClient.createOdsRegistry(registry);
+            }
+        }
+
+        return member;
     }
 
     public Member register(String screenName, String password, String email, String firstName,
@@ -147,8 +282,6 @@ public class LoginRegisterService {
             boolean generateLoginUrl, String language) {
 
         Assert.notNull(email, "Email address is required");
-        Assert.notNull(email, "First name is required");
-        Assert.notNull(email, "Last name is required");
 
         Member member = new Member();
         if (screenName == null) {
@@ -156,10 +289,13 @@ public class LoginRegisterService {
         } else {
             member.setScreenName(screenName);
         }
-        member.setEmailAddress(email);
-        member.setFirstName(firstName);
+        if(email != null)
+            member.setEmailAddress(email);
+        if(firstName != null)
+            member.setFirstName(firstName);
         member.setHashedPassword(password);
-        member.setLastName(lastName);
+        if(lastName != null)
+            member.setLastName(lastName);
         member.setDefaultLocale(language != null ? language : I18nUtils.DEFAULT_LANGUAGE);
         member.setStatus(0);
 

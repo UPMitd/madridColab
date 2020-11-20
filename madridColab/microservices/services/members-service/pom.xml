@@ -81,6 +81,12 @@
                                 | activity__activity_entry
                                 | contest__contest_team_member
 
+                                | xcolab__CommunityRegistry
+
+                                | xcolab__OdsRegistry
+                                | xcolab__DataPeople
+                                | xcolab__DataCity
+                                | xcolab__DataCompany
 
                                 <!-- User/Role/Team entities (8) -->
                                 | members_Member

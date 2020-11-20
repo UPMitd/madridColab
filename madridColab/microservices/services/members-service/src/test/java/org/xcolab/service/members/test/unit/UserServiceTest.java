@@ -7,8 +7,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.xcolab.service.members.domain.communityregistry.CommunityRegistryDao;
+import org.xcolab.service.members.domain.communityregistry.CommunityRegistryDaoImpl;
+import org.xcolab.service.members.domain.datacity.DataCityDaoImpl;
+import org.xcolab.service.members.domain.datacompany.DataCompanyDao;
+import org.xcolab.service.members.domain.datacompany.DataCompanyDaoImpl;
+import org.xcolab.service.members.domain.datapeople.DataPeopleDaoImpl;
 import org.xcolab.service.members.domain.loginlog.LoginLogDaoImpl;
 import org.xcolab.service.members.domain.member.UserDaoImpl;
+import org.xcolab.service.members.domain.odsregistry.OdsRegistryDaoImpl;
 import org.xcolab.service.members.domain.role.RoleDaoImpl;
 import org.xcolab.service.members.service.member.UserService;
 
@@ -22,7 +29,11 @@ public class UserServiceTest {
     public void setUp() {
         DSLContext dslContext = new DefaultDSLContext(SQLDialect.MYSQL);
         memberService = new UserService(new UserDaoImpl(dslContext),
-                new RoleDaoImpl(dslContext), new LoginLogDaoImpl(dslContext), null);
+                new RoleDaoImpl(dslContext), new LoginLogDaoImpl(dslContext),
+                new CommunityRegistryDaoImpl(dslContext),
+                new OdsRegistryDaoImpl(dslContext), new DataPeopleDaoImpl(dslContext),
+                new DataCityDaoImpl(dslContext), new DataCompanyDaoImpl(dslContext),
+                null);
     }
 
     @Test

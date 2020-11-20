@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.xcolab.client.fusion.FusionClient;
 import org.xcolab.client.fusion.beans.FusionBean;
 import org.xcolab.client.fusion.pojo.Fusion;
@@ -21,20 +20,16 @@ import org.xcolab.commons.servlet.flash.AlertMessage;
 import org.xcolab.view.errors.AccessDeniedPage;
 import org.xcolab.view.pages.fusion.beans.FusionRequestBean;
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
 
 @Controller
 public class FusionController {
 
-
     FusionClient fusionClient;
-
     private boolean sent=false;
-
     private static final Logger log = LoggerFactory.getLogger(FusionController.class);
 
     ///received requests
@@ -150,5 +145,6 @@ public class FusionController {
         AlertMessage.warning("The merge request was rejected").flash(request);
         model.addAttribute("fusionBean", fusionBean);
         return "redirect:/fusionRequest/"+fusionId;
+
     }
 }

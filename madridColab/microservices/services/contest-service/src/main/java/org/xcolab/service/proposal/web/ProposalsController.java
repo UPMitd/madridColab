@@ -26,6 +26,7 @@ import org.xcolab.model.tables.pojos.ProposalVote;
 import org.xcolab.service.contest.exceptions.NotFoundException;
 import org.xcolab.service.proposal.domain.proposal.ProposalDao;
 import org.xcolab.service.proposal.domain.proposalcontestphaseattribute.ProposalContestPhaseAttributeDao;
+
 import org.xcolab.service.proposal.domain.proposalrating.ProposalRatingDao;
 import org.xcolab.service.proposal.domain.proposalversion.ProposalVersionDao;
 import org.xcolab.service.proposal.domain.proposalvote.ProposalVoteDao;
@@ -43,12 +44,9 @@ public class ProposalsController {
 
     private final ProposalDao proposalDao;
     private final ProposalService proposalService;
-
     private final ProposalVoteDao proposalVoteDao;
     private final Proposal2PhaseService proposal2PhaseService;
-
     private final ProposalRatingDao proposalRatingDao;
-
     private final ProposalVersionDao proposalVersionDao;
     private final ProposalVersionService proposalVersionService;
     private final ProposalContestPhaseAttributeDao proposalContestPhaseAttributeDao;
@@ -59,6 +57,7 @@ public class ProposalsController {
             ProposalVoteDao proposalVoteDao, Proposal2PhaseService proposal2PhaseService,
             ProposalVersionService proposalVersionService, ProposalService proposalService,
             ProposalRatingDao proposalRatingDao) {
+
         this.proposalContestPhaseAttributeDao = proposalContestPhaseAttributeDao;
         this.proposalVersionDao = proposalVersionDao;
         this.proposalDao = proposalDao;
@@ -389,14 +388,5 @@ public class ProposalsController {
         return threadIds;
     }
 
-    @PostMapping("createFusion")
-    public void createFusion() {
-        ProposalFusionRequest proposalFusionRequest = new ProposalFusionRequest();
-        proposalFusionRequest.setFromProposalId(1l);
-        proposalFusionRequest.setToProposalId(2l);
-        proposalFusionRequest.setFromUserId(10146l);
-        proposalFusionRequest.setToUserId(10147l);
 
-        ProposalClientUtil.createProposalFusionRequest(proposalFusionRequest);
-    }
 }

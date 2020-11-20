@@ -1,6 +1,8 @@
 package org.xcolab.service.contest.web;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,12 +10,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.xcolab.model.tables.pojos.Contest;
 import org.xcolab.model.tables.pojos.ContestCollectionCard;
 import org.xcolab.model.tables.pojos.ContestDiscussion;
+import org.xcolab.model.tables.pojos.ContestFusion;
 import org.xcolab.model.tables.pojos.ContestPhase;
 import org.xcolab.model.tables.pojos.ContestTranslation;
 import org.xcolab.service.contest.domain.contest.ContestDao;
@@ -25,6 +31,7 @@ import org.xcolab.service.contest.exceptions.NotFoundException;
 import org.xcolab.service.contest.service.collectioncard.CollectionCardService;
 import org.xcolab.service.contest.service.contest.ContestService;
 import org.xcolab.service.contest.service.ontology.OntologyService;
+import org.xcolab.service.contest.utils.promotion.PromotionService;
 import org.xcolab.service.utils.ControllerUtils;
 import org.xcolab.service.utils.PaginationHelper;
 import org.xcolab.commons.spring.web.annotation.ListMapping;
@@ -334,5 +341,28 @@ public class ContestController {
     @GetMapping("/contests/{contestId}/visiblePhases")
     public List<ContestPhase> getVisiblePhases(@PathVariable Long contestId) {
         return contestService.getVisiblePhases(contestId);
+    }
+
+    @PostMapping("/contestFusion")
+    public ContestFusion createContestFusion(
+            @RequestBody ContestFusion contestFusion) {
+        ContestFusion cf = new ContestFusion();
+        cf.setIdFusion(contestFusion.getIdFusion());
+        cf.setContestId_1(contestFusion.getContestId_1());
+        cf.setContestId_2(contestFusion.getContestId_2());
+        return this.contestFusionDao.create(cf);
+    }
+
+    /*@GetMapping("/contestFusion/{contest_id_1}/{contest_id_2}")
+    public ContestFusion getContestFusion(@PathVariable Long contest_id_1,
+            @PathVariable Long contest_id_2) throws NotFoundException {
+        return contestFusionDao.getByContests(contest_id_1, contest_id_2);
+    }*/
+
+    @RequestMapping(value="contestFusion", method = RequestMethod.GET)
+    public @ResponseBody
+    List<ContestFusion> getContestFusion(@RequestParam("contest_id_1") Long contest_id_1,
+            @RequestParam("contest_id_2") Long contest_id_2) {
+        return contestFusionDao.getByContests(contest_id_1, contest_id_2);
     }
 }

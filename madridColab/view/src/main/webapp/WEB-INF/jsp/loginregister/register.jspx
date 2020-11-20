@@ -61,7 +61,9 @@
             </div>
         </c:if>
 
-        <form:form action="/register" method="post" commandName="createUserBean" id="registrationForm">
+        <jsp:directive.include file="./header.jspx"/>
+
+        <form:form action="/register" method="post" commandName="createUserBeanExtended" id="registrationForm" style="margin-top: 25px;">
             <c:if test="${not empty redirect}">
                 <input type="hidden" name="redirect" value="${redirect}" />
             </c:if>
@@ -139,6 +141,8 @@
                     <form:errors cssClass="invalid-feedback" path="retypePassword" />
                 </div>
             </div>
+
+
             <div class="form-row">
                 <label class="cb-form-col-label required-field" for="country">
                     <spring:message code="register.form.fields.country"/>
@@ -153,6 +157,19 @@
                     <form:errors cssClass="invalid-feedback" path="country" />
                 </div>
             </div>
+
+            <div class="form-row">
+                <label class="cb-form-col-label required-field" for="postal">
+                    <spring:message code="register.form.fields.postal"/>
+                </label>
+                <div class="cb-form-col-input">
+                    <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                autocomplete="postal" id="postal" maxlength="5"
+                                path="cod_postal"/>
+                    <form:errors cssClass="invalid-feedback" path="cod_postal" />
+                </div>
+            </div>
+
 
             <c:if test="${isI18NActive}">
                 <div class="form-row">
@@ -197,7 +214,94 @@
                 </div>
             </div>
 
-            <c:if test="${createUserBean.captchaNeeded}">
+            <div class="form-row">
+                <label class="cb-form-col-label" for="twitter">
+                    <spring:message code="register.form.fields.twitter"/>
+                </label>
+                <div class="cb-form-col-input">
+                    <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                autocomplete="twitter" id="twitter"
+                                path="twitter"/>
+                    <form:errors cssClass="invalid-feedback" path="twitter" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="cb-form-col-label" for="linkedin">
+                    <spring:message code="register.form.fields.linkedin"/>
+                </label>
+                <div class="cb-form-col-input">
+                    <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                autocomplete="given-name" id="linkedin"
+                                path="linkedin"/>
+                    <form:errors cssClass="invalid-feedback" path="linkedin" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="cb-form-col-label required-field" for="sector">
+                    <spring:message code="register.form.fields.sector"/>
+                </label>
+                <div class="cb-form-col-input">
+                    <form:select cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                 autocomplete="sector" path="id_sector" id="sector" onchange="showOther()">
+                        <spring:message code="register.form.fields.sector.defaultselectoption" var="sectorOption"/>
+                        <form:option value="" label="${sectorOption}"/>
+                        <form:options items="${sectorSelectItems}" itemValue="value" itemLabel="lable"/>
+                    </form:select>
+                    <form:errors cssClass="invalid-feedback" path="id_sector" />
+                </div>
+            </div>
+
+            <div class="form-row" id="divOther" style="display:none">
+                <label class="cb-form-col-label" for="other">
+                    <spring:message code="register.form.fields.other"/>
+                </label>
+                <div class="cb-form-col-input">
+                    <form:input cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                autocomplete="other-name" id="other"
+                                path="other"/>
+                    <form:errors cssClass="invalid-feedback" path="other" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="cb-form-col-label" for="isCommunity">
+                    <spring:message code="register.form.fields.isCommunity"/>
+                </label>
+                <div class="cb-form-col-input">
+                    <form:checkbox path="is_community" id ="isCommunity" onclick="showCommunities()"/>
+                    <form:errors cssClass="invalid-feedback" path="is_community" />
+                </div>
+            </div>
+
+            <div class="form-row" id="divCommunities" style="display:none">
+                <label class="cb-form-col-label required-field" for="communities">
+                    <spring:message code="register.form.fields.community"/>
+                </label>
+                <div class="cb-form-col-input">
+                    <form:select cssClass="form-control multiselect" cssErrorClass="form-control is-invalid" multiple="true"
+                                 autocomplete="communities" path="communities" id="communities">
+                        <form:options class="multiOptions" items="${communitiesSelectItems}" itemValue="value" itemLabel="lable"/>
+                    </form:select>
+                    <form:errors cssClass="invalid-feedback" path="communities" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="cb-form-col-label required-field" for="ods">
+                    <spring:message code="register.form.fields.ods"/>
+                </label>
+                <div class="cb-form-col-input">
+                    <form:select cssClass="form-control multiselect" cssErrorClass="form-control is-invalid" multiple="true"
+                                 autocomplete="ods" path="ods" id="ods">
+                        <form:options class="multiOptions" items="${ODSSelectItems}" itemValue="value" itemLabel="lable"/>
+                    </form:select>
+                    <form:errors cssClass="invalid-feedback" path="ods" />
+                </div>
+            </div>
+
+            <c:if test="${createUserBeanExtended.captchaNeeded}">
                 <div class="form-row">
                     <div class="cb-form-col-label required-field">
                         <spring:message code="register.form.fields.captcha"/>
@@ -225,9 +329,45 @@
         <xcolab:requireLibrary name="CKEditor" />
         <!-- TODO COLAB-1191: also used in user profile -->
         <script>
+            $('.multiOptions').mousedown(function(e) {
+                e.preventDefault();
+                var originalScrollTop = $(this).parent().scrollTop();
+                console.log(originalScrollTop);
+                $(this).prop('selected', $(this).prop('selected') ? false : true);
+                var self = this;
+                $(this).parent().focus();
+                setTimeout(function() {
+                    $(self).parent().scrollTop(originalScrollTop);
+                }, 0);
+
+                return false;
+            });
+
             jQuery(function() {
                 updateTextarea();
             });
+
+            function showCommunities() {
+                var checkBox = document.getElementById("isCommunity");
+                var text = document.getElementById("divCommunities");
+                if (checkBox.checked == true){
+                    text.style.display = "flex";
+                } else {
+                    text.style.display = "none";
+                }
+            }
+
+            function showOther() {
+                var sector = document.getElementById("sector");
+                var text = document.getElementById("divOther");
+                var sectorValue = sector.options[parseInt(sector.value, 10) + 1].innerHTML;
+
+                if (sectorValue.toLowerCase() === 'otro'){
+                    text.style.display = "flex";
+                } else {
+                    text.style.display = "none";
+                }
+            }
 
             function updateTextarea() {
                 for ( var instance in CKEDITOR.instances) {

@@ -312,7 +312,7 @@ public class Member implements Serializable {
 
     @JsonIgnore
     public String getFullName() {
-        final String fullName = WordUtils
+        final String fullName = this.getLastName() == null ? null : WordUtils
                 .capitalizeFully(this.getFirstName()+ " " + this.getLastName());
         if (StringUtils.isNotBlank(fullName)) {
             return fullName;

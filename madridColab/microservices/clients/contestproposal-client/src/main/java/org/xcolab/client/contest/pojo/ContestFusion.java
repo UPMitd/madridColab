@@ -17,9 +17,10 @@ public class ContestFusion implements Serializable {
 
     private static final long serialVersionUID = -416641117;
 
-    public static final TypeProvider<org.xcolab.client.contest.pojo.ContestFusion> TYPES =
-            new TypeProvider<>(org.xcolab.client.contest.pojo.ContestFusion.class,
-                    new ParameterizedTypeReference<List<org.xcolab.client.contest.pojo.ContestFusion>>() {
+
+    public static final TypeProvider<ContestFusion> TYPES =
+            new TypeProvider<>(ContestFusion.class,
+                    new ParameterizedTypeReference<List<ContestFusion>>() {
                     });
 
     private Long id_fusion;
@@ -28,7 +29,7 @@ public class ContestFusion implements Serializable {
 
     public ContestFusion() {}
 
-    public ContestFusion(org.xcolab.client.contest.pojo.ContestFusion value) {
+    public ContestFusion(ContestFusion value) {   
         this.id_fusion = value.id_fusion;
         this.id_contest_1 = value.id_contest_1;
         this.id_contest_2 = value.id_contest_2;
@@ -40,27 +41,28 @@ public class ContestFusion implements Serializable {
         this.id_contest_2 = id_contest_2;
     }
 
-    public Long getId_fusion() {
+
+    public Long getIdFusion() {
         return id_fusion;
     }
 
-    public Long getId_contest_1() {
+    public Long getContestId_1() {
         return id_contest_1;
     }
 
-    public Long getId_contest_2() {
+    public Long getContestId_2() {
         return id_contest_2;
     }
 
-    public void setId_fusion(Long id_fusion) {
+    public void setIdFusion(Long id_fusion) {
         this.id_fusion = id_fusion;
     }
 
-    public void setId_contest_1(Long id_contest_1) {
+    public void setContestId_1(Long id_contest_1) {
         this.id_contest_1 = id_contest_1;
     }
 
-    public void setId_contest_2(Long id_contest_2) {
+    public void setContestId_2(Long id_contest_2) {
         this.id_contest_2 = id_contest_2;
     }
 
@@ -68,8 +70,8 @@ public class ContestFusion implements Serializable {
     public boolean equals(Object o) {
         if (this == o) { return true; }
         if (o == null || getClass() != o.getClass()) { return false; }
-        org.xcolab.client.contest.pojo.ContestFusion
-                that = (org.xcolab.client.contest.pojo.ContestFusion) o;
+        ContestFusion
+                that = (ContestFusion) o
         return Objects.equals(id_fusion, that.id_fusion) &&
                 Objects.equals(id_contest_1, that.id_contest_1) &&
                 Objects.equals(id_contest_2, that.id_contest_2);

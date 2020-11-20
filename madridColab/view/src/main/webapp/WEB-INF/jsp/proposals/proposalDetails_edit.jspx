@@ -134,10 +134,20 @@
                     </label>
                     <div class="p-Proposal__formBox__main">
                         <div class="p-Proposal__formBox__helpText collapse show" id="js-Help__pitch"><spring:message code="contests.proposal.sections.pitch.help" arguments="${fn:toLowerCase(contestType.proposalName)}"/></div>
+                       <!--
+                        <form:textarea id="proposalPitchInput" path="pitch"
+                                       cssClass="rte-editorPlaceholder form-control" cssErrorClass="form-control cb-form-has-error"/>
+                        <form:errors cssClass="invalid-feedback" path="pitch"/>
+
+                        <div class="inputLimitContainer">
+                            <span class="limit_characterCount"></span>/&#160;<span
+                                class="limit_charactersMax">2000</span> characters
+                        </div>
+                        -->
                         <form:textarea path="pitch" id="proposalPitchInput" htmlEscape="false" cssClass="form-control" />
                         <form:errors path="pitch" />
                         <div class="inputLimitContainer">
-                            <span class="limit_characterCount"><!--  --></span>/&#160;<span class="limit_charactersMax">140</span> <spring:message code="contests.characterlimit" />
+                            <span class="limit_characterCount"></span>/&#160;<span class="limit_charactersMax">140</span> <spring:message code="contests.characterlimit" />
                         </div>
                     </div>
                 </div>

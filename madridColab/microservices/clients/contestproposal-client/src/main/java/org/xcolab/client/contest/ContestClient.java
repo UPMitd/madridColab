@@ -2,6 +2,8 @@ package org.xcolab.client.contest;
 
 import edu.mit.cci.roma.client.Simulation;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import org.xcolab.client.activities.ActivitiesClientUtil;
@@ -25,6 +27,7 @@ import org.xcolab.client.contest.pojo.phases.ContestPhaseRibbonType;
 import org.xcolab.client.contest.pojo.phases.ContestPhaseRibbonTypeDto;
 import org.xcolab.client.contest.pojo.phases.ContestPhaseType;
 import org.xcolab.client.contest.pojo.phases.ContestPhaseTypeDto;
+import org.xcolab.client.contest.pojo.templates.ProposalTemplateSectionDefinition;
 import org.xcolab.client.contest.resources.ContestResource;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.modeling.roma.RomaClientUtil;
@@ -777,4 +780,23 @@ public class ContestClient {
     public String toString() {
         return "ContestClient[" + serviceNamespace + "]";
     }
+
+    public ContestFusion createContestFusion(ContestFusion data) {
+        return contestFusionResource.create(data).execute();
+    }
+
+    public Long getContestFusion(Long id_1, Long id_2) {
+        List<ContestFusion> lq = contestFusionResource.list()
+                .optionalQueryParam("contest_id_1", id_1)
+                .optionalQueryParam("contest_id_2", id_2).execute();
+
+        if(lq == null || lq.isEmpty()) {
+            lq = contestFusionResource.list()
+                    .optionalQueryParam("contest_id_1", id_2)
+                    .optionalQueryParam("contest_id_2", id_1).execute();
+        }
+
+        return (lq == null || lq.isEmpty())? null : lq.get(0).getIdFusion();
+    }
+
 }

@@ -1,15 +1,22 @@
 package org.xcolab.client.members;
 
-import org.springframework.util.Assert;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 import org.xcolab.client.admin.attributes.configuration.ConfigurationAttributeKey;
 import org.xcolab.client.members.exceptions.MemberCategoryNotFoundException;
 import org.xcolab.client.members.exceptions.MemberNotFoundException;
 import org.xcolab.client.members.exceptions.UncheckedMemberNotFoundException;
+import org.xcolab.client.members.pojo.CommunityRegistry;
+import org.xcolab.client.members.pojo.DataCity;
+import org.xcolab.client.members.pojo.DataCompany;
+import org.xcolab.client.members.pojo.DataPeople;
 import org.xcolab.client.members.pojo.LoginLog;
 import org.xcolab.client.members.pojo.LoginToken;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.members.pojo.MemberCategory;
+import org.xcolab.client.members.pojo.OdsRegistry;
 import org.xcolab.client.members.pojo.Role;
 import org.xcolab.client.members.pojo.TokenValidity;
 import org.xcolab.commons.exceptions.InternalException;
@@ -40,8 +47,27 @@ public final class MembersClient {
     private static final RestResource<LoginLog, Long> loginLogResource =
             new RestResource1<>(UserResource.LOGIN_LOG, LoginLog.TYPES);
 
+
+    private static final RestResource<CommunityRegistry, Long> CommunityRegistryResource =
+            new RestResource1<>(UserResource.COMMUNITY_REGISTRY, CommunityRegistry.TYPES);
+
+    private static final RestResource<DataPeople, Long> DataPeopleResource =
+            new RestResource1<>(UserResource.DATA_PEOPLE, DataPeople.TYPES);
+
+    private static final RestResource<DataCompany, Long> DataCompanyResource =
+            new RestResource1<>(UserResource.DATA_COMPANY, DataCompany.TYPES);
+
+    private static final RestResource<DataCity, Long> DataCityResource =
+            new RestResource1<>(UserResource.DATA_CITY, DataCity.TYPES);
+
+    private static final RestResource<OdsRegistry, Long> OdsRegistryResource =
+            new RestResource1<>(UserResource.ODS_REGISTRY, OdsRegistry.TYPES);
+
+
     private static final RestResource<LoginToken, String> loginTokenResource =
             new RestResource1<>(UserResource.LOGIN_TOKEN, LoginToken.TYPES);
+
+    private static final Logger log = LoggerFactory.getLogger(MembersClient.class);
 
     private MembersClient() {
     }
@@ -486,6 +512,60 @@ public final class MembersClient {
         return loginLogResource.create(loginLog)
                 .execute();
     }
+
+    public static CommunityRegistry createCommunityRegistry(CommunityRegistry role) {
+        CommunityRegistry newData = new CommunityRegistry();
+        newData.setIdUser(role.getIdUser());
+        newData.setIdCommunity(role.getIdCommunity());
+        return CommunityRegistryResource.create(newData).execute();
+    }
+
+    public static DataPeople createDataPeople(DataPeople data) {
+        DataPeople newData = new DataPeople();
+        newData.setIdUser(data.getIdUser());
+        newData.setTwitter(data.getTwitter());
+        newData.setLinkedin(data.getLinkedin());
+        newData.setIsCommunity(data.getIsCommunity());
+        newData.setIdSector(data.getIdSector());
+        newData.setOther(data.getOther());
+        newData.setCodPostal(data.getCodPostal());
+        return DataPeopleResource.create(newData).execute();
+    }
+
+    public static DataCompany createDataCompany(DataCompany data) {
+        DataCompany newData = new DataCompany();
+        newData.setIdUser(data.getIdUser());
+        newData.setTwitter(data.getTwitter());
+        newData.setWeb(data.getWeb());
+        newData.setIsCommunity(data.getIsCommunity());
+        newData.setIdSectorCompany(data.getIdSectorCompany());
+        newData.setOther(data.getOther());
+        newData.setCodPostal(data.getCodPostal());
+        return DataCompanyResource.create(newData).execute();
+    }
+
+    public static DataCity createDataCity(DataCity data) {
+        DataCity newData = new DataCity();
+        newData.setIdUser(data.getIdUser());
+        newData.setTwitter(data.getTwitter());
+        newData.setWeb(data.getWeb());
+        newData.setMunicipality(data.getMunicipality());
+        newData.setAutCommunity(data.getAutCommunity());
+        return DataCityResource.create(newData).execute();
+    }
+
+    public static OdsRegistry createOdsRegistry(OdsRegistry odsRegistry) {
+        return OdsRegistryResource.create(odsRegistry).execute();
+    }
+
+    /*public static CommunityRegistry createCommunityRegistry(long userId, long roleId) {
+        CommunityRegistry communityRegistry = new CommunityRegistry();
+        communityRegistry.setIdRole(roleId);
+        communityRegistry.setIdUser(userId);
+
+        return communityRegistryResource.create(communityRegistry)
+                .execute();
+    }*/
 
     public static boolean subscribeToNewsletter(long userId) {
         return memberResource.elementService(userId, "subscribe", Boolean.class).put();

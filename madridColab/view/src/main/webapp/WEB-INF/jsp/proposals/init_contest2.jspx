@@ -1,0 +1,11 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page">
+
+
+	<!--PopulateContextInterceptor-->
+	<jsp:useBean id="contest2" scope="request" type="org.xcolab.client.contest.pojo.Contest"/>
+	<jsp:useBean id="contestPhase2" scope="request" type="org.xcolab.client.contest.pojo.phases.ContestPhase"/>
+	<jsp:useBean id="preferences2" scope="request" type="org.xcolab.view.pages.proposals.wrappers.ProposalsPreferencesWrapper"/>
+	<jsp:useBean id="proposalsPermissions2" scope="request" type="org.xcolab.view.pages.proposals.permissions.ProposalsPermissions"/>
+	<jsp:useBean id="proposalsDisplayPermissions2" scope="request" type="org.xcolab.view.pages.proposals.permissions.ProposalsDisplayPermissions"/>
+
+</jsp:root>
