@@ -22,7 +22,6 @@ import org.xcolab.util.http.client.RestResource2L;
 import org.xcolab.util.http.client.queries.ListQuery;
 import org.xcolab.util.http.exceptions.EntityNotFoundException;
 import org.xcolab.util.http.exceptions.UncheckedEntityNotFoundException;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
