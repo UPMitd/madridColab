@@ -29,9 +29,8 @@ public enum ProposalResource implements ResourceEnum {
     MEMBERSHIP_REQUEST("membershipRequests"),
 
     //TODO COLAB-2594: rethink these endpoints
-    PROPOSAL_ID("proposalIds")
+    PROPOSAL_ID("proposalIds"),
 
-    PROPOSAL_FUSION_REQUEST("proposalFusionRequest"),
     PROPOSAL_THREAD_ID("proposalThreadIds");
 
     private final String resourceName;
