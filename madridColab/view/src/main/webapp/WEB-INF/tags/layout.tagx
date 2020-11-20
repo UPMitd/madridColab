@@ -338,6 +338,10 @@
         <xcolab-modals:flaggingModal />
     </c:if>
 
+    <c:if test="${_librariesToLoad['requestFusion']}">
+        <xcolab-modals:requestFusionModal/>
+    </c:if>
+
     <!-- ============ Scripts ============ -->
 
     <xcolab-scripts:loadTooltips />

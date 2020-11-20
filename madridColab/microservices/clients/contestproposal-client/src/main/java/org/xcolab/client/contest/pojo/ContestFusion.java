@@ -17,6 +17,7 @@ public class ContestFusion implements Serializable {
 
     private static final long serialVersionUID = -416641117;
 
+
     public static final TypeProvider<ContestFusion> TYPES =
             new TypeProvider<>(ContestFusion.class,
                     new ParameterizedTypeReference<List<ContestFusion>>() {
@@ -28,7 +29,7 @@ public class ContestFusion implements Serializable {
 
     public ContestFusion() {}
 
-    public ContestFusion(ContestFusion value) {
+    public ContestFusion(ContestFusion value) {   
         this.id_fusion = value.id_fusion;
         this.id_contest_1 = value.id_contest_1;
         this.id_contest_2 = value.id_contest_2;
@@ -39,6 +40,7 @@ public class ContestFusion implements Serializable {
         this.id_contest_1 = id_contest_1;
         this.id_contest_2 = id_contest_2;
     }
+
 
     public Long getIdFusion() {
         return id_fusion;
@@ -69,7 +71,7 @@ public class ContestFusion implements Serializable {
         if (this == o) { return true; }
         if (o == null || getClass() != o.getClass()) { return false; }
         ContestFusion
-                that = (ContestFusion) o;
+                that = (ContestFusion) o
         return Objects.equals(id_fusion, that.id_fusion) &&
                 Objects.equals(id_contest_1, that.id_contest_1) &&
                 Objects.equals(id_contest_2, that.id_contest_2);

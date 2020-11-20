@@ -1,9 +1,9 @@
 package org.xcolab.client.members;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
-
 import org.xcolab.client.admin.attributes.configuration.ConfigurationAttributeKey;
 import org.xcolab.client.members.exceptions.MemberCategoryNotFoundException;
 import org.xcolab.client.members.exceptions.MemberNotFoundException;
@@ -29,7 +29,6 @@ import org.xcolab.util.http.client.RestResource2L;
 import org.xcolab.util.http.client.queries.ListQuery;
 import org.xcolab.util.http.exceptions.EntityNotFoundException;
 import org.xcolab.util.http.exceptions.UncheckedEntityNotFoundException;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -47,6 +46,7 @@ public final class MembersClient {
 
     private static final RestResource<LoginLog, Long> loginLogResource =
             new RestResource1<>(UserResource.LOGIN_LOG, LoginLog.TYPES);
+
 
     private static final RestResource<CommunityRegistry, Long> CommunityRegistryResource =
             new RestResource1<>(UserResource.COMMUNITY_REGISTRY, CommunityRegistry.TYPES);
@@ -68,7 +68,6 @@ public final class MembersClient {
             new RestResource1<>(UserResource.LOGIN_TOKEN, LoginToken.TYPES);
 
     private static final Logger log = LoggerFactory.getLogger(MembersClient.class);
-
 
     private MembersClient() {
     }

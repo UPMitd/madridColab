@@ -27,6 +27,11 @@
             </a>
         </li>
         <li class="dropdown-item">
+            <a href="/fusionRequests">
+                <spring:message code="homepage.menu.user.myfusion" />
+            </a>
+        </li>
+        <li class="dropdown-item">
             <a href="/logout" data-method="post" class="js-EnhancedLink">
                 <spring:message code="homepage.menu.user.logout" />
             </a>

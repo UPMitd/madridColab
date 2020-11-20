@@ -362,7 +362,6 @@ public final class ContestClientUtil {
     public static boolean deleteContest(long contestId) {
         return contestClient.deleteContest(contestId);
     }
-
     public static ContestFusion createContestFusion(ContestFusion data) {
         ContestFusion cf = new ContestFusion();
         cf.setIdFusion(data.getIdFusion());
@@ -372,6 +371,6 @@ public final class ContestClientUtil {
     }
 
     public static Long getContestFusion(Long id_1, Long id_2) {
-        return  contestClient.getContestFusion(id_1, id_2);
+        return  contestClient.getContestFusion(id_1, id_2);  
     }
 }

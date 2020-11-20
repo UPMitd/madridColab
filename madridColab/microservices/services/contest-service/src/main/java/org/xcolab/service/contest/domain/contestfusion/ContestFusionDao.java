@@ -2,8 +2,8 @@ package org.xcolab.service.contest.domain.contestfusion;
 
 import org.xcolab.model.tables.pojos.ContestFusion;
 import org.xcolab.service.contest.exceptions.NotFoundException;
-
 import java.util.List;
+
 
 public interface ContestFusionDao {
 

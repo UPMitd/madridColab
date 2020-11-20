@@ -1,0 +1,148 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0">
+
+    <collab:message var="fusionRequestMessage" code="fusion.fusions.new.request.title"/>
+    <collab:message var="fusionRequestTo" code="fusion.request.modal.to"/>
+    <collab:message var="fusionReason" code="fusion.request.modal.reason"/>
+    <collab:message var="selectProposal" code="fusion.request.modal.select"/>
+
+    <xcolab:modal modalId="requestFusionModal" title="${fusionRequestMessage}" size="lg">
+        <form:form method="post" action="/fusionRequest/api/new" commandName="fusionRequestBean"  id="requestFusionForm">
+            <c:set var="userAuthorId" value="${proposal.getAuthor().id}" />
+            <c:set var="userAuthorName" value="${proposal.getAuthor().screenName}" />
+            <c:set var="requesterUserID" value="${member.id}"/>
+            <c:set var="proposalID" value="${proposal.id}"/>
+            <c:set var="proposalName" value="${proposal.name}"/>
+
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row c-Box c-Box--colorDark c-Box--straightCorners">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p>${proposalName}</p>
+                                    <input type="hidden" name="toProposalId" id="toProposalId" value="${proposalID}"/>
+                                    <input type="hidden" name="toUserId" id="toUserId" value="${userAuthorId}"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <xcolab:userPortrait portraitId="${proposal.author.portraitId }"
+                                                         userId="${proposal.author.id}"
+                                                         width="42" height="42" />
+                                    By:&#160;
+                                    <xcolab:userLinkSimple userId="${userAuthorId}" text="${userAuthorName}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="" for="fromProposalId">${selectProposal}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <c:if test="${not empty myProposals}">
+                                <select class="form-control" name="fromProposalId" id="fromProposalId">
+                                        <c:forEach var="myProposal" items="${myProposals}">
+                                        <option value="${myProposal.getId()}">${myProposal.getName()}</option>
+                                        </c:forEach>
+                                </select>
+                            </c:if>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="requestText">${fusionReason}</label>
+                                <textarea name="requestText" id="requestText"
+                                          class="rte-editorPlaceholder form-control"><!-- --></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="close" class="btn btn-gray" data-dismiss="modal">
+                    <spring:message code="fusion.request.modal.cancel"/>
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <spring:message code="fusion.request.modal.send"/>
+                </button>
+            </div>
+        </form:form>
+    </xcolab:modal>
+
+
+    <script>
+        <![CDATA[
+
+        jQuery('#sendMessageModal').on('show.bs.modal', function (e) {
+            var $el = jQuery(e.relatedTarget);
+            var recipient = $el.data('messageRecipient');
+            var subject = $el.data('messageSubject');
+            var content = $el.data('messageContent');
+            var threadId = $el.data('threadId');
+
+            if (recipient) {
+                jQuery('#userIdsRecipients').val(recipient);
+                jQuery('#teamBoxRecipients').hide();
+            }
+            if (subject) {
+                jQuery('#messageSubject').val(subject);
+            }
+            if (threadId) {
+                jQuery('#threadId').val(threadId);
+            }
+            if (content) {
+                if (content.startsWith('#')) {
+                    content = jQuery(content).html();
+                }
+                CKEDITOR.instances['messageContent'].setData(content.trim());
+            }
+        });
+
+        function checkMessageForm() {
+            var $userListRecipients = $("#userListRecipients");
+            var currentSearchText = $userListRecipients.val();
+
+            if (currentSearchText.length !== 0) {
+                noty({
+                    text: "${memberNotFoundMsg} " + currentSearchText + " ${memberNotFoundMsg2}",
+                    type: 'error'
+                });
+                return false;
+            }
+            var recipientVal = $("#userIdsRecipients").val();
+            var numberOfRecipients = recipientVal.length > 0 ? recipientVal.split(',').length : 0;
+            if (numberOfRecipients === 0) {
+                noty({text: "${selectRecipients}", type: 'error'});
+                return false;
+            }
+
+            var numberOfMessagesLeft = parseInt($("#numberOfMessagesLeft").html());
+            if (numberOfMessagesLeft < numberOfRecipients) {
+                noty({
+                    text: "${limitExceeded} "
+                            + (numberOfRecipients
+                                    - numberOfMessagesLeft) + " ${limitExceeded2}", type: 'error'
+                });
+                return false;
+            }
+
+            disableDirtyCheck();
+        }
+        ]]>
+    </script>
+
+    <xcolab:requireLibrary name="CKEditor" />
+</jsp:root>
+

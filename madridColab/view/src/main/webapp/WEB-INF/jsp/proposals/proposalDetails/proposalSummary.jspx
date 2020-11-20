@@ -9,7 +9,7 @@
 
     <!--@elvariable id="linkedProposalContestTypeProposalWrappersByContestTypeId" type="java.util.Map<java.lang.Long, org.xcolab.wrappers.ContestTypeProposalWrapper>"-->
     <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
-
+    <xcolab:requireLibrary name="requestFusion"/>
     <c:if test="${contestType.showProposalSummary}">
         <c:if test="${proposal.id > 0}">
             <div class="c-Box c-Box--colorDark c-Box--hasShadow c-Box--straightCorners mb-3">
@@ -60,7 +60,7 @@
 
                 <div class="c-Box__bodyFlex">
                     <c:set var="supportProposalActionURL" value="${proposal.proposalUrl}/supportProposalAction?contestId=${contest.id }&amp;contestUrlName=${contest.contestUrlName }&amp;proposalId=${proposal.id }" />
-
+                    <c:set var="fusionRequest"  value="/fusionRequest/${proposal.id}"/>
                     <div>
                         <collab:image src="/images/icon-proposal-thumb.png" width="20" height="22" alt="Thumbs up" cssClass="mr-2" />
                         <div class="c-Count c-Count--neutral">
@@ -81,6 +81,15 @@
                     </c:if>
                 </div>
 
+                <div class="c-Box__bodyFlex justify-content-center">
+                        <a type="button" class="btn btn-primary btn-sm js-EnhancedLink float-right"
+                                data-require-login="true"
+                                data-toggle="modal" data-target="#requestFusionModal"
+                                href="#">
+                            <collab:message var="fusionRequestText" code="contests.request.fusion" contestType="${contestType}" />
+                            ${fusionRequestText}
+                        </a>
+                </div>
             </div> <!-- /c-Box -->
             <c:if test="${proposalsPermissions.canReportProposal}">
                 <xcolab:requireLibrary name="flagging"/>

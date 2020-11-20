@@ -1,0 +1,88 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:spring="http://www.springframework.org/tags">
+
+    <!--@elvariable id="messagingBean" type="org.xcolab.view.pages.messaging.beans.MessagingBean"-->
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+    <spring:message code="fusion.fusions.requests.title" var="title"/>
+    <xcolab:layout title="${title}">
+        <xcolab:content articleId="${communityTopContentArticleId}" loadWidgetLibrary="false"/>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/members">Community</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/members">Members</a>
+                </li>
+                <li class="breadcrumb-item">
+                     <xcolab:userLinkSimple userId="${user.id}" text="${user.displayName}" />
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Fusion Request</li>
+            </ol>
+        </nav>
+        <div class="l-Content">
+            <div class="l-Content__main">
+
+                <div class="cb-d-flex-between flex-column flex-sm-row">
+                    <div class="c-Count">
+                       <!-- <span class="c-Count__number">${messagingBean.messagesCount}</span> -->
+                        <spring:message code="fusion.fusions.numberof.requests" />
+                    </div>
+                </div>
+
+                <form:form action="#" id="archiveMessagesForm" method="post">
+                    <table class="table">
+                        <thead class="thead-light">
+                        <tr >
+                            <spring:message code="fusion.fusions.from" var="from"/>
+                            <spring:message code="fusion.fusions.to" var="to"/>
+                            <th>${sent == true ? to : from}</th>
+                            <th ><spring:message code="fusion.fusions.proposal.from"/> </th>
+                            <th ><spring:message code="fusion.fusions.proposal.to"/> </th>
+                            <th ><spring:message code="fusion.fusions.proposal.status"/> </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <c:if test="${not empty fusionRequests}">
+                                <c:forEach var="fusionRequest" items="${fusionRequests}">
+                                    <tr>
+                                        <td>
+                                            <a href="${fusionRequest.fromUser.profileLinkUrl}">${fusionRequest.fromUser.displayName}</a>
+                                        </td>
+                                        <td>
+                                            <a href="${fusionRequest.fromProposal.proposalUrl}">${fusionRequest.fromProposal.name}</a>
+                                        </td>
+                                        <td>
+                                            <a href="${fusionRequest.toProposal.proposalUrl}">${fusionRequest.toProposal.name}</a>
+                                        </td>
+                                        <td>
+                                            <a href="/fusionRequest/${fusionRequest.id}">${fusionRequest.status.name()}</a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
+                        </tbody>
+                    </table>
+                </form:form>
+            </div>
+            <div class="l-Content__sidebar l-Content__sidebar--right l-Content__sidebar--small">
+                <div class="comm_list">
+                    <h3><spring:message code="fusion.fusions.requests.title"/> </h3>
+                    <ul>
+                        <li class="${sent == false ? 'c' : ''}">
+                            <a href="/fusionRequests"><spring:message code="fusion.fusions.requests.received"/></a>
+                        </li>
+                        <li class="${sent == true ? 'c' : ''}">
+                            <a href="/fusionRequests/sent"><spring:message code="fusion.fusions.requests.sent"/></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </xcolab:layout>
+</jsp:root>

@@ -7,14 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
-
 import org.xcolab.model.tables.pojos.Contest;
 import org.xcolab.model.tables.pojos.ContestDiscussion;
 import org.xcolab.model.tables.pojos.ContestFusion;
 import org.xcolab.model.tables.records.ContestFusionRecord;
 import org.xcolab.service.contest.exceptions.NotFoundException;
 import org.xcolab.service.contest.utils.promotion.PromotionService;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +68,7 @@ public class ContestFusionDaoImpl implements ContestFusionDao {
             throw new NotFoundException("ContestFusion with id " + id + " does not exist");
         }
         return record.into(ContestFusion.class);
+
     }
 
     @Override
@@ -92,5 +91,6 @@ public class ContestFusionDaoImpl implements ContestFusionDao {
         ContestFusion cf = record.into(ContestFusion.class);
         arlcf.add(cf);
         return arlcf;
+
     }
 }

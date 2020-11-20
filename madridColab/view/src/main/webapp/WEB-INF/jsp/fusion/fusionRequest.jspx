@@ -1,0 +1,79 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:spring="http://www.springframework.org/tags">
+
+    <!--@elvariable id="messagingBean" type="org.xcolab.view.pages.messaging.beans.MessagingBean"-->
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+    <spring:message code="fusion.fusions.requests.title" var="title"/>
+    <spring:message code="fusion.fusions.details.intention" var="from"/>
+    <spring:message code="fusion.fusions.details.toproposal" var="to"/>
+    <spring:message code="fusion.fusions.details.reason" var="reason"/>
+    <spring:message code="fusion.fusions.details.button.reject" var="reject"/>
+    <spring:message code="fusion.fusions.details.button.accept" var="accept"/>
+    <xcolab:layout title="${title}">
+        <xcolab:content articleId="${communityTopContentArticleId}" loadWidgetLibrary="false"/>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/members">Community</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/members">Members</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <xcolab:userLinkSimple userId="${user.id}" text="${user.displayName}" />
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Fusion Request</li>
+            </ol>
+        </nav>
+        <div class="l-Content">
+            <div class="l-Content__main">
+                <div>
+                    <h1>${title}</h1>
+                </div>
+                <div class="col-sm-12">
+                    <div class="row">
+                        <h4><a href="${fusionBean.fromUser.profileLinkUrl}">${fusionBean.fromUser.displayName}</a> ${from}</h4>
+                        <a href="${fusionBean.fromProposal.proposalUrl}">${fusionBean.fromProposal.name}</a>
+                    </div>
+                    <div class="row">
+                        <h4>${to}</h4><a href="${fusionBean.toProposal.proposalUrl}">${fusionBean.toProposal.name}</a>
+                    </div>
+                    <br/>
+                    <div class="row ">
+                        <h3>${reason}</h3>
+                    </div>
+                    <div class="row" style="border: gray solid 1px; border-radius: 3px">
+                        <div class="col-sm-12">
+                            <div class="">
+                                ${fusionBean.requestText}
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <c:if test="${canAcceptOrDeny == true}">
+                        <c:if test="${fusionBean.status == 'PENDING'}">
+                            <div class="row">
+                                <div class="col-sm-12 c-Box__bodyFlex justify-content-center">
+                                    <button class="btn btn-gray">
+                                        ${reject}
+                                    </button>
+                                    <div class="col-sm-2"></div>
+                                    <button type="submit" class="btn btn-primary">
+                                        ${accept}
+                                    </button>
+                                </div>
+
+                            </div>
+                        </c:if>
+                    </c:if>
+                </div>
+
+            </div>
+        </div>
+    </xcolab:layout>
+</jsp:root>

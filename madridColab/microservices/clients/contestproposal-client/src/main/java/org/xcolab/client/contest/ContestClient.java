@@ -32,6 +32,7 @@ import org.xcolab.client.contest.resources.ContestResource;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.modeling.roma.RomaClientUtil;
 import org.xcolab.client.proposals.pojo.Proposal;
+import org.xcolab.client.proposals.pojo.ProposalFusionRequest;
 import org.xcolab.commons.IdListUtil;
 import org.xcolab.util.activities.enums.ActivityCategory;
 import org.xcolab.util.http.ServiceRequestUtils;
@@ -42,6 +43,7 @@ import org.xcolab.util.http.client.RestResource1;
 import org.xcolab.util.http.client.RestResource2;
 import org.xcolab.util.http.client.RestResource2L;
 import org.xcolab.util.http.client.enums.ServiceNamespace;
+import org.xcolab.util.http.client.queries.ListQuery;
 import org.xcolab.util.http.client.types.TypeProvider;
 import org.xcolab.util.http.dto.DtoUtil;
 import org.xcolab.util.http.exceptions.EntityNotFoundException;
@@ -754,6 +756,24 @@ public class ContestClient {
                 .create(agreed)
                 .queryParam("memberId", member.getId())
                 .execute();
+    }
+
+    public ContestFusion createContestFusion(ContestFusion data) {
+        return contestFusionResource.create(data).execute();
+    }
+
+    public Long getContestFusion(Long id_1, Long id_2) {
+        List<ContestFusion> lq = contestFusionResource.list()
+                .queryParam("contest_id_1", id_1)
+                .queryParam("contest_id_2", id_2).execute();
+
+        if(lq == null || lq.isEmpty()) {
+            lq = contestFusionResource.list()
+                    .queryParam("contest_id_1", id_2)
+                    .queryParam("contest_id_2", id_1).execute();
+        }
+
+        return (lq == null || lq.isEmpty())? null : lq.get(0).getId_fusion();
     }
 
     @Override

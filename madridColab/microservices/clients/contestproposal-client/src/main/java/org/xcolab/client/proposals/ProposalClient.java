@@ -1,9 +1,9 @@
 package org.xcolab.client.proposals;
 
+
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.xcolab.client.activities.ActivitiesClient;
 import org.xcolab.client.admin.ContestTypeClient;
 import org.xcolab.client.admin.attributes.configuration.ConfigurationAttributeKey;
@@ -76,12 +76,11 @@ public final class ProposalClient {
                 ProposalVersionDto.TYPES, serviceNamespace);
         proposalReferenceResource = new RestResource1<>(ProposalResource.PROPOSAL_REFERENCE,
                 ProposalReferenceDto.TYPES, serviceNamespace);
-
         contestClient = ContestClient.fromNamespace(serviceNamespace);
         activitiesClient = ActivitiesClient.fromNamespace(serviceNamespace);
-
         proposalFusionRequestResource = new RestResource1<>(ProposalResource.PROPOSAL_FUSION_REQUEST,
                 ProposalFusionRequest.TYPES, serviceNamespace);
+       
     }
 
     public static ProposalClient fromNamespace(ServiceNamespace proposalService) {
@@ -503,10 +502,8 @@ public final class ProposalClient {
         Long fromContestId = ProposalClientUtil.getProposal(data.getFromProposalId()).getcontestId();
         Long toContestId = ProposalClientUtil.getProposal(data.getToProposalId()).getcontestId();
 
-
         Long contestId = ContestClientUtil.getContestFusion(fromContestId, toContestId);
         Contest contest = null;
-
 
         if(contestId == null) {
             contest = createContest("Fusion " +
@@ -543,8 +540,9 @@ public final class ProposalClient {
         ContestScheduleChangeHelper
                 changeHelper = new ContestScheduleChangeHelper(contest.getId(), contestScheduleId);
         changeHelper.changeScheduleForBlankContest();
-
         return contest;
+
+      
     }
 
 }

@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.xcolab.client.members.pojo.Member;
+import org.xcolab.client.proposals.ProposalClientUtil;
 import org.xcolab.client.proposals.exceptions.ProposalNotFoundException;
+import org.xcolab.client.proposals.pojo.ProposalFusionRequest;
 import org.xcolab.commons.spring.web.annotation.ListMapping;
-import org.xcolab.model.tables.pojos.ContestFusion;
 import org.xcolab.model.tables.pojos.Proposal;
 import org.xcolab.model.tables.pojos.ProposalContestPhaseAttribute;
-import org.xcolab.model.tables.pojos.ProposalFusionRequest;
 import org.xcolab.model.tables.pojos.ProposalRating;
 import org.xcolab.model.tables.pojos.ProposalVersion;
 import org.xcolab.model.tables.pojos.ProposalVote;
 import org.xcolab.service.contest.exceptions.NotFoundException;
 import org.xcolab.service.proposal.domain.proposal.ProposalDao;
 import org.xcolab.service.proposal.domain.proposalcontestphaseattribute.ProposalContestPhaseAttributeDao;
-import org.xcolab.service.proposal.domain.proposalfusionrequest.ProposalFusionRequestDao;
+
 import org.xcolab.service.proposal.domain.proposalrating.ProposalRatingDao;
 import org.xcolab.service.proposal.domain.proposalversion.ProposalVersionDao;
 import org.xcolab.service.proposal.domain.proposalvote.ProposalVoteDao;
@@ -44,24 +44,20 @@ public class ProposalsController {
 
     private final ProposalDao proposalDao;
     private final ProposalService proposalService;
-
     private final ProposalVoteDao proposalVoteDao;
     private final Proposal2PhaseService proposal2PhaseService;
-
     private final ProposalRatingDao proposalRatingDao;
-
     private final ProposalVersionDao proposalVersionDao;
     private final ProposalVersionService proposalVersionService;
     private final ProposalContestPhaseAttributeDao proposalContestPhaseAttributeDao;
-
-    private final ProposalFusionRequestDao proposalFusionRequestDao;
 
     @Autowired
     public ProposalsController(ProposalContestPhaseAttributeDao proposalContestPhaseAttributeDao,
             ProposalVersionDao proposalVersionDao, ProposalDao proposalDao,
             ProposalVoteDao proposalVoteDao, Proposal2PhaseService proposal2PhaseService,
             ProposalVersionService proposalVersionService, ProposalService proposalService,
-            ProposalRatingDao proposalRatingDao, ProposalFusionRequestDao proposalFusionRequestDao) {
+            ProposalRatingDao proposalRatingDao) {
+
         this.proposalContestPhaseAttributeDao = proposalContestPhaseAttributeDao;
         this.proposalVersionDao = proposalVersionDao;
         this.proposalDao = proposalDao;
@@ -70,7 +66,7 @@ public class ProposalsController {
         this.proposalService = proposalService;
         this.proposalVersionService = proposalVersionService;
         this.proposalRatingDao = proposalRatingDao;
-        this.proposalFusionRequestDao = proposalFusionRequestDao;
+
     }
 
     @RequestMapping(value = "/proposals/{proposalId}/listProposalLinks",
@@ -392,9 +388,5 @@ public class ProposalsController {
         return threadIds;
     }
 
-    @PostMapping("/proposalFusionRequest")
-    public ProposalFusionRequest createContestFusion(
-            @RequestBody ProposalFusionRequest proposalFusionRequest) {
-        return this.proposalFusionRequestDao.create(proposalFusionRequest);
-    }
+
 }
