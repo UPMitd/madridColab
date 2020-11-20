@@ -63,7 +63,7 @@
                             <div class="form-group">
                                 <label for="requestText">${fusionReason}</label>
                                 <textarea name="requestText" id="requestText"
-                                          class="rte-editorPlaceholder form-control" ><!-- --></textarea>
+                                          class="rte-editorPlaceholder form-control"><!-- --></textarea>
                             </div>
                         </div>
                     </div>
