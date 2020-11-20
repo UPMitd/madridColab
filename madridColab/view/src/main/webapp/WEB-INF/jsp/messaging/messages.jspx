@@ -62,7 +62,6 @@
                         <th><spring:message code="message.messages.form.subject"/> </th>
                         <spring:message code="message.messages.form.from" var="fromType"/>
                         <spring:message code="message.messages.form.to" var="toType"/>
-
                         <th>${messagingBean.type != 'SENT' ? fromType : toType}</th>
                         <th><spring:message code="message.messages.form.date"/></th>
                     </tr>
@@ -150,6 +149,7 @@
         </div>
     </div>
     <xcolab:requireLibrary name="sendMessage"/>
+
 
 </xcolab:layout>
 </jsp:root>
