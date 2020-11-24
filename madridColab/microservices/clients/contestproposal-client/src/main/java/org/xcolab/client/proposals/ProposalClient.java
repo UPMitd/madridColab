@@ -17,6 +17,7 @@ import org.xcolab.client.contest.pojo.phases.ContestPhase;
 import org.xcolab.client.contest.pojo.templates.ProposalTemplateSectionDefinition;
 import org.xcolab.client.contest.resources.ProposalResource;
 import org.xcolab.client.contest.util.ContestScheduleChangeHelper;
+import org.xcolab.client.fusion.beans.FusionBean;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.proposals.exceptions.ProposalNotFoundException;
 import org.xcolab.client.proposals.pojo.Proposal;
@@ -522,6 +523,54 @@ public final class ProposalClient {
         data.setProposalId(proposalId);
         return proposalFusionRequestResource.create(data).execute();
     }
+
+
+    public ProposalFusionRequest getFusionRequestById(Long id){
+        return proposalFusionRequestResource.get(id).execute();
+    }
+
+    public ArrayList<ProposalFusionRequest> listAllFusions(){
+        List<ProposalFusionRequest> lq = proposalFusionRequestResource.list().execute();
+
+        return new ArrayList<ProposalFusionRequest>(lq);
+    }
+
+    public ArrayList<ProposalFusionRequest> listByFromUserID(Long from_user_id){
+        List<ProposalFusionRequest> lq = proposalFusionRequestResource.list()
+                .queryParam("from_user_id", from_user_id).execute();
+
+        return new ArrayList<ProposalFusionRequest>(lq);
+    }
+
+    public ArrayList<ProposalFusionRequest> listByToUserID(Long to_user_id){
+        List<ProposalFusionRequest> lq = proposalFusionRequestResource.list()
+                .queryParam("to_user_id", to_user_id).execute();
+
+        return new ArrayList<ProposalFusionRequest>(lq);
+    }
+
+    public ProposalFusionRequest acceptFusion(Long fusionId){
+        ProposalFusionRequest proposalFusionRequest = getFusionRequestById(fusionId);
+
+        if(proposalFusionRequest != null) {
+            proposalFusionRequest.setStatus("accepted");
+            proposalFusionRequestResource.update(proposalFusionRequest, fusionId).execute();
+        }
+
+        return proposalFusionRequest;
+    }
+
+    public ProposalFusionRequest rejectFusion(Long fusionId){
+        ProposalFusionRequest proposalFusionRequest = getFusionRequestById(fusionId);
+
+        if(proposalFusionRequest != null) {
+            proposalFusionRequest.setStatus("rejected");
+            proposalFusionRequestResource.update(proposalFusionRequest, fusionId).execute();
+        }
+
+        return proposalFusionRequest;
+    }
+
 
     public Contest createContest(String title, long authorUserId) {
         Contest contest = ContestClientUtil.createContest(authorUserId, title);

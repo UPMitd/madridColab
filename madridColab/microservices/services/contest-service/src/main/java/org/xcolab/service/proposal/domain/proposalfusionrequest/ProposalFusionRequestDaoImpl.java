@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
+import org.xcolab.model.tables.pojos.Proposal;
 import org.xcolab.model.tables.pojos.ProposalFusionRequest;
 import org.xcolab.model.tables.records.ProposalFusionRequestRecord;
 import org.xcolab.service.contest.exceptions.NotFoundException;
 
 import java.util.List;
 
+import static org.xcolab.model.Tables.PROPOSAL;
 import static org.xcolab.model.Tables.PROPOSAL_FUSION_REQUEST;
 
 @Repository
@@ -82,6 +84,31 @@ public class ProposalFusionRequestDaoImpl implements ProposalFusionRequestDao {
             throw new NotFoundException("ProposalFusionRequest with id " + id + " does not exist");
         }
         return record.into(ProposalFusionRequest.class);
+    }
 
+    @Override
+    public List<ProposalFusionRequest> getAll()  {
+        final SelectQuery<ProposalFusionRequestRecord> query =  this.dslContext.selectFrom(PROPOSAL_FUSION_REQUEST)
+                .getQuery();
+
+        return query.fetchInto(ProposalFusionRequest.class);
+    }
+
+    @Override
+    public List<ProposalFusionRequest> getToUserId(Long id)  {
+        final SelectQuery<ProposalFusionRequestRecord> query =  this.dslContext.selectFrom(PROPOSAL_FUSION_REQUEST)
+                .where(PROPOSAL_FUSION_REQUEST.TO_USER_ID.eq(id))
+                .getQuery();
+
+        return query.fetchInto(ProposalFusionRequest.class);
+    }
+
+    @Override
+    public List<ProposalFusionRequest> getFromUserId(Long id)  {
+        final SelectQuery<ProposalFusionRequestRecord> query =  this.dslContext.selectFrom(PROPOSAL_FUSION_REQUEST)
+                .where(PROPOSAL_FUSION_REQUEST.FROM_USER_ID.eq(id))
+                .getQuery();
+
+        return query.fetchInto(ProposalFusionRequest.class);
     }
 }

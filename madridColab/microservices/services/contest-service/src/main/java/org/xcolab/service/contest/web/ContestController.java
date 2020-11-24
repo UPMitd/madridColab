@@ -353,11 +353,6 @@ public class ContestController {
         return this.contestFusionDao.create(cf);
     }
 
-    /*@GetMapping("/contestFusion/{contest_id_1}/{contest_id_2}")
-    public ContestFusion getContestFusion(@PathVariable Long contest_id_1,
-            @PathVariable Long contest_id_2) throws NotFoundException {
-        return contestFusionDao.getByContests(contest_id_1, contest_id_2);
-    }*/
 
     @RequestMapping(value="contestFusion", method = RequestMethod.GET)
     public @ResponseBody

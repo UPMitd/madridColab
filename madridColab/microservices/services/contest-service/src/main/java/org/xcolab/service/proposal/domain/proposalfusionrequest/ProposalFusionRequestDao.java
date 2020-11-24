@@ -13,4 +13,10 @@ public interface ProposalFusionRequestDao {
     ProposalFusionRequest get(Long id) throws NotFoundException;
 
     boolean update(ProposalFusionRequest ProposalFusionRequest);
+
+    List<ProposalFusionRequest> getAll();
+
+    List<ProposalFusionRequest> getFromUserId(Long id);
+
+    List<ProposalFusionRequest> getToUserId(Long id);
 }
