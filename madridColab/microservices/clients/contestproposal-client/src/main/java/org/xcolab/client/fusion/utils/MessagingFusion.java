@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import org.xcolab.client.admin.attributes.configuration.ConfigurationAttributeKey;
 import org.xcolab.client.fusion.beans.FusionBean;
-import org.xcolab.client.fusion.pojo.Fusion;
 import org.xcolab.client.members.MessagingClient;
 import org.xcolab.client.members.messaging.MessageLimitExceededException;
 import org.xcolab.client.members.pojo.Member;
