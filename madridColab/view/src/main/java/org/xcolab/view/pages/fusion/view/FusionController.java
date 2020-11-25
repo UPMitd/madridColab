@@ -3,7 +3,6 @@ package org.xcolab.view.pages.fusion.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,15 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.xcolab.client.fusion.FusionClient;
 import org.xcolab.client.fusion.beans.FusionBean;
-import org.xcolab.client.fusion.pojo.Fusion;
-import org.xcolab.client.fusion.utils.FusionStatus;
-import org.xcolab.client.members.exceptions.MemberNotFoundException;
+import org.xcolab.client.fusion.pojo.ProposalFusionRequest;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.commons.servlet.flash.AlertMessage;
 import org.xcolab.view.errors.AccessDeniedPage;
 import org.xcolab.view.pages.fusion.beans.FusionRequestBean;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -28,7 +27,7 @@ import javax.validation.Valid;
 @Controller
 public class FusionController {
 
-    FusionClient fusionClient;
+
     private boolean sent=false;
     private static final Logger log = LoggerFactory.getLogger(FusionController.class);
 
@@ -39,9 +38,9 @@ public class FusionController {
         if (loggedInMember == null) {
             return new AccessDeniedPage(null).toViewName(response);
         }
-        fusionClient= new FusionClient();
-        ArrayList<FusionBean> fusionRequests=fusionClient.listByToUserID(loggedInMember.getId());
+        List<FusionBean> fusionRequests=FusionClient.listByToUserID(loggedInMember.getId());
         sent=false;
+        System.out.println(fusionRequests.get(0).getToProposal().getName());
         model.addAttribute("user", loggedInMember);
         model.addAttribute("fusionRequests", fusionRequests);
         model.addAttribute("sent", sent);
@@ -55,8 +54,7 @@ public class FusionController {
         if (loggedInMember == null) {
             return new AccessDeniedPage(null).toViewName(response);
         }
-        fusionClient= new FusionClient();
-        ArrayList<FusionBean> fusionRequests=fusionClient.listByFromUserID(loggedInMember.getId());
+        ArrayList<FusionBean> fusionRequests=FusionClient.listByFromUserID(loggedInMember.getId());
         sent=true;
         model.addAttribute("user", loggedInMember);
         model.addAttribute("fusionRequests", fusionRequests);
@@ -71,7 +69,7 @@ public class FusionController {
         if (loggedInMember == null) {
             return new AccessDeniedPage(null).toViewName(response);
         }
-        FusionBean fusionBean= fusionClient.getFusionRequestById(proposalId);
+        FusionBean fusionBean= FusionClient.getFusionRequestById(proposalId);
         if(loggedInMember.getId()!=fusionBean.getToUser().getId()&&
                 loggedInMember.getId()!=fusionBean.getFromUser().getId()){
             return new AccessDeniedPage(null).toViewName(response);
@@ -102,10 +100,13 @@ public class FusionController {
         }else{
             requestText=fusionRequestBean.getRequestText();
         }
-        fusionClient=new FusionClient();
-        FusionBean fusionBean=fusionClient.newFusionRequest(fusionRequestBean.getFromUserId(),
-                fusionRequestBean.getToUserId(),fusionRequestBean.getFromProposalId(),
-                fusionRequestBean.getToProposalId(), requestText);
+        ProposalFusionRequest proposalFusionRequest= new ProposalFusionRequest();
+        proposalFusionRequest.setFromUserId(loggedInMember.getId());
+        proposalFusionRequest.setToUserId(Long.parseLong(fusionRequestBean.getToUserId()));
+        proposalFusionRequest.setFromProposalId(Long.parseLong(fusionRequestBean.getFromProposalId()));
+        proposalFusionRequest.setToProposalId(Long.parseLong(fusionRequestBean.getToProposalId()));
+        proposalFusionRequest.setRequestText(requestText);
+        FusionBean fusionBean=FusionClient.newFusionRequest(proposalFusionRequest);
         AlertMessage.success("Your merge request was sent").flash(request);
         String url= fusionBean.getToProposal().getProposalUrl();
         return "redirect:"+url;
@@ -118,12 +119,11 @@ public class FusionController {
         if (loggedInMember == null) {
             return new AccessDeniedPage(null).toViewName(response);
         }
-        fusionClient= new FusionClient();
-        FusionBean fusionBean= fusionClient.getFusionRequestById(fusionId);
+        FusionBean fusionBean= FusionClient.getFusionRequestById(fusionId);
         if(loggedInMember.getId()!=fusionBean.getToUser().getId()){
             return new AccessDeniedPage(null).toViewName(response);
         }
-        fusionBean=fusionClient.acceptFusion(fusionId);
+        fusionBean=FusionClient.acceptFusion(fusionId);
         AlertMessage.success("The merge request was accepted").flash(request);
         model.addAttribute("fusionBean", fusionBean);
         return "redirect:/fusionRequest/"+fusionId;
@@ -136,12 +136,11 @@ public class FusionController {
         if (loggedInMember == null) {
             return new AccessDeniedPage(null).toViewName(response);
         }
-        fusionClient= new FusionClient();
-        FusionBean fusionBean= fusionClient.getFusionRequestById(fusionId);
+        FusionBean fusionBean= FusionClient.getFusionRequestById(fusionId);
         if(loggedInMember.getId()!=fusionBean.getToUser().getId()){
             return new AccessDeniedPage(null).toViewName(response);
         }
-        fusionBean=fusionClient.rejectFusion(fusionId);
+        fusionBean=FusionClient.rejectFusion(fusionId);
         AlertMessage.warning("The merge request was rejected").flash(request);
         model.addAttribute("fusionBean", fusionBean);
         return "redirect:/fusionRequest/"+fusionId;
