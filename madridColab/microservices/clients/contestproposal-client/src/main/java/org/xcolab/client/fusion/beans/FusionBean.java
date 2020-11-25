@@ -14,30 +14,28 @@ public class FusionBean {
     Member fromUser;
     Proposal toProposal;
     Proposal fromProposal;
-    FusionStatus status;
-    Contest newContest;
-    Proposal newProposal;
+    String status;
+    Contest contestId;
+    Proposal proposalId;
     String requestText;
     String commonText;
 
     public FusionBean(){}
 
     public FusionBean(Long id, Member toUser, Member fromUser,
-            Proposal toProposal, Proposal fromProposal,
-            FusionStatus status, Contest newContest,
-            Proposal newProposal, String requestText, String commonText) {
+            Proposal toProposal, Proposal fromProposal, String status,
+            Contest contestId, Proposal proposalId, String requestText, String commonText) {
         this.id = id;
         this.toUser = toUser;
         this.fromUser = fromUser;
         this.toProposal = toProposal;
         this.fromProposal = fromProposal;
         this.status = status;
-        this.newContest = newContest;
-        this.newProposal = newProposal;
+        this.contestId = contestId;
+        this.proposalId = proposalId;
         this.requestText = requestText;
         this.commonText = commonText;
     }
-
 
     public Long getId() {
         return id;
@@ -79,28 +77,28 @@ public class FusionBean {
         this.fromProposal = fromProposal;
     }
 
-    public FusionStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(FusionStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Contest getNewContest() {
-        return newContest;
+    public Contest getContestId() {
+        return contestId;
     }
 
-    public void setNewContest(Contest newContest) {
-        this.newContest = newContest;
+    public void setContestId(Contest contestId) {
+        this.contestId = contestId;
     }
 
-    public Proposal getNewProposal() {
-        return newProposal;
+    public Proposal getProposalId() {
+        return proposalId;
     }
 
-    public void setNewProposal(Proposal newProposal) {
-        this.newProposal = newProposal;
+    public void setProposalId(Proposal proposalId) {
+        this.proposalId = proposalId;
     }
 
     public String getRequestText() {
