@@ -2,8 +2,7 @@ package org.xcolab.client.proposals;
 
 
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.xcolab.client.activities.ActivitiesClient;
 import org.xcolab.client.admin.ContestTypeClient;
 import org.xcolab.client.admin.attributes.configuration.ConfigurationAttributeKey;
@@ -14,15 +13,14 @@ import org.xcolab.client.contest.exceptions.ContestNotFoundException;
 import org.xcolab.client.contest.pojo.Contest;
 import org.xcolab.client.contest.pojo.ContestFusion;
 import org.xcolab.client.contest.pojo.phases.ContestPhase;
-import org.xcolab.client.contest.pojo.templates.ProposalTemplateSectionDefinition;
 import org.xcolab.client.contest.resources.ProposalResource;
 import org.xcolab.client.contest.util.ContestScheduleChangeHelper;
-import org.xcolab.client.fusion.beans.FusionBean;
+import org.xcolab.client.fusion.utils.FusionStatus;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.proposals.exceptions.ProposalNotFoundException;
 import org.xcolab.client.proposals.pojo.Proposal;
 import org.xcolab.client.proposals.pojo.ProposalDto;
-import org.xcolab.client.proposals.pojo.ProposalFusionRequest;
+import org.xcolab.client.fusion.pojo.ProposalFusionRequest;
 import org.xcolab.client.proposals.pojo.ProposalVersion;
 import org.xcolab.client.proposals.pojo.ProposalVersionDto;
 import org.xcolab.client.proposals.pojo.tiers.ProposalReference;
@@ -521,6 +519,7 @@ public final class ProposalClient {
 
         data.setContestId(contestId);
         data.setProposalId(proposalId);
+        data.setStatus(FusionStatus.PENDING.getValue());
         return proposalFusionRequestResource.create(data).execute();
     }
 
@@ -553,7 +552,7 @@ public final class ProposalClient {
         ProposalFusionRequest proposalFusionRequest = getFusionRequestById(fusionId);
 
         if(proposalFusionRequest != null) {
-            proposalFusionRequest.setStatus("accepted");
+            proposalFusionRequest.setStatus(FusionStatus.ACCEPTED.getValue());
             proposalFusionRequestResource.update(proposalFusionRequest, fusionId).execute();
         }
 
@@ -564,7 +563,7 @@ public final class ProposalClient {
         ProposalFusionRequest proposalFusionRequest = getFusionRequestById(fusionId);
 
         if(proposalFusionRequest != null) {
-            proposalFusionRequest.setStatus("rejected");
+            proposalFusionRequest.setStatus(FusionStatus.REJECTED.getValue());
             proposalFusionRequestResource.update(proposalFusionRequest, fusionId).execute();
         }
 
