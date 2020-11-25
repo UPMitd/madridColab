@@ -1,22 +1,16 @@
 package org.xcolab.client.proposals;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 import org.xcolab.client.admin.pojo.ContestType;
 import org.xcolab.client.contest.exceptions.ContestNotFoundException;
 import org.xcolab.client.contest.pojo.Contest;
 import org.xcolab.client.contest.pojo.phases.ContestPhase;
-import org.xcolab.client.contest.pojo.templates.ProposalTemplateSectionDefinition;
-import org.xcolab.client.fusion.beans.FusionBean;
-import org.xcolab.client.fusion.utils.FusionStatus;
-import org.xcolab.client.members.exceptions.MemberNotFoundException;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.proposals.exceptions.ProposalNotFoundException;
 import org.xcolab.client.proposals.pojo.Proposal;
-import org.xcolab.client.proposals.pojo.ProposalFusionRequest;
+import org.xcolab.client.fusion.pojo.ProposalFusionRequest;
 import org.xcolab.client.proposals.pojo.ProposalVersion;
 import org.xcolab.client.proposals.pojo.tiers.ProposalReference;
 import org.xcolab.util.http.client.enums.ServiceNamespace;
@@ -287,32 +281,6 @@ public final class ProposalClientUtil {
         return defaultString;
     }
 
-    public static ProposalFusionRequest createProposalFusionRequest(ProposalFusionRequest data) {
-        return client.createProposalFusionRequest(data);
-    }
 
-    public static ProposalFusionRequest getFusionRequestById(Long id){
-        return client.getFusionRequestById(id);
-    }
-
-    public static ArrayList<ProposalFusionRequest> listALlFusions(){
-        return client.listAllFusions();
-    }
-
-    public static ArrayList<ProposalFusionRequest> listByFromUserID(Long id){
-        return client.listByFromUserID(id);
-    }
-
-    public static ArrayList<ProposalFusionRequest> listByToUserID(Long id){
-        return client.listByToUserID(id);
-    }
-
-    public static ProposalFusionRequest acceptFusion(Long fusionId){
-        return client.acceptFusion(fusionId);
-    }
-
-    public static ProposalFusionRequest rejectFusion(Long fusionId){
-        return client.rejectFusion(fusionId);
-    }
 
 }
