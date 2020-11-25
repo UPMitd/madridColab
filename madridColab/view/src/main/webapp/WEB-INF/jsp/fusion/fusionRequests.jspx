@@ -51,9 +51,16 @@
                             <c:if test="${not empty fusionRequests}">
                                 <c:forEach var="fusionRequest" items="${fusionRequests}">
                                     <tr>
-                                        <td>
-                                            <a href="${fusionRequest.fromUser.profileLinkUrl}">${fusionRequest.fromUser.displayName}</a>
-                                        </td>
+                                        <c:if test="${sent==false}">
+                                            <td>
+                                                <a href="${fusionRequest.fromUser.profileLinkUrl}">${fusionRequest.fromUser.displayName}</a>
+                                            </td>
+                                        </c:if>
+                                        <c:if test="${sent==true}">
+                                            <td>
+                                                <a href="${fusionRequest.toUser.profileLinkUrl}">${fusionRequest.toUser.displayName}</a>
+                                            </td>
+                                        </c:if>
                                         <td>
                                             <a href="${fusionRequest.fromProposal.proposalUrl}">${fusionRequest.fromProposal.name}</a>
                                         </td>
@@ -61,7 +68,7 @@
                                             <a href="${fusionRequest.toProposal.proposalUrl}">${fusionRequest.toProposal.name}</a>
                                         </td>
                                         <td>
-                                            <a href="/fusionRequest/${fusionRequest.id}">${fusionRequest.status.name()}</a>
+                                            <a href="/fusionRequest/${fusionRequest.id}">${fusionRequest.status}</a>
                                         </td>
                                     </tr>
                                 </c:forEach>
