@@ -17,12 +17,15 @@ import org.xcolab.client.contest.resources.ProposalResource;
 import org.xcolab.client.contest.util.ContestScheduleChangeHelper;
 import org.xcolab.client.fusion.utils.FusionStatus;
 import org.xcolab.client.members.pojo.Member;
+import org.xcolab.client.proposals.enums.ProposalAttributeKeys;
 import org.xcolab.client.proposals.exceptions.ProposalNotFoundException;
 import org.xcolab.client.proposals.pojo.Proposal;
 import org.xcolab.client.proposals.pojo.ProposalDto;
 import org.xcolab.client.fusion.pojo.ProposalFusionRequest;
 import org.xcolab.client.proposals.pojo.ProposalVersion;
 import org.xcolab.client.proposals.pojo.ProposalVersionDto;
+import org.xcolab.client.proposals.pojo.attributes.ProposalAttribute;
+import org.xcolab.client.proposals.pojo.phases.Proposal2Phase;
 import org.xcolab.client.proposals.pojo.tiers.ProposalReference;
 import org.xcolab.client.proposals.pojo.tiers.ProposalReferenceDto;
 import org.xcolab.commons.exceptions.ReferenceResolutionException;
@@ -517,10 +520,46 @@ public final class ProposalClient {
         Long proposalId = createProposal(data.getFromUserId(),
                 ContestClientUtil.getActivePhase(contest.getId()).getId(), true).getId();
 
+
         data.setContestId(contestId);
         data.setProposalId(proposalId);
         data.setStatus(FusionStatus.PENDING.getValue());
+
+        generateAttributes(data.getFromProposalId(), data.getToProposalId(), proposalId);
+
         return proposalFusionRequestResource.create(data).execute();
+    }
+
+    public void generateAttributes(Long proposalId1, Long proposalId2, Long newProposal) {
+
+        Proposal proposal1 = getProposal(proposalId1);
+        Proposal proposal2 = getProposal(proposalId2);
+        Integer proposalAttributeVersion = null;
+
+        final ProposalAttributeClient proposalAttributeClient =
+                ProposalAttributeClientUtil.getClient();
+
+        for (ProposalAttribute attribute : proposalAttributeClient
+                .getAllProposalAttributes(proposalId1)) {
+
+            proposalAttributeVersion = proposalAttributeClient
+                    .setProposalAttribute(proposal1.getAuthorUserId(), newProposal,
+                            attribute.getName(), attribute.getAdditionalId(),
+                            attribute.getStringValue(), attribute.getNumericValue(),
+                            attribute.getRealValue(), proposalAttributeVersion)
+                    .getVersion();
+        }
+
+        for (ProposalAttribute attribute : proposalAttributeClient
+                .getAllProposalAttributes(proposalId2)) {
+
+            proposalAttributeVersion = proposalAttributeClient
+                    .setProposalAttribute(proposal2.getAuthorUserId(), newProposal,
+                            attribute.getName(), attribute.getAdditionalId(),
+                            attribute.getStringValue(), attribute.getNumericValue(),
+                            attribute.getRealValue(), proposalAttributeVersion)
+                    .getVersion();
+        }
     }
 
 
@@ -589,8 +628,6 @@ public final class ProposalClient {
                 changeHelper = new ContestScheduleChangeHelper(contest.getId(), contestScheduleId);
         changeHelper.changeScheduleForBlankContest();
         return contest;
-
-      
     }
 
 }

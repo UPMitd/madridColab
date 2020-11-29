@@ -281,6 +281,8 @@ public final class ProposalClientUtil {
         return defaultString;
     }
 
-
+    public static ProposalFusionRequest createProposalFusionRequest(ProposalFusionRequest pfr) {
+        return client.createProposalFusionRequest(pfr);
+    }
 
 }
