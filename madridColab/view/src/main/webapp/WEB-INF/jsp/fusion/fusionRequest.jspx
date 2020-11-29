@@ -59,13 +59,13 @@
                         <c:if test="${fusionBean.status == 'pending'}">
                             <div class="row">
                                 <div class="col-sm-12 c-Box__bodyFlex justify-content-center">
-                                    <button class="btn btn-gray">
+                                    <a href="/fusionRequest/api/reject/${fusionBean.id}" class="btn btn-gray">
                                         ${reject}
-                                    </button>
+                                    </a>
                                     <div class="col-sm-2"></div>
-                                    <button type="submit" class="btn btn-primary">
+                                    <a href="/fusionRequest/api/accept/${fusionBean.id}" class="btn btn-primary">
                                         ${accept}
-                                    </button>
+                                    </a>
                                 </div>
 
                             </div>
