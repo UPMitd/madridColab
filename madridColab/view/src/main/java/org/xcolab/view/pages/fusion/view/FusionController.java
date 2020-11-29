@@ -112,35 +112,37 @@ public class FusionController {
         return "redirect:"+url;
     }
 
-    @GetMapping("/fusionRequest/api/accept/{fusionID}")
-    public String acceptFusion(HttpServletRequest request, BindingResult bindingResult,
-            HttpServletResponse response, @PathVariable Long fusionId, Model model,
+    @GetMapping("/fusionRequest/api/accept/{fusionId}")
+    public String acceptFusion(HttpServletRequest request,
+            HttpServletResponse response, @PathVariable String fusionId, Model model,
             Member loggedInMember){
         if (loggedInMember == null) {
             return new AccessDeniedPage(null).toViewName(response);
         }
-        FusionBean fusionBean= FusionClient.getFusionRequestById(fusionId);
+        Long lFusionId= Long.parseLong(fusionId);
+        FusionBean fusionBean= FusionClient.getFusionRequestById(lFusionId);
         if(loggedInMember.getId()!=fusionBean.getToUser().getId()){
             return new AccessDeniedPage(null).toViewName(response);
         }
-        fusionBean=FusionClient.acceptFusion(fusionId);
+        fusionBean=FusionClient.acceptFusion(lFusionId);
         AlertMessage.success("The merge request was accepted").flash(request);
         model.addAttribute("fusionBean", fusionBean);
         return "redirect:/fusionRequest/"+fusionId;
     }
 
-    @GetMapping("/fusionRequest/api/reject/{fusionID}")
-    public String rejectFusion(HttpServletRequest request, BindingResult bindingResult,
-            HttpServletResponse response, @PathVariable Long fusionId, Model model,
+    @GetMapping("/fusionRequest/api/reject/{fusionId}")
+    public String rejectFusion(HttpServletRequest request,
+            HttpServletResponse response, @PathVariable String fusionId, Model model,
             Member loggedInMember){
         if (loggedInMember == null) {
             return new AccessDeniedPage(null).toViewName(response);
         }
-        FusionBean fusionBean= FusionClient.getFusionRequestById(fusionId);
+        Long lFusionId=Long.parseLong(fusionId);
+        FusionBean fusionBean= FusionClient.getFusionRequestById(lFusionId);
         if(loggedInMember.getId()!=fusionBean.getToUser().getId()){
             return new AccessDeniedPage(null).toViewName(response);
         }
-        fusionBean=FusionClient.rejectFusion(fusionId);
+        fusionBean=FusionClient.rejectFusion(lFusionId);
         AlertMessage.warning("The merge request was rejected").flash(request);
         model.addAttribute("fusionBean", fusionBean);
         return "redirect:/fusionRequest/"+fusionId;
