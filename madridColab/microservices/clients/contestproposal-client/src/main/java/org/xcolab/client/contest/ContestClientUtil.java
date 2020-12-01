@@ -373,4 +373,8 @@ public final class ContestClientUtil {
     public static Long getContestFusion(Long id_1, Long id_2) {
         return  contestClient.getContestFusion(id_1, id_2);  
     }
+
+    public static List<Contest> getIntercommunityContests() {
+        return contestClient.getIntercommunityContests();
+    }
 }

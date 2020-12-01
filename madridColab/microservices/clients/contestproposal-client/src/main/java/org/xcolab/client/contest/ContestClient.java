@@ -776,4 +776,11 @@ public class ContestClient {
         return (lq == null || lq.isEmpty())? null : lq.get(0).getIdFusion();
     }
 
+    public List<Contest> getIntercommunityContests() {
+        return DtoUtil.toPojos(contestResource
+                .collectionService("getIntercommunityContests", ContestDto.TYPES.getTypeReference())
+                .getList(), serviceNamespace);
+
+    }
+
 }

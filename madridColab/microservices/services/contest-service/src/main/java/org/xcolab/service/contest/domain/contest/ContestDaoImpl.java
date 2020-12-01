@@ -15,6 +15,7 @@ import org.xcolab.client.activities.ActivitiesClientUtil;
 import org.xcolab.client.comment.util.ThreadClientUtil;
 import org.xcolab.commons.SortColumn;
 import org.xcolab.model.tables.pojos.Contest;
+import org.xcolab.model.tables.pojos.ContestFusion;
 import org.xcolab.model.tables.records.ContestRecord;
 import org.xcolab.service.contest.exceptions.NotFoundException;
 import org.xcolab.service.utils.PaginationHelper;
@@ -33,6 +34,7 @@ import static org.jooq.impl.DSL.trim;
 import static org.jooq.impl.DSL.val;
 import static org.xcolab.model.Tables.CONTEST;
 import static org.xcolab.model.Tables.CONTEST_DISCUSSION;
+import static org.xcolab.model.Tables.CONTEST_FUSION;
 import static org.xcolab.model.Tables.CONTEST_PHASE;
 import static org.xcolab.model.Tables.CONTEST_TEAM_MEMBER;
 import static org.xcolab.model.Tables.CONTEST_TRANSLATION;
@@ -496,5 +498,16 @@ public class ContestDaoImpl implements ContestDao {
         for (long threadId : threadIdsToDelete) {
             ThreadClientUtil.deleteThread(threadId);
         }
+    }
+
+    @Override
+    public List<Contest> getIntercommunityContests() {
+        List<Contest> record =
+                dslContext.select().from(CONTEST)
+                        .where(CONTEST.CONTEST_TYPE_ID.eq(1l))
+                        .fetchInto(Contest.class);
+
+        return record;
+
     }
 }

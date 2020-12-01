@@ -37,5 +37,7 @@ public interface ContestDao {
 
     boolean delete(long contestId);
 
+    List<Contest> getIntercommunityContests();
+
     List<Long> getContestYears();
 }

@@ -622,7 +622,7 @@ public final class ProposalClient {
         final Long contestScheduleId = ConfigurationAttributeKey
                 .DEFAULT_CONTEST_SCHEDULE_ID.get();
         contest.setContestScheduleId(contestScheduleId);
-        contest.setContestTypeId(ConfigurationAttributeKey.DEFAULT_CONTEST_TYPE_ID.get());
+        contest.setContestTypeId(1l);
         ContestClientUtil.updateContest(contest);
         ContestScheduleChangeHelper
                 changeHelper = new ContestScheduleChangeHelper(contest.getId(), contestScheduleId);

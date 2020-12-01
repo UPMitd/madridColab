@@ -186,6 +186,7 @@ public class ContestController {
         return contestService.getContestAfter(afterDate);
     }
 
+
     @GetMapping("/contests/getNumberOfContestsByOntologyTerm")
     public int getNumberOfContestsByOntologyTerm(
             @RequestParam(required = false) Long focusAreaOntologyTerm) {
@@ -359,5 +360,11 @@ public class ContestController {
     List<ContestFusion> getContestFusion(@RequestParam("contest_id_1") Long contest_id_1,
             @RequestParam("contest_id_2") Long contest_id_2) {
         return contestFusionDao.getByContests(contest_id_1, contest_id_2);
+    }
+
+    @ListMapping("/contests/getIntercommunityContests")
+    public @ResponseBody
+    List<Contest> getIntercommunityContests() {
+        return contestDao.getIntercommunityContests();
     }
 }
