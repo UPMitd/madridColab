@@ -509,57 +509,61 @@ public final class ProposalClient {
 
         if(contestId == null) {
             contest = createContest("Fusion " +
-                    ContestClientUtil.getContest(fromContestId).getTitle() + " - " +
-                    ContestClientUtil.getContest(toContestId).getTitle(), 10146);
+                    ContestClientUtil.getContest(fromContestId).getTitle() + "  " +
+                    ContestClientUtil.getContest(toContestId).getTitle(), 1);
             ContestClientUtil.createContestFusion(new ContestFusion(contest.getId(), fromContestId, toContestId));
             contestId = contest.getId();
         }
 
         else contest = ContestClientUtil.getContest(contestId);
 
-        Long proposalId = createProposal(data.getFromUserId(),
+       /* Long proposalId = createProposal(data.getFromUserId(),
                 ContestClientUtil.getActivePhase(contest.getId()).getId(), true).getId();
-
+*/
 
         data.setContestId(contestId);
-        data.setProposalId(proposalId);
+       // data.setProposalId(proposalId);
         data.setStatus(FusionStatus.PENDING.getValue());
 
-        generateAttributes(data.getFromProposalId(), data.getToProposalId(), proposalId);
+        //generateAttributes(data.getFromProposalId(), data.getToProposalId(), proposalId);
 
         return proposalFusionRequestResource.create(data).execute();
     }
 
-    public void generateAttributes(Long proposalId1, Long proposalId2, Long newProposal) {
+    public void generateAttributes(ProposalFusionRequest proposalFusionRequest) {
 
-        Proposal proposal1 = getProposal(proposalId1);
-        Proposal proposal2 = getProposal(proposalId2);
+        Proposal proposal1 = getProposal(proposalFusionRequest.getFromProposalId());
+        Proposal proposal2 = getProposal(proposalFusionRequest.getToProposalId());
         Integer proposalAttributeVersion = null;
 
         final ProposalAttributeClient proposalAttributeClient =
                 ProposalAttributeClientUtil.getClient();
 
         for (ProposalAttribute attribute : proposalAttributeClient
-                .getAllProposalAttributes(proposalId1)) {
-
-            proposalAttributeVersion = proposalAttributeClient
-                    .setProposalAttribute(proposal1.getAuthorUserId(), newProposal,
+                .getAllProposalAttributes(proposal1.getId())) {
+            ProposalAttribute attribute2;
+            String value="";
+            attribute2=proposalAttributeClient.getProposalAttribute(proposal2.getId(), attribute.getName(), (long)0);
+            switch (attribute.getName()){
+                case ProposalAttributeKeys.NAME:
+                    value=attribute.getStringValue()+"--"+attribute2.getStringValue();
+                    break;
+                case ProposalAttributeKeys.PITCH:
+                    value=attribute.getStringValue()+"\n\r"+attribute2.getStringValue();
+                    break;
+                case ProposalAttributeKeys.DESCRIPTION:
+                    value=attribute.getStringValue()+"\n\r"+attribute2.getStringValue();
+                    break;
+                case ProposalAttributeKeys.TEAM:
+                    value=attribute.getStringValue()+" & "+attribute2.getStringValue();
+                    break;
+            }
+            proposalAttributeClient.setProposalAttribute(proposal1.getAuthorUserId(), proposalFusionRequest.getProposalId(),
                             attribute.getName(), attribute.getAdditionalId(),
-                            attribute.getStringValue(), attribute.getNumericValue(),
-                            attribute.getRealValue(), proposalAttributeVersion)
-                    .getVersion();
+                            value, attribute.getNumericValue(),
+                            attribute.getRealValue(), proposalAttributeVersion);
         }
 
-        for (ProposalAttribute attribute : proposalAttributeClient
-                .getAllProposalAttributes(proposalId2)) {
-
-            proposalAttributeVersion = proposalAttributeClient
-                    .setProposalAttribute(proposal2.getAuthorUserId(), newProposal,
-                            attribute.getName(), attribute.getAdditionalId(),
-                            attribute.getStringValue(), attribute.getNumericValue(),
-                            attribute.getRealValue(), proposalAttributeVersion)
-                    .getVersion();
-        }
     }
 
 
@@ -589,12 +593,14 @@ public final class ProposalClient {
 
     public ProposalFusionRequest acceptFusion(Long fusionId){
         ProposalFusionRequest proposalFusionRequest = getFusionRequestById(fusionId);
-
         if(proposalFusionRequest != null) {
             proposalFusionRequest.setStatus(FusionStatus.ACCEPTED.getValue());
+            Long proposalId = createProposal(proposalFusionRequest.getFromUserId(),
+                    ContestClientUtil.getActivePhase(proposalFusionRequest.getContestId()).getId(), true).getId();
+            proposalFusionRequest.setProposalId(proposalId);
+            generateAttributes(proposalFusionRequest);
             proposalFusionRequestResource.update(proposalFusionRequest, fusionId).execute();
         }
-
         return proposalFusionRequest;
     }
 
@@ -613,7 +619,7 @@ public final class ProposalClient {
     public Contest createContest(String title, long authorUserId) {
         Contest contest = ContestClientUtil.createContest(authorUserId, title);
         contest.setContestYear((long) DateTime.now().getYear());
-        contest.setContestPrivate(true);
+        contest.setContestPrivate(false);
         contest.setShowInTileView(true);
         contest.setShowInListView(true);
         contest.setShowInOutlineView(true);
@@ -622,7 +628,7 @@ public final class ProposalClient {
         final Long contestScheduleId = ConfigurationAttributeKey
                 .DEFAULT_CONTEST_SCHEDULE_ID.get();
         contest.setContestScheduleId(contestScheduleId);
-        contest.setContestTypeId(1l);
+        contest.setContestTypeId(0l);
         ContestClientUtil.updateContest(contest);
         ContestScheduleChangeHelper
                 changeHelper = new ContestScheduleChangeHelper(contest.getId(), contestScheduleId);
