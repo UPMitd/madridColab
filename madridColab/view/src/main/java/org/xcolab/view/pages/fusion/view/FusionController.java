@@ -81,7 +81,7 @@ public class FusionController {
         model.addAttribute("canAcceptOrDeny", canAcceptOrDeny);
         model.addAttribute("user", loggedInMember);
         model.addAttribute("fusionBean", fusionBean);
-        return "/fusion/fusionRequest";
+        return "/fusion/detailFusionRequest";
     }
 
 
