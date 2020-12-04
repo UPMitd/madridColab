@@ -1,0 +1,62 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0">
+
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+
+    <xcolab:layout title="${contestType.contestNamePlural}" description="${pageDescription}">
+        <!--@elvariable id="viewType" type="java.lang.String"-->
+        <!--@elvariable id="showCollectionCards" type="java.lang.Boolean"-->
+        <jsp:directive.include file="./init.jspx" />
+        <c:if test="${_themeContext.authenticationVariables.isAdmin}">
+            <a href="/proposals/preferences" class="btn cb-btn-admin btn-sm float-right">Edit contests preferences</a><br/>
+        </c:if>
+        <c:choose>
+            <c:when test="${showCollectionCards}">
+                <div>
+                    <jsp:directive.include file="./contestsIndex/header-cards.jspx" />
+
+                    <c:choose>
+                        <c:when test="${viewType == 'GRID' }">
+                            <jsp:directive.include file="./contestsIndex/grid-cards.jspx" />
+                        </c:when>
+                        <c:when test="${viewType == 'OUTLINE' }">
+                            <jsp:directive.include file="./contestsIndex/outline.jspx" />
+                        </c:when>
+                        <c:otherwise>
+                            <jsp:directive.include file="./contestsIndex/list-cards.jspx" />
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div>
+                    <jsp:directive.include file="contestsIndex/header.jspx" />
+
+                    <c:choose>
+                        <c:when test="${viewType == 'GRID' }">
+                            <jsp:directive.include file="contestsIndex/grid.jspx" />
+                        </c:when>
+                        <c:when test="${viewType == 'OUTLINE' }">
+                            <jsp:directive.include file="contestsIndex/outline.jspx" />
+                        </c:when>
+                        <c:otherwise>
+                            <jsp:directive.include file="contestsIndex/list.jspx" />
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </c:otherwise>
+        </c:choose>
+        <script>
+            <![CDATA[
+            jQuery(function() {
+                setContestsViewTypeCookie('${viewType}');
+            });
+            ]]>
+        </script>
+        <collab:script src="/js/proposals/proposals.js"/>
+    </xcolab:layout>
+</jsp:root>
