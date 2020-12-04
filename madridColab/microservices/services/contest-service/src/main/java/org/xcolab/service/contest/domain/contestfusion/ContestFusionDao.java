@@ -14,5 +14,7 @@ public interface ContestFusionDao {
 
     List<ContestFusion> getByContests(Long contest_id_1, Long contest_id_2);
 
+    List<ContestFusion> getAll();
+
     boolean update(ContestFusion ContestFusion);
 }

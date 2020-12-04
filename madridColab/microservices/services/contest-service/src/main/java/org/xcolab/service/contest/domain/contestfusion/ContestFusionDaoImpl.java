@@ -2,6 +2,7 @@ package org.xcolab.service.contest.domain.contestfusion;
 
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.SelectQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.util.Assert;
 import org.xcolab.model.tables.pojos.Contest;
 import org.xcolab.model.tables.pojos.ContestDiscussion;
 import org.xcolab.model.tables.pojos.ContestFusion;
+import org.xcolab.model.tables.pojos.ProposalFusionRequest;
 import org.xcolab.model.tables.records.ContestFusionRecord;
+import org.xcolab.model.tables.records.ProposalFusionRequestRecord;
 import org.xcolab.service.contest.exceptions.NotFoundException;
 import org.xcolab.service.contest.utils.promotion.PromotionService;
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ import java.util.List;
 
 import static org.xcolab.model.Tables.CONTEST;
 import static org.xcolab.model.Tables.CONTEST_FUSION;
+import static org.xcolab.model.Tables.PROPOSAL_FUSION_REQUEST;
 
 @Repository
 public class ContestFusionDaoImpl implements ContestFusionDao {
@@ -91,6 +95,13 @@ public class ContestFusionDaoImpl implements ContestFusionDao {
         ContestFusion cf = record.into(ContestFusion.class);
         arlcf.add(cf);
         return arlcf;
+    }
 
+    @Override
+    public List<ContestFusion> getAll() {
+        final SelectQuery<ContestFusionRecord> query =  this.dslContext.selectFrom(CONTEST_FUSION)
+                .getQuery();
+
+        return query.fetchInto(ContestFusion.class);
     }
 }

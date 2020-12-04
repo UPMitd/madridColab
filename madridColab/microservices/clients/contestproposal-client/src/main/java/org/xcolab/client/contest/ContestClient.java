@@ -777,10 +777,14 @@ public class ContestClient {
     }
 
     public List<Contest> getIntercommunityContests() {
-        return DtoUtil.toPojos(contestResource
-                .collectionService("getIntercommunityContests", ContestDto.TYPES.getTypeReference())
-                .getList(), serviceNamespace);
+        List<ContestFusion> lq = contestFusionResource.list().execute();
 
+        List<Contest> intercommunityContests = new ArrayList<>();
+        for(ContestFusion cf: lq) {
+            intercommunityContests.add(getContest(cf.getIdFusion()));
+        }
+
+        return intercommunityContests;
     }
 
 }
