@@ -56,6 +56,7 @@ public class ContestsIndexController extends BaseProposalsController {
     private static final int FEATURED_COLLECTION_CARD_ID = 1;
     private static final int BY_TOPIC_COLLECTION_CARD_ID = 2;
     private static final int BY_LOCATION_COLLECTION_CARD_ID = 3;
+    private boolean isIntercommunity=false;
 
     @GetMapping("/contests")
     public String showContestsIndex(HttpServletRequest request, HttpServletResponse response,
@@ -282,7 +283,8 @@ public class ContestsIndexController extends BaseProposalsController {
                 ConfigurationAttributeKey.COLAB_NAME.get())
                 + ConfigurationAttributeKey.META_PAGE_DESCRIPTION_CONTESTS.get();
         model.addAttribute("pageDescription", description);
-
+        isIntercommunity=false;
+        model.addAttribute("isIntercommunity", isIntercommunity);
         setActivePageLink(model, contestType);
         return "/proposals/contestsIndex";
     }
@@ -316,14 +318,13 @@ public class ContestsIndexController extends BaseProposalsController {
                 contestType = defaultContestType;
             }
         }
-        System.out.println(contestType);
+
         if (contestType.isRestrictedAccess() && !new ContestPermissions(loggedInMember)
                 .getCanAccessContests(contestType)) {
             return new AccessDeniedPage(loggedInMember).toViewName(response);
         }
-
-        final int totalContestCount = ContestClientUtil
-                .countContests(null, false, contestType.getId());
+        //to-do, check active contests
+        final int totalContestCount = ContestClientUtil.getIntercommunityContests().size();
 
         if (contestType.isSuggestionsActive()) {
             Contest c = ContestClientUtil.getContest(contestType.getSuggestionContestId());
@@ -416,11 +417,8 @@ public class ContestsIndexController extends BaseProposalsController {
         List<Contest> contests = new ArrayList<>();
 
         if (viewType.equals(VIEW_TYPE_OUTLINE)) {
-                                            
-            List<Contest> allContests = ContestClientUtil.getContests(
-                    null, false, contestType.getId()).stream()
-                    .filter(Contest::getShowInOutlineView)
-                    .collect(Collectors.toList());
+
+            List<Contest> allContests = ContestClientUtil.getIntercommunityContests();
 
             final List<Contest> activeContests = allContests.stream()
                     .filter(Contest::isContestActive)
@@ -482,8 +480,7 @@ public class ContestsIndexController extends BaseProposalsController {
             model.addAttribute("otherContests", otherContests);
             model.addAttribute("contestType", contestType);
         } else if (!ConfigurationAttributeKey.COLAB_USES_CARDS.get()) {
-            contests = ContestClientUtil.getContests(
-                    showAllContests ? null : true, false, contestType.getId());
+            contests = ContestClientUtil.getIntercommunityContests();
         }
 
         model.addAttribute("showCollectionCards", ConfigurationAttributeKey.COLAB_USES_CARDS.get());
@@ -512,9 +509,10 @@ public class ContestsIndexController extends BaseProposalsController {
                 ConfigurationAttributeKey.COLAB_NAME.get())
                 + ConfigurationAttributeKey.META_PAGE_DESCRIPTION_CONTESTS.get();
         model.addAttribute("pageDescription", description);
-
+        isIntercommunity=true;
+        model.addAttribute("isIntercommunity", isIntercommunity);
         model.addAttribute("_activePageLink", "intercommunity");
-        return "/proposals/contestsIndex";
+        return "/proposals/contestsIndexFusion";
     }
 
 
