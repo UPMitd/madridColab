@@ -192,6 +192,7 @@
     <orderEntry type="library" name="Maven: org.glassfish:javax.json:1.1.2" level="project" />
     <orderEntry type="module" module-name="activities-client" />
     <orderEntry type="module" module-name="comment-client" />
+    <orderEntry type="library" name="Maven: com.sun.mail:javax.mail:1.5.6" level="project" />
     <orderEntry type="module" module-name="entity-utils" />
     <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="module" module-name="files-client" />
