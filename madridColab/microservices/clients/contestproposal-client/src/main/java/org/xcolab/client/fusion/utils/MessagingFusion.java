@@ -5,14 +5,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.xcolab.client.admin.attributes.configuration.ConfigurationAttributeKey;
+import org.xcolab.client.emails.EmailClient;
 import org.xcolab.client.fusion.beans.FusionBean;
 import org.xcolab.client.members.MessagingClient;
 import org.xcolab.client.members.messaging.MessageLimitExceededException;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.proposals.pojo.Proposal;
 
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.mail.internet.InternetAddress;
 
 public class MessagingFusion {
 
@@ -67,6 +73,7 @@ public class MessagingFusion {
         body.append(getFooter());
         sendNotification(REQUEST_TITLE, body.toString(), fusionBean.getFromUser().getId(),
                 fusionBean.getToUser().getId());
+        sendEmailMessage(fusionBean.getToUser(), REQUEST_TITLE, body.toString(), fusionBean.getFromUser().getId());
 
     }
 
@@ -84,16 +91,16 @@ public class MessagingFusion {
         body.append(getFooter());
         List<Long> recipients= new ArrayList<>();
         recipients.add(fusionBean.getFromUser().getId());
-        sendNotification(ACCEPT_TITLE, body.toString(), fusionBean.getToUser().getId(),
-                    fusionBean.getFromUser().getId());
-
+        sendNotification(ACCEPT_TITLE, body.toString(), fusionBean.getFromUser().getId(),
+                    fusionBean.getToUser().getId());
+        sendEmailMessage(fusionBean.getFromUser(), ACCEPT_TITLE, body.toString(), fusionBean.getToUser().getId());
     }
 
     public void notifyFusionReject(FusionBean fusionBean){
         StringBuilder body= new StringBuilder();
         body.append("<br></br><p>");
         String proposalB="<a href='"+fusionBean.getFromProposal().getProposalUrl()+"'>"+fusionBean.getFromProposal().getName()+"</a>";
-        String proposalA="<a href='"+fusionBean.getToProposal().getProposalUrl()+"'>"+fusionBean.getToProposal().getName()+"</a>";;
+        String proposalA="<a href='"+fusionBean.getToProposal().getProposalUrl()+"'>"+fusionBean.getToProposal().getName()+"</a>";
         String linkMyFusionRequests=baseUrl+"/fusionRequests/sent";
         String compose= StringUtils.replace(MESSAGE_REJECT_REQUEST, PROPOSAL_B_PLACEHOLDER, proposalB);
         compose=StringUtils.replace(compose, PROPOSAL_A_PLACEHOLDER, proposalA);
@@ -103,8 +110,9 @@ public class MessagingFusion {
         body.append(StringUtils.replace(MESSAGE_FOOTER_TEMPLATE, COLAB_NAME_PLACEHOLDER, ConfigurationAttributeKey.COLAB_NAME.get()));
         List<Long> recipients= new ArrayList<>();
         recipients.add(fusionBean.getFromUser().getId());
-        sendNotification(REJECT_TITLE, body.toString(), fusionBean.getToUser().getId(),
-                fusionBean.getFromUser().getId());
+        sendNotification(REJECT_TITLE, body.toString(), fusionBean.getFromUser().getId(),
+                fusionBean.getToUser().getId());
+        sendEmailMessage(fusionBean.getFromUser(), REJECT_TITLE, body.toString(), fusionBean.getToUser().getId());
     }
 
     private String getUserUrl(Member member){
@@ -130,6 +138,27 @@ public class MessagingFusion {
         } catch (MessageLimitExceededException e) {
             e.printStackTrace();
             log.warn(e.getMessage());
+        }
+
+    }
+
+    private void sendEmailMessage(Member recipient, String subject, String body, Long referenceId) {
+        Date date= new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String d=formatter.format(date);
+        subject= subject+" "+d;
+        try {
+            InternetAddress fromEmail = TemplateReplacementUtil.getAdminFromEmailAddress();
+            InternetAddress toEmail =
+                    new InternetAddress(recipient.getEmailAddress(), recipient.getFullName());
+            EmailClient.sendEmail(fromEmail.getAddress(), ConfigurationAttributeKey.COLAB_NAME.get(),
+                    toEmail.getAddress(),
+                    TemplateReplacementUtil.replacePlatformConstants(subject),
+                    TemplateReplacementUtil.replacePlatformConstants(body), true,
+                    fromEmail.getAddress(), ConfigurationAttributeKey.COLAB_NAME.get(),
+                    referenceId);
+        } catch (UnsupportedEncodingException e) {
+
         }
     }
 
