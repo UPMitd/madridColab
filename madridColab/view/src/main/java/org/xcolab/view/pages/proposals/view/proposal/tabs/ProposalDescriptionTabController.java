@@ -19,6 +19,8 @@ import org.xcolab.client.contest.pojo.Contest;
 import org.xcolab.client.contest.pojo.phases.ContestPhase;
 import org.xcolab.client.contest.pojo.templates.ProposalTemplateSectionDefinition;
 import org.xcolab.client.flagging.FlaggingClient;
+import org.xcolab.client.fusion.FusionClient;
+import org.xcolab.client.fusion.beans.FusionBean;
 import org.xcolab.client.members.PlatformTeamsClient;
 import org.xcolab.client.members.exceptions.MemberNotFoundException;
 import org.xcolab.client.members.pojo.Member;
@@ -50,8 +52,10 @@ import org.xcolab.view.taglibs.xcolab.jspTags.discussion.DiscussionPermissions;
 import org.xcolab.view.util.entity.EntityGroupingUtil;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -91,12 +95,12 @@ public class ProposalDescriptionTabController extends BaseProposalTabController 
             @Valid JudgeProposalFeedbackBean judgeProposalFeedbackBean,
             BindingResult bindingResult) {
         return showProposalDetails(request, response, model, proposalContext, currentMember, false,
-                edit, moveFromContestPhaseId, moveType);
+                edit, moveFromContestPhaseId, moveType, proposalId);
     }
 
     public String showProposalDetails(HttpServletRequest request, HttpServletResponse response,
             Model model, ProposalContext proposalContext, Member currentMember,
-            boolean voted, boolean edit, Long moveFromContestPhaseId, String moveType) {
+            boolean voted, boolean edit, Long moveFromContestPhaseId, String moveType, Long proposalId) {
 
         final ProposalsPermissions permissions = proposalContext.getPermissions();
         if (!permissions.getCanView()) {
@@ -119,12 +123,24 @@ public class ProposalDescriptionTabController extends BaseProposalTabController 
                 ContestTypeProposal contestTypeProposal=it.next();
                 proposals=contestTypeProposal.getProposals();
             }
+
+            ArrayList<FusionBean> fusionBeans=FusionClient.listALlFusions();
+            boolean mergeable=true;
+            for(FusionBean fusionBean: fusionBeans){
+             if(fusionBean.getProposal()!=null&&fusionBean.getProposal().getId()!=null){
+                 if(fusionBean.getProposal().getId()==proposalId){
+                     mergeable=false;
+                 }
+             }
+            }
+
             model.addAttribute("myProposals", proposals);
+            model.addAttribute("mergeable",mergeable);
             FusionRequestBean fusionRequestBean= new FusionRequestBean();
             model.addAttribute("fusionRequestBean", fusionRequestBean);
 
         }
-        System.out.println(currentMember);
+
 
 
         setCommonModelAndPageAttributes(request, model, proposalContext, ProposalTab.DESCRIPTION);
@@ -356,7 +372,7 @@ public class ProposalDescriptionTabController extends BaseProposalTabController 
                     "Changes NOT saved. Please fix the errors before saving.")
                     .flash(request);
             return showProposalDetails(request, response, model, proposalContext, currentMember,
-                    false, true, null, null);
+                    false, true, null, null, null);
         }
 
         return AddUpdateProposalControllerUtil
