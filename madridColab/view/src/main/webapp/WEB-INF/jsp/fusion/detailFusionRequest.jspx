@@ -14,6 +14,7 @@
     <spring:message code="fusion.fusions.details.reason" var="reason"/>
     <spring:message code="fusion.fusions.details.button.reject" var="reject"/>
     <spring:message code="fusion.fusions.details.button.accept" var="accept"/>
+    <spring:message code="fusion.fusions.requests.result" var="result"/>
     <xcolab:layout title="${title}">
         <xcolab:content articleId="${communityTopContentArticleId}" loadWidgetLibrary="false"/>
         <nav aria-label="breadcrumb">
@@ -47,7 +48,7 @@
                     <div class="row ">
                         <h3>${reason}</h3>
                     </div>
-                    <div class="row" style="border: gray solid 1px; border-radius: 3px">
+                    <div class="row" style="border: gray solid 1px; border-radius: 3px; padding-bottom: 5%; padding-top: 5%">
                         <div class="col-sm-12">
                             <div class="">
                                 ${fusionBean.requestText}
@@ -55,6 +56,9 @@
                         </div>
                     </div>
                     <br/>
+                    <c:if test="${fusionBean.status=='accepted'}">
+                        <p>${result}  <a href="${fusionBean.getProposal().getProposalUrl()}">${fusionBean.getProposal().getName()}</a></p>
+                    </c:if>
                     <c:if test="${canAcceptOrDeny == true}">
                         <c:if test="${fusionBean.status == 'pending'}">
                             <div class="row">
