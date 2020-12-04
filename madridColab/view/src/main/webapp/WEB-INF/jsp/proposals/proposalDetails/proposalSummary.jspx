@@ -80,16 +80,17 @@
                         </button>
                     </c:if>
                 </div>
-
-                <div class="c-Box__bodyFlex justify-content-center">
+                <c:if test="${mergeable==true}">
+                    <div class="c-Box__bodyFlex justify-content-center">
                         <a type="button" class="btn btn-primary btn-sm js-EnhancedLink float-right"
-                                data-require-login="true"
-                                data-toggle="modal" data-target="#requestFusionModal"
-                                href="#">
+                           data-require-login="true"
+                           data-toggle="modal" data-target="#requestFusionModal"
+                           href="#">
                             <collab:message var="fusionRequestText" code="contests.request.fusion" contestType="${contestType}" />
                             ${fusionRequestText}
                         </a>
-                </div>
+                    </div>
+                </c:if>
             </div> <!-- /c-Box -->
             <c:if test="${proposalsPermissions.canReportProposal}">
                 <xcolab:requireLibrary name="flagging"/>
