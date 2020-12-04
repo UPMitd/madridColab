@@ -16,7 +16,7 @@ public class FusionBean {
     Proposal fromProposal;
     String status;
     Contest contestId;
-    Proposal proposalId;
+    Proposal proposal;
     String requestText;
     String commonText;
 
@@ -32,7 +32,7 @@ public class FusionBean {
         this.fromProposal = fromProposal;
         this.status = status;
         this.contestId = contestId;
-        this.proposalId = proposalId;
+        this.proposal = proposalId;
         this.requestText = requestText;
         this.commonText = commonText;
     }
@@ -93,12 +93,12 @@ public class FusionBean {
         this.contestId = contestId;
     }
 
-    public Proposal getProposalId() {
-        return proposalId;
+    public Proposal getProposal() {
+        return proposal;
     }
 
-    public void setProposalId(Proposal proposalId) {
-        this.proposalId = proposalId;
+    public void setProposal(Proposal proposalId) {
+        this.proposal = proposalId;
     }
 
     public String getRequestText() {
