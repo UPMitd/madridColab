@@ -42,7 +42,7 @@ public final class FusionClient {
     fusionBean.setRequestText(fusionRequest.getRequestText());
     fusionBean.setContestId(contestClient.getContest(fusionRequest.getContestId()));
     if(fusionRequest.getProposalId()!=null) {
-        fusionBean.setProposalId(proposalClient.getProposal(fusionRequest.getProposalId()));
+        fusionBean.setProposal(proposalClient.getProposal(fusionRequest.getProposalId()));
     }
     fusionBean.setCommonText(fusionRequest.getCommonText());
 
