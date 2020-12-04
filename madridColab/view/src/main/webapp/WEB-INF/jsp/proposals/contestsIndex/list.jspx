@@ -15,8 +15,12 @@
         <thead class="thead-light">
         <tr>
             <th>
-                <c:set var="sortURL" value="/contests?sortColumn=CONTEST_NAME&amp;sortAscending=${sortFilterPage.sortColumn == 'CONTEST_NAME' ? not sortFilterPage.sortAscending : false }" />
-
+                <c:if test="${isIntercommunity==false}">
+                    <c:set var="sortURL" value="/contests?sortColumn=CONTEST_NAME&amp;sortAscending=${sortFilterPage.sortColumn == 'CONTEST_NAME' ? not sortFilterPage.sortAscending : false }" />
+                </c:if>
+                <c:if test="${isIntercommunity==true}">
+                    <c:set var="sortURL" value="/contests/intercommunity?sortColumn=CONTEST_NAME&amp;sortAscending=${sortFilterPage.sortColumn == 'CONTEST_NAME' ? not sortFilterPage.sortAscending : false }" />
+                </c:if>
                 <a href="${sortURL}" class="js-Tooltip" title="click to sort by ${contestType.contestName} title">
                     ${contestType.contestName}
                     <xcolab:sortArrow sortAscending="${sortFilterPage.sortAscending }" sortColumn="${sortFilterPage.sortColumn }" currentColumn="CONTEST_NAME" />
@@ -24,7 +28,12 @@
 
             </th>
             <th class="js-Tooltip text-nowrap text-center" title="click to sort by number of ${contestType.proposalNamePlural}">
-                <c:set var="sortURLProposalsCount" value="/contests?sortColumn=PROPOSALS_COUNT&amp;sortAscending=${sortFilterPage.sortColumn == 'PROPOSALS_COUNT' ? not sortFilterPage.sortAscending : false }" />
+                <c:if test="${isIntercommunity==false}">
+                    <c:set var="sortURLProposalsCount" value="/contests?sortColumn=PROPOSALS_COUNT&amp;sortAscending=${sortFilterPage.sortColumn == 'PROPOSALS_COUNT' ? not sortFilterPage.sortAscending : false }" />
+                </c:if>
+                <c:if test="${isIntercommunity==true}">
+                    <c:set var="sortURLProposalsCount" value="/contests/intercommunity?sortColumn=PROPOSALS_COUNT&amp;sortAscending=${sortFilterPage.sortColumn == 'PROPOSALS_COUNT' ? not sortFilterPage.sortAscending : false }" />
+                </c:if>
                 <a href="${sortURLProposalsCount}">
                     <collab:image src="/images/icon-list-proposals.png" height="24" cssStyle="max-width: initial;"/>
                     <xcolab:sortArrow sortAscending="${sortFilterPage.sortAscending }" sortColumn="${sortFilterPage.sortColumn }" currentColumn="PROPOSALS_COUNT" />
@@ -34,7 +43,12 @@
                 title="${contest.activeOhase.canVote ? 'click to sort by number of votes' : 'click to sort by number of comments'}">
                 <c:choose>
                     <c:when test="${contest.activePhase.canVote }">
-                        <c:set var="sortURLVotes" value="/contests?sortColumn=VOTES_COUNT&amp;sortAscending=${sortFilterPage.sortColumn == 'VOTES_COUNT' ? not sortFilterPage.sortAscending : false }" />
+                        <c:if test="${isIntercommunity==false}">
+                            <c:set var="sortURLVotes" value="/contests?sortColumn=VOTES_COUNT&amp;sortAscending=${sortFilterPage.sortColumn == 'VOTES_COUNT' ? not sortFilterPage.sortAscending : false }" />
+                        </c:if>
+                        <c:if test="${isIntercommunity==true}">
+                            <c:set var="sortURLVotes" value="/contests/intercommunity?sortColumn=VOTES_COUNT&amp;sortAscending=${sortFilterPage.sortColumn == 'VOTES_COUNT' ? not sortFilterPage.sortAscending : false }" />
+                        </c:if>
 
                         <a href="${sortURLVotes }">
                             <collab:image src="/images/icon-proposal-thumb.png" height="24"/>
@@ -43,8 +57,12 @@
 
                     </c:when>
                     <c:otherwise>
-                        <c:set var="sortURLComments" value="/contests?sortColumn=COMMENTS_COUNT&amp;sortAscending=${sortFilterPage.sortColumn == 'COMMENTS_COUNT' ? not sortFilterPage.sortAscending : false }" />
-
+                        <c:if test="${isIntercommunity==false}">
+                            <c:set var="sortURLComments" value="/contests?sortColumn=COMMENTS_COUNT&amp;sortAscending=${sortFilterPage.sortColumn == 'COMMENTS_COUNT' ? not sortFilterPage.sortAscending : false }" />
+                        </c:if>
+                        <c:if test="${isIntercommunity==true}">
+                            <c:set var="sortURLComments" value="/contests/intercommunity?sortColumn=COMMENTS_COUNT&amp;sortAscending=${sortFilterPage.sortColumn == 'COMMENTS_COUNT' ? not sortFilterPage.sortAscending : false }" />
+                        </c:if>
                         <a href="${sortURLComments }">
                             <collab:image src="/images/icon-list-comment.png" height="24"/>
                             <xcolab:sortArrow sortAscending="${sortFilterPage.sortAscending }" sortColumn="${sortFilterPage.sortColumn }" currentColumn="COMMENTS_COUNT" />
@@ -54,8 +72,12 @@
                 </c:choose>
             </th>
             <th class="text-nowrap text-center">
-                <c:set var="sortURLWhat" value="/contests?sortColumn=WHAT&amp;sortAscending=${sortFilterPage.sortColumn == 'WHAT' ? not sortFilterPage.sortAscending : false }" />
-
+                <c:if test="${isIntercommunity==false}">
+                    <c:set var="sortURLWhat" value="/contests?sortColumn=WHAT&amp;sortAscending=${sortFilterPage.sortColumn == 'WHAT' ? not sortFilterPage.sortAscending : false }" />
+                </c:if>
+                <c:if test="${isIntercommunity==true}">
+                    <c:set var="sortURLWhat" value="/contests/intercommunity?sortColumn=WHAT&amp;sortAscending=${sortFilterPage.sortColumn == 'WHAT' ? not sortFilterPage.sortAscending : false }" />
+                </c:if>
                 <collab:image src="/images/icon-list-what.png"/>
                 <a href="${sortURLWhat }" class="js-Tooltip" title="click to sort by actions">
                     What
@@ -63,8 +85,12 @@
                 </a>
             </th>
             <th class="text-nowrap text-center">
-                <c:set var="sortURLWhere" value="/contests?sortColumn=WHERE&amp;sortAscending=${sortFilterPage.sortColumn == 'WHERE' ? not sortFilterPage.sortAscending : false }" />
-
+                <c:if test="${isIntercommunity==false}">
+                    <c:set var="sortURLWhere" value="/contests?sortColumn=WHERE&amp;sortAscending=${sortFilterPage.sortColumn == 'WHERE' ? not sortFilterPage.sortAscending : false }" />
+                </c:if>
+                <c:if test="${isIntercommunity==true}">
+                    <c:set var="sortURLWhere" value="/contests/intercommunity?sortColumn=WHERE&amp;sortAscending=${sortFilterPage.sortColumn == 'WHERE' ? not sortFilterPage.sortAscending : false }" />
+                </c:if>
                 <collab:image src="/images/icon-list-where.png"/>
                 <a href="${sortURLWhere }" class="js-Tooltip" title="click to sort by geographical area">
                     Where
@@ -74,7 +100,12 @@
             </th>
             <th class="text-nowrap text-center">
                 <c:set var="sortAscending" value="${sortFilterPage.sortColumn == 'WHO' ? not sortFilterPage.sortAscending : false }" />
-                <c:set var="sortURLWho" value="/contests?sortColumn=WHO&amp;sortAscending=${sortAscending}" />
+                <c:if test="${isIntercommunity==false}">
+                    <c:set var="sortURLWho" value="/contests?sortColumn=WHO&amp;sortAscending=${sortAscending}" />
+                </c:if>
+                <c:if test="${isIntercommunity==true}">
+                    <c:set var="sortURLWho" value="/contests/intercommunity?sortColumn=WHO&amp;sortAscending=${sortAscending}" />
+                </c:if>
 
                 <collab:image src="/images/icon-list-who.png"/>
                 <a href="${sortURLWho }" class="js-Tooltip" title="click to sort by who this issue affects">
@@ -84,8 +115,12 @@
             </th>
             <th class="text-nowrap text-center">
                 <c:set var="sortAscending" value="${sortFilterPage.sortColumn == 'HOW' ? not sortFilterPage.sortAscending : false }" />
-                <c:set var="sortURLHow" value="/contests?sortColumn=HOW&amp;sortAscending=${sortAscending}" />
-
+                <c:if test="${isIntercommunity==false}">
+                    <c:set var="sortURLHow" value="/contests?sortColumn=HOW&amp;sortAscending=${sortAscending}" />
+                </c:if>
+                <c:if test="${isIntercommunity==true}">
+                    <c:set var="sortURLHow" value="/contests/intercommunity?sortColumn=HOW&amp;sortAscending=${sortAscending}" />
+                </c:if>
                 <collab:image src="/images/contest-icon-how.png"/>
                 <a href="${sortURLHow }" class="js-Tooltip" title="click to sort by how this issue affects">
                     How
@@ -118,11 +153,20 @@
 
     <c:if test="${not showAllContests and totalContestCount gt contestsSorted.size}">
         <div class="text-center mt-3">
-            <c:url var="allContestsUrl" value="${contestType.contestBaseUrl}">
-                <c:param name="viewType" value="${viewType}"/>
-                <c:param name="filter" value="${sortFilterPage.filter}"/>
-                <c:param name="showAllContests" value="true"/>
-            </c:url>
+            <c:if test="${isIntercommunity==false}">
+                <c:url var="allContestsUrl" value="${contestType.contestBaseUrl}">
+                    <c:param name="viewType" value="${viewType}"/>
+                    <c:param name="filter" value="${sortFilterPage.filter}"/>
+                    <c:param name="showAllContests" value="true"/>
+                </c:url>
+            </c:if>
+            <c:if test="${isIntercommunity==true}">
+                <c:url var="allContestsUrl" value="${contestType.contestBaseUrl}/intercommunity">
+                    <c:param name="viewType" value="${viewType}"/>
+                    <c:param name="filter" value="${sortFilterPage.filter}"/>
+                    <c:param name="showAllContests" value="true"/>
+                </c:url>
+            </c:if>
             <a class="btn btn-primary btn-lg" href="${allContestsUrl}">
                 <collab:message code="contests.selector.seeall" contestType="${contestType}"
                                 arguments="${totalContestCount}" />

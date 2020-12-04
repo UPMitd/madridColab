@@ -20,9 +20,17 @@
         <div class="col-12 col-sm-4 col-lg-2">
             <h1 class="my-0">${contestType.contestNamePlural}</h1>
         </div>
-        <c:set var="changeToListViewTypeURL" value="/contests?viewType=LIST&amp;filter=${sortFilterPage.filter}&amp;showAllContests=${showAllContests}" />
-        <c:set var="changeToGridViewTypeURL" value="/contests?viewType=GRID&amp;filter=${sortFilterPage.filter}&amp;showAllContests=${showAllContests}" />
-        <c:set var="changeToOutlineViewTypeURL" value="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter}&amp;showAllContests=${showAllContests}" />
+        <c:if test="${isIntercommunity==false}">
+            <c:set var="changeToListViewTypeURL" value="/contests?viewType=LIST&amp;filter=${sortFilterPage.filter}&amp;showAllContests=${showAllContests}" />
+            <c:set var="changeToGridViewTypeURL" value="/contests?viewType=GRID&amp;filter=${sortFilterPage.filter}&amp;showAllContests=${showAllContests}" />
+            <c:set var="changeToOutlineViewTypeURL" value="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter}&amp;showAllContests=${showAllContests}" />
+        </c:if>
+        <c:if test="${isIntercommunity==true}">
+            <c:set var="changeToListViewTypeURL" value="/contests/intercommunity?viewType=LIST&amp;filter=${sortFilterPage.filter}&amp;showAllContests=${showAllContests}" />
+            <c:set var="changeToGridViewTypeURL" value="/contests/intercommunity?viewType=GRID&amp;filter=${sortFilterPage.filter}&amp;showAllContests=${showAllContests}" />
+            <c:set var="changeToOutlineViewTypeURL" value="/contests/intercommunity?viewType=OUTLINE&amp;filter=${sortFilterPage.filter}&amp;showAllContests=${showAllContests}" />
+        </c:if>
+
 
         <c:if test="${showContestDisplayOptions}">
             <div class="col-12 col-lg-6 order-last order-lg-0 d-none d-md-block">

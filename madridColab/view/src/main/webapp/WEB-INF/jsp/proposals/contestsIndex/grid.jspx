@@ -43,11 +43,20 @@
 
     <c:if test="${not showAllContests and totalContestCount gt contestsSorted.size}">
         <div class="text-center">
-            <c:url var="allContestsUrl" value="${contestType.contestBaseUrl}">
-                <c:param name="viewType" value="${viewType}"/>
-                <c:param name="filter" value="${sortFilterPage.filter}"/>
-                <c:param name="showAllContests" value="true"/>
-            </c:url>
+            <c:if test="${isIntercommunity==false}">
+                <c:url var="allContestsUrl" value="${contestType.contestBaseUrl}">
+                    <c:param name="viewType" value="${viewType}"/>
+                    <c:param name="filter" value="${sortFilterPage.filter}"/>
+                    <c:param name="showAllContests" value="true"/>
+                </c:url>
+            </c:if>
+            <c:if test="${isIntercommunity==true}">
+                <c:url var="allContestsUrl" value="${contestType.contestBaseUrl}/intercommunity">
+                    <c:param name="viewType" value="${viewType}"/>
+                    <c:param name="filter" value="${sortFilterPage.filter}"/>
+                    <c:param name="showAllContests" value="true"/>
+                </c:url>
+            </c:if>
             <a class="btn btn-primary btn-lg" href="${allContestsUrl}">
                 <collab:message code="contests.selector.seeall" contestType="${contestType}"
                                 arguments="${totalContestCount}" />

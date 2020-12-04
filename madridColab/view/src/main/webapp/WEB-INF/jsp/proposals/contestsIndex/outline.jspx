@@ -66,18 +66,36 @@
 
             <div class="other-contest-count" style="display: none;">
                 (<span class="active-title" style="display:none;">
+                <c:if test="${isIntercommunity==false}">
                     <a href="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }" data-base-url="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }" class='showOtherContestsLink'><span class="count"><!-- --></span>
                         active
                         <span class='plural'> ${contestType.contestNamePlural}</span>
                         <span class='singular'> ${contestType.contestName}</span>
                     </a>
+                </c:if>
+                <c:if test="${isIntercommunity==true}">
+                    <a href="/contests/intercommunity?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }" data-base-url="/contests/intercommunity?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }" class='showOtherContestsLink'><span class="count"><!-- --></span>
+                        active
+                        <span class='plural'> ${contestType.contestNamePlural}</span>
+                        <span class='singular'> ${contestType.contestName}</span>
+                    </a>
+                </c:if>
                 </span>
                 <span class="total-title" style="display:none;">
+                 <c:if test="${isIntercommunity==false}">
                     <a href="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }&amp;showAllContests=true" data-base-url="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }&amp;showAllContests=true" class='showOtherContestsLink' ><span class="count"><!-- --></span>
                         total
                         <span class='plural'> ${contestType.contestNamePlural}</span>
                         <span class='singular'> ${contestType.contestName}</span>
                     </a>
+                 </c:if>
+                    <c:if test="${isIntercommunity==true}">
+                         <a href="/contests/intercommunity?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }&amp;showAllContests=true" data-base-url="/contests/intercommunity?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }&amp;showAllContests=true" class='showOtherContestsLink' ><span class="count"><!-- --></span>
+                        total
+                        <span class='plural'> ${contestType.contestNamePlural}</span>
+                        <span class='singular'> ${contestType.contestName}</span>
+                    </a>
+                    </c:if>
                 </span>)
             </div>
         </div>
@@ -92,8 +110,12 @@
 						<span class="otherContestsCount prior">
 						<collab:image src="/images/contests-archive.png" height="20" />&#160;
 						If you select
-							<a href="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }&amp;showAllContests=false" data-base-url="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter}&amp;showAllContests=true" class='showOtherContestsLink' >all contests</a>,
-
+                        <c:if test="${isIntercommunity==false}">
+                            <a href="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }&amp;showAllContests=false" data-base-url="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter}&amp;showAllContests=true" class='showOtherContestsLink' >all contests</a>,
+                        </c:if>
+                        <c:if test="${isIntercommunity==true}">
+                            <a href="/contests/intercommunity?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }&amp;showAllContests=false" data-base-url="/contests/intercommunity?viewType=OUTLINE&amp;filter=${sortFilterPage.filter}&amp;showAllContests=true" class='showOtherContestsLink' >all contests</a>,
+                        </c:if>
 							<span class='count'><!-- --></span>
 							completed
 							<span class='plural'>${contestType.contestNamePlural}</span>
@@ -103,7 +125,12 @@
 					</c:when>
 					<c:otherwise>
 						<span class="otherContestsCount">If you select
-							<a href="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }&amp;showAllContests=false" data-base-url="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter}&amp;showAllContests=false" class='showOtherContestsLink'>active contests</a>,
+                         <c:if test="${isIntercommunity==false}">
+    	                        <a href="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }&amp;showAllContests=false" data-base-url="/contests?viewType=OUTLINE&amp;filter=${sortFilterPage.filter}&amp;showAllContests=false" class='showOtherContestsLink'>active contests</a>,
+                         </c:if>
+                         <c:if test="${isIntercommunity==true}">
+	                            <a href="/contests/intercommunity?viewType=OUTLINE&amp;filter=${sortFilterPage.filter }&amp;showAllContests=false" data-base-url="/contests/intercommunity?viewType=OUTLINE&amp;filter=${sortFilterPage.filter}&amp;showAllContests=false" class='showOtherContestsLink'>active contests</a>,
+                         </c:if>
 							<span class='count'><!-- --></span> current
 							<span class='plural'>${contestType.contestNamePlural}</span>
 							<span class='singular'>${contestType.contestName}</span>
