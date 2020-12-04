@@ -184,7 +184,7 @@ public class VoteOnProposalActionController {
             @PathVariable Long contestYear,
             @PathVariable String contestUrlName, @PathVariable Long proposalId) {
         return proposalDescriptionTabController.showProposalDetails(request, response, model,
-                proposalContext, currentMember, true, false, null, null);
+                proposalContext, currentMember, true, false, null, null, null);
     }
 
     @GetMapping("confirmVote/{userId}/{confirmationToken}")
