@@ -355,11 +355,17 @@ public class ContestController {
     }
 
 
-    @RequestMapping(value="contestFusion", method = RequestMethod.GET)
+    @GetMapping(value = "/contestFusion", params = {"contest_id_1", "contest_id_2"})
     public @ResponseBody
     List<ContestFusion> getContestFusion(@RequestParam("contest_id_1") Long contest_id_1,
             @RequestParam("contest_id_2") Long contest_id_2) {
         return contestFusionDao.getByContests(contest_id_1, contest_id_2);
+    }
+
+    @GetMapping(value = "/contestFusion")
+    public @ResponseBody
+    List<ContestFusion> getAllContestFusions() {
+        return contestFusionDao.getAll();
     }
 
     @ListMapping("/contests/getIntercommunityContests")
