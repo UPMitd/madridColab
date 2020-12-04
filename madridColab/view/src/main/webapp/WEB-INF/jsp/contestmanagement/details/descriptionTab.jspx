@@ -48,7 +48,7 @@
                     <form:errors cssClass="invalid-feedback" path="title" />
 
                     <div class="inputLimitContainer"><span class="limit_characterCount"><!--  --></span>/&#160;<span
-                            class="limit_charactersMax">75</span> characters
+                            class="limit_charactersMax">150</span> characters
                     </div>
                     <c:if test="${not contestWrapper.contestActive}">
                         <div class="form-check">

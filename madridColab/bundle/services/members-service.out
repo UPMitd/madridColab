@@ -1,0 +1,30 @@
+2020-11-09 22:55:25.635  INFO 10312 --- [           main] s.c.a.AnnotationConfigApplicationContext : Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@c2e1f26: startup date [Mon Nov 09 22:55:25 CET 2020]; root of context hierarchy
+2020-11-09 22:55:34.490  INFO 10312 --- [           main] f.a.AutowiredAnnotationBeanPostProcessor : JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2020-11-09 22:55:35.421  INFO 10312 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'configurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$2cf30885] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::       (v1.5.12.RELEASE)
+
+2020-11-09 22:55:59.768  INFO 10312 --- [           main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@6a4f787b: startup date [Mon Nov 09 22:55:59 CET 2020]; parent: org.springframework.context.annotation.AnnotationConfigApplicationContext@c2e1f26
+2020-11-09 22:56:22.030  INFO 10312 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-11-09 22:56:34.615  INFO 10312 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=2e8e719b-2ed7-3dcd-8b15-c1d492c62100
+2020-11-09 22:56:35.326  INFO 10312 --- [           main] f.a.AutowiredAnnotationBeanPostProcessor : JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2020-11-09 22:56:38.315  INFO 10312 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.netflix.metrics.MetricsInterceptorConfiguration$MetricsRestTemplateConfiguration' of type [org.springframework.cloud.netflix.metrics.MetricsInterceptorConfiguration$MetricsRestTemplateConfiguration$$EnhancerBySpringCGLIB$$4305abc9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-11-09 22:56:38.804  INFO 10312 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$10d90588] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-11-09 22:56:41.236  INFO 10312 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$2cf30885] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-11-09 22:57:04.653  INFO 10312 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 18090 (http)
+2020-11-09 22:57:35.432  INFO 10312 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Started.
+2020-11-09 22:58:07.398  WARN 10312 --- [           main] c.n.c.sources.URLConfigurationSource     : No URLs will be polled as dynamic configuration sources.
+2020-11-09 22:58:07.608  WARN 10312 --- [           main] c.n.c.sources.URLConfigurationSource     : No URLs will be polled as dynamic configuration sources.
+2020-11-09 22:59:04.632  WARN 10312 --- [           main] o.f.core.internal.database.Database      : Flyway upgrade recommended: MySQL 8.0 is newer than this version of Flyway and support has not been tested.
+2020-11-09 22:59:07.252  WARN 10312 --- [           main] o.f.core.internal.command.DbMigrate      : outOfOrder mode is active. Migration of schema `xcolab4` may not be reproducible.
+2020-11-09 22:59:37.588  INFO 10312 --- [           main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 0
+2020-11-09 22:59:37.739  INFO 10312 --- [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2020-11-09 22:59:53.596  INFO 10312 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application xcolab-members-service with eureka with status UP
+2020-11-09 22:59:58.112  INFO 10312 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 18090 (http)
+2020-11-09 22:59:58.114  INFO 10312 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 18090
