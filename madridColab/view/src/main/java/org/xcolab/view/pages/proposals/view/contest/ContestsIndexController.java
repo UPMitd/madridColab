@@ -87,7 +87,6 @@ public class ContestsIndexController extends BaseProposalsController {
                 contestType = defaultContestType;
             }
         }
-        System.out.println(contestType);
         if (contestType.isRestrictedAccess() && !new ContestPermissions(loggedInMember)
                 .getCanAccessContests(contestType)) {
             return new AccessDeniedPage(loggedInMember).toViewName(response);
