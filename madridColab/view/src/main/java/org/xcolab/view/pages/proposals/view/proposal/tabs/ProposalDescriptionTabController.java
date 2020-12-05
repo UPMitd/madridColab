@@ -124,6 +124,27 @@ public class ProposalDescriptionTabController extends BaseProposalTabController 
                 proposals=contestTypeProposal.getProposals();
             }
 
+            ///check if some proposal is a merge
+            List<Proposal> myProposals=new ArrayList<>();
+            ArrayList<FusionBean> merged=FusionClient.listByFromUserID(currentMember.getId());
+            for (int i=0; i< proposals.size(); i++){
+                boolean exists=false;
+                Proposal proposal= proposals.get(i);
+                for (int j=0; j<merged.size(); j++){
+                        FusionBean fusionBean= merged.get(j);
+                        if(fusionBean.getProposal()!=null&&fusionBean.getProposal().getId()!=null){
+                            if(fusionBean.getProposal().getId()==proposal.getId()){
+                                exists=true;
+                            }
+                        }
+                }
+                if(exists==false){
+                    myProposals.add(proposal);
+                }
+            }
+
+
+            ///check if it is already a merge
             ArrayList<FusionBean> fusionBeans=FusionClient.listALlFusions();
             boolean mergeable=true;
             for(FusionBean fusionBean: fusionBeans){
@@ -133,8 +154,11 @@ public class ProposalDescriptionTabController extends BaseProposalTabController 
                  }
              }
             }
-
-            model.addAttribute("myProposals", proposals);
+            Member member=proposalContext.getProposal().getAuthor();
+            if(member.getId()==currentMember.getId()){
+                mergeable=false;
+            }
+            model.addAttribute("myProposals", myProposals);
             model.addAttribute("mergeable",mergeable);
             FusionRequestBean fusionRequestBean= new FusionRequestBean();
             model.addAttribute("fusionRequestBean", fusionRequestBean);
