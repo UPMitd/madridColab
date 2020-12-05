@@ -91,8 +91,8 @@ public class MessagingFusion {
         body.append(getFooter());
         List<Long> recipients= new ArrayList<>();
         recipients.add(fusionBean.getFromUser().getId());
-        sendNotification(ACCEPT_TITLE, body.toString(), fusionBean.getFromUser().getId(),
-                    fusionBean.getToUser().getId());
+        sendNotification(ACCEPT_TITLE, body.toString(), fusionBean.getToUser().getId(),
+                    fusionBean.getFromUser().getId());
         sendEmailMessage(fusionBean.getFromUser(), ACCEPT_TITLE, body.toString(), fusionBean.getToUser().getId());
     }
 
@@ -110,8 +110,8 @@ public class MessagingFusion {
         body.append(StringUtils.replace(MESSAGE_FOOTER_TEMPLATE, COLAB_NAME_PLACEHOLDER, ConfigurationAttributeKey.COLAB_NAME.get()));
         List<Long> recipients= new ArrayList<>();
         recipients.add(fusionBean.getFromUser().getId());
-        sendNotification(REJECT_TITLE, body.toString(), fusionBean.getFromUser().getId(),
-                fusionBean.getToUser().getId());
+        sendNotification(REJECT_TITLE, body.toString(), fusionBean.getToUser().getId(),
+                fusionBean.getFromUser().getId());
         sendEmailMessage(fusionBean.getFromUser(), REJECT_TITLE, body.toString(), fusionBean.getToUser().getId());
     }
 
