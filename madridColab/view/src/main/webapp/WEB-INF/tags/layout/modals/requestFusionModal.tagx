@@ -3,12 +3,14 @@
           xmlns:spring="http://www.springframework.org/tags"
           xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
           xmlns:form="http://www.springframework.org/tags/form"
-          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0">
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcollabdiscussions="http://climatecolab.org/tags/xcolab_discussions_2.0">
 
     <collab:message var="fusionRequestMessage" code="fusion.fusions.new.request.title"/>
     <collab:message var="fusionRequestTo" code="fusion.request.modal.to"/>
     <collab:message var="fusionReason" code="fusion.request.modal.reason"/>
     <collab:message var="selectProposal" code="fusion.request.modal.select"/>
+    <collab:message var="message" code="fusion.fusions.requests.modal.message"/>
 
     <xcolab:modal modalId="requestFusionModal" title="${fusionRequestMessage}" size="lg">
         <form:form method="post" action="/fusionRequest/api/new" commandName="fusionRequestBean"  id="requestFusionForm">
@@ -37,7 +39,9 @@
                                     By:&#160;
                                     <xcolab:userLinkSimple userId="${userAuthorId}" text="${userAuthorName}" />
                                 </div>
+
                             </div>
+                            <div>${message}</div>
                         </div>
                     </div>
                     <br/>
