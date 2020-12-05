@@ -2,6 +2,7 @@ package org.xcolab.client.proposals;
 
 
 import org.joda.time.DateTime;
+import org.jooq.util.derby.sys.Sys;
 
 import org.xcolab.client.activities.ActivitiesClient;
 import org.xcolab.client.admin.ContestTypeClient;
@@ -9,10 +10,15 @@ import org.xcolab.client.admin.attributes.configuration.ConfigurationAttributeKe
 import org.xcolab.client.admin.pojo.ContestType;
 import org.xcolab.client.contest.ContestClient;
 import org.xcolab.client.contest.ContestClientUtil;
+import org.xcolab.client.contest.ProposalTemplateClient;
+import org.xcolab.client.contest.ProposalTemplateClientUtil;
 import org.xcolab.client.contest.exceptions.ContestNotFoundException;
 import org.xcolab.client.contest.pojo.Contest;
 import org.xcolab.client.contest.pojo.ContestFusion;
 import org.xcolab.client.contest.pojo.phases.ContestPhase;
+import org.xcolab.client.contest.pojo.templates.ProposalTemplate;
+import org.xcolab.client.contest.pojo.templates.ProposalTemplateSection;
+import org.xcolab.client.contest.pojo.templates.ProposalTemplateSectionDefinition;
 import org.xcolab.client.contest.resources.ProposalResource;
 import org.xcolab.client.contest.util.ContestScheduleChangeHelper;
 import org.xcolab.client.fusion.utils.FusionStatus;
@@ -508,29 +514,80 @@ public final class ProposalClient {
         Contest contest = null;
 
         if(contestId == null) {
+            String templateName=ContestClientUtil.getContest(fromContestId).getTitle()+" "
+                    +ContestClientUtil.getContest(toContestId).getTitle();
+            ProposalTemplate proposalTemplate=createFusionTemplate(data, templateName);
             contest = createContest("Fusion " +
-                    ContestClientUtil.getContest(fromContestId).getTitle() + "  " +
-                    ContestClientUtil.getContest(toContestId).getTitle(), 1);
+                    templateName, 1, proposalTemplate.getId());
             ContestClientUtil.createContestFusion(new ContestFusion(contest.getId(), fromContestId, toContestId));
             contestId = contest.getId();
+
+        }else{
+            contest = ContestClientUtil.getContest(contestId);
         }
-
-        else contest = ContestClientUtil.getContest(contestId);
-
-       /* Long proposalId = createProposal(data.getFromUserId(),
-                ContestClientUtil.getActivePhase(contest.getId()).getId(), true).getId();
-*/
-
         data.setContestId(contestId);
-       // data.setProposalId(proposalId);
         data.setStatus(FusionStatus.PENDING.getValue());
-
-        //generateAttributes(data.getFromProposalId(), data.getToProposalId(), proposalId);
-
         return proposalFusionRequestResource.create(data).execute();
     }
 
-    public void generateAttributes(ProposalFusionRequest proposalFusionRequest) {
+
+    private ProposalTemplate createFusionTemplate(ProposalFusionRequest proposalFusionRequest, String name){
+        Proposal proposalFrom = getProposal(proposalFusionRequest.getFromProposalId());
+        Proposal proposalTo = getProposal(proposalFusionRequest.getToProposalId());
+        Contest contestFrom= proposalFrom.getContest();
+        Contest contestTo= proposalTo.getContest();
+        ProposalTemplate originTemplate=ProposalTemplateClientUtil.getProposalTemplate(contestFrom.getProposalTemplateId());
+        ProposalTemplate destTemplate=ProposalTemplateClientUtil.getProposalTemplate(contestTo.getProposalTemplateId());
+        originTemplate.setName(name);
+        ProposalTemplate newTemplate= ProposalTemplateClientUtil.createProposalTemplate(originTemplate);
+
+        List<ProposalTemplateSection> oldSections=ProposalTemplateClientUtil.getProposalTemplateSectionsByTemplateId(originTemplate.getId());
+        for(int i=0; i< oldSections.size(); i++){
+            createSectionTemplate(oldSections.get(i), newTemplate, i);
+        }
+        List<ProposalTemplateSection> sections=ProposalTemplateClientUtil.getProposalTemplateSectionsByTemplateId(newTemplate.getId());
+
+        List<ProposalTemplateSection> newSections=ProposalTemplateClientUtil.getProposalTemplateSectionsByTemplateId(destTemplate.getId());
+
+        ProposalTemplateSectionDefinition sectionDefinition;
+        ProposalTemplateSectionDefinition newSectionDefinition;
+        int weight=sections.size();
+
+        for(int i=0; i<newSections.size(); i++){
+            ProposalTemplateSection newSection= newSections.get(i);
+            newSectionDefinition =ProposalTemplateClientUtil.getProposalTemplateSectionDefinition(newSection.getSectionDefinitionId());
+            String newTitle=newSectionDefinition.getTitle();
+            boolean exist=false;
+            for(int j=0; j<sections.size(); j++){
+                ProposalTemplateSection section= sections.get(j);
+                sectionDefinition = ProposalTemplateClientUtil.getProposalTemplateSectionDefinition(section.getSectionDefinitionId());
+                String title=sectionDefinition.getTitle();
+                if(title.compareToIgnoreCase(newTitle)==0){
+                    exist=true;
+                }
+            }
+            if(exist==false){
+                weight++;
+                createSectionTemplate(newSection, newTemplate, weight);
+            }
+        }
+        return newTemplate;
+    }
+
+    private void createSectionTemplate(ProposalTemplateSection section, ProposalTemplate template, int weight){
+        ProposalTemplateSection pts = new ProposalTemplateSection();
+        pts.setProposalTemplateId(template.getId());
+        ProposalTemplateSectionDefinition ptsd =
+                ProposalTemplateClientUtil.getProposalTemplateSectionDefinition(section.getSectionDefinitionId());
+        ptsd.setId(null);
+        ptsd.setCharacterLimit(ptsd.getCharacterLimit()*3);
+        ptsd = ProposalTemplateClientUtil.createProposalTemplateSectionDefinition(ptsd);
+        pts.setSectionDefinitionId(ptsd.getId());
+        pts.setWeight(weight);
+        ProposalTemplateClientUtil.createProposalTemplateSection(pts);
+    }
+
+    private void generateAttributes(ProposalFusionRequest proposalFusionRequest) {
 
         Proposal proposal1 = getProposal(proposalFusionRequest.getFromProposalId());
         Proposal proposal2 = getProposal(proposalFusionRequest.getToProposalId());
@@ -538,32 +595,116 @@ public final class ProposalClient {
 
         final ProposalAttributeClient proposalAttributeClient =
                 ProposalAttributeClientUtil.getClient();
-
         for (ProposalAttribute attribute : proposalAttributeClient
                 .getAllProposalAttributes(proposal1.getId())) {
             ProposalAttribute attribute2;
-            String value="";
-            attribute2=proposalAttributeClient.getProposalAttribute(proposal2.getId(), attribute.getName(), (long)0);
-            switch (attribute.getName()){
+            String value = "";
+            attribute2 = proposalAttributeClient
+                    .getProposalAttribute(proposal2.getId(), attribute.getName(), (long) 0);
+            switch (attribute.getName()) {
                 case ProposalAttributeKeys.NAME:
-                    value=attribute.getStringValue()+"--"+attribute2.getStringValue();
-                    break;
-                case ProposalAttributeKeys.PITCH:
-                    value=attribute.getStringValue()+"\n\r"+attribute2.getStringValue();
-                    break;
-                case ProposalAttributeKeys.DESCRIPTION:
-                    value=attribute.getStringValue()+"\n\r"+attribute2.getStringValue();
-                    break;
-                case ProposalAttributeKeys.TEAM:
-                    value=attribute.getStringValue()+" & "+attribute2.getStringValue();
-                    break;
-            }
-            proposalAttributeClient.setProposalAttribute(proposal1.getAuthorUserId(), proposalFusionRequest.getProposalId(),
+                    value = attribute.getStringValue() + " -- " + attribute2.getStringValue();
+                    proposalAttributeClient.setProposalAttribute(proposal1.getAuthorUserId(),
+                            proposalFusionRequest.getProposalId(),
                             attribute.getName(), attribute.getAdditionalId(),
                             value, attribute.getNumericValue(),
                             attribute.getRealValue(), proposalAttributeVersion);
+                    break;
+                case ProposalAttributeKeys.PITCH:
+                    value = attribute.getStringValue() + " && " + attribute2.getStringValue();
+                    proposalAttributeClient.setProposalAttribute(proposal1.getAuthorUserId(),
+                            proposalFusionRequest.getProposalId(),
+                            attribute.getName(), attribute.getAdditionalId(),
+                            value, attribute.getNumericValue(),
+                            attribute.getRealValue(), proposalAttributeVersion);
+                    break;
+                case ProposalAttributeKeys.DESCRIPTION:
+                    value = "<p>Merge Result of:</p>";
+                    value+="<ul><li><a href='"+proposal1.getProposalUrl()+"'>"+proposal1.getName();
+                    value+="</a></li><li><a href='"+proposal2.getProposalUrl()+"'>"+proposal2.getName();
+                    value+="</a></li><ul>";
+                    proposalAttributeClient.setProposalAttribute(proposal1.getAuthorUserId(),
+                            proposalFusionRequest.getProposalId(),
+                            attribute.getName(), attribute.getAdditionalId(),
+                            value, attribute.getNumericValue(),
+                            attribute.getRealValue(), proposalAttributeVersion);
+                    break;
+                case ProposalAttributeKeys.TEAM:
+                    String teamA="";
+                    String teamB="";
+                    if(attribute!=null){
+                        teamA=attribute.getStringValue();
+                    }
+                    if(attribute2!=null){
+                        teamB=attribute.getStringValue();
+                    }
+                    value = teamA + " & " + teamB;
+                    proposalAttributeClient.setProposalAttribute(proposal1.getAuthorUserId(),
+                            proposalFusionRequest.getProposalId(),
+                            attribute.getName(), attribute.getAdditionalId(),
+                            value, attribute.getNumericValue(),
+                            attribute.getRealValue(), proposalAttributeVersion);
+                    break;
+            }
+
+        }
+        List<ProposalAttribute> atrFrom=proposalAttributeClient.getAllProposalAttributes(proposal1.getId());
+        List<ProposalAttribute> atrTo=proposalAttributeClient.getAllProposalAttributes(proposal2.getId());
+
+        Proposal mergeProposal = getProposal(proposalFusionRequest.getProposalId());
+        Contest mergeContest= mergeProposal.getContest();
+        List<ProposalTemplateSection> sections=ProposalTemplateClientUtil
+                .getProposalTemplateSectionsByTemplateId(mergeContest.getProposalTemplateId());
+        ProposalAttribute proposalFusionAttribute=new ProposalAttribute();
+        for(int i=0; i<sections.size(); i++){
+            ProposalTemplateSection section= sections.get(i);
+            ProposalTemplateSectionDefinition psdFusion=ProposalTemplateClientUtil
+                    .getProposalTemplateSectionDefinition(section.getSectionDefinitionId());
+            String value="";
+            for(int j=0; j<atrFrom.size(); j++){
+                ProposalAttribute attribute=atrFrom.get(j);
+                    long id=attribute.getAdditionalId();
+                    if(id!=0) {
+                        ProposalTemplateSectionDefinition psdProposal =
+                                ProposalTemplateClientUtil.getProposalTemplateSectionDefinition(id);
+                        if (psdProposal.getTitle().compareToIgnoreCase(psdFusion.getTitle()) == 0) {
+                            value = value + attribute.getStringValue() + "</hr>";
+                        }
+                    }
+
+            }
+            for(int k=0; k<atrTo.size(); k++){
+                ProposalAttribute attribute=atrTo.get(k);
+                long id = attribute.getAdditionalId();
+                if(id!=0) {
+                    ProposalTemplateSectionDefinition psdProposal =
+                            ProposalTemplateClientUtil.getProposalTemplateSectionDefinition(id);
+                    if (psdProposal.getTitle().compareToIgnoreCase(psdFusion.getTitle()) == 0) {
+                        value = value + attribute.getStringValue() ;
+                    }
+                }
+
+            }
+            proposalFusionAttribute.setProposalId(proposalFusionRequest.getProposalId());
+            proposalFusionAttribute.setVersion(1);
+            proposalFusionAttribute.setName(ProposalAttributeKeys.SECTION);
+            proposalFusionAttribute.setAdditionalId(section.getSectionDefinitionId());
+            proposalFusionAttribute.setNumericValue(0l);
+            proposalFusionAttribute.setRealValue(0d);
+            proposalFusionAttribute.setStringValue(value);
+            addProposalAttribute(proposalFusionRequest.getFromUserId(), proposalFusionAttribute);
         }
 
+    }
+
+    private void addProposalAttribute(Long userId, ProposalAttribute attribute){
+        final ProposalAttributeClient proposalAttributeClient =
+                ProposalAttributeClientUtil.getClient();
+        proposalAttributeClient.setProposalAttribute(userId,
+                attribute.getProposalId(),
+                attribute.getName(), attribute.getAdditionalId(),
+                attribute.getStringValue(), attribute.getNumericValue(),
+                attribute.getRealValue(), attribute.getVersion());
     }
 
 
@@ -616,14 +757,13 @@ public final class ProposalClient {
     }
 
 
-    public Contest createContest(String title, long authorUserId) {
+    private Contest createContest(String title, long authorUserId, long templateId) {
         Contest contest = ContestClientUtil.createContest(authorUserId, title);
         contest.setContestYear((long) DateTime.now().getYear());
         contest.setContestPrivate(false);
         contest.setShowInTileView(true);
         contest.setShowInListView(true);
         contest.setShowInOutlineView(true);
-        final Long templateId = ConfigurationAttributeKey.DEFAULT_CONTEST_TEMPLATE_ID.get();
         contest.setProposalTemplateId(templateId);
         final Long contestScheduleId = ConfigurationAttributeKey
                 .DEFAULT_CONTEST_SCHEDULE_ID.get();
