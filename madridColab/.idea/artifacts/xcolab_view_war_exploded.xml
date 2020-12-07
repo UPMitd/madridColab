@@ -169,6 +169,7 @@
           <element id="archive" name="comment-client-1.0-SNAPSHOT.jar">
             <element id="module-output" name="comment-client" />
           </element>
+          <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.5.6" />
           <element id="archive" name="entity-utils-1.0-SNAPSHOT.jar">
             <element id="module-output" name="entity-utils" />
           </element>
