@@ -7,7 +7,7 @@
 
     <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
 
-    <xcolab:layout title="${contestType.contestNamePlural}" description="${pageDescription}">
+    <xcolab:layout title="Intercomunidad" description="${pageDescription}">
         <!--@elvariable id="viewType" type="java.lang.String"-->
         <!--@elvariable id="showCollectionCards" type="java.lang.Boolean"-->
         <jsp:directive.include file="./init.jspx" />

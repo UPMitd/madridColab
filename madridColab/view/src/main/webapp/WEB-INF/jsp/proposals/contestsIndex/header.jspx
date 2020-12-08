@@ -18,7 +18,9 @@
 
     <div class="row mb-3">
         <div class="col-12 col-sm-4 col-lg-2">
-            <h1 class="my-0">${contestType.contestNamePlural}</h1>
+            <c:if test="${isIntercommunity==false}">
+                <h1 class="my-0">${contestType.contestNamePlural}</h1>
+            </c:if>
         </div>
         <c:if test="${isIntercommunity==false}">
             <c:set var="changeToListViewTypeURL" value="/contests?viewType=LIST&amp;filter=${sortFilterPage.filter}&amp;showAllContests=${showAllContests}" />

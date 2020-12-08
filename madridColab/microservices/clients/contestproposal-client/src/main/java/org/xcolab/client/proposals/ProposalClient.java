@@ -622,7 +622,7 @@ public final class ProposalClient {
                     value = "<p>Merge Result of:</p>";
                     value+="<ul><li><a href='"+proposal1.getProposalUrl()+"'>"+proposal1.getName();
                     value+="</a></li><li><a href='"+proposal2.getProposalUrl()+"'>"+proposal2.getName();
-                    value+="</a></li><ul>";
+                    value+="</a></li><ul><br><br>";
                     proposalAttributeClient.setProposalAttribute(proposal1.getAuthorUserId(),
                             proposalFusionRequest.getProposalId(),
                             attribute.getName(), attribute.getAdditionalId(),
