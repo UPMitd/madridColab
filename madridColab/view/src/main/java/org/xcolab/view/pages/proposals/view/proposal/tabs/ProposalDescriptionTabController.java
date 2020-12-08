@@ -142,11 +142,18 @@ public class ProposalDescriptionTabController extends BaseProposalTabController 
                     myProposals.add(proposal);
                 }
             }
-
+            boolean mergeable=true;
+            List<Contest> allContests = ContestClientUtil.getIntercommunityContests();
+            for(int i=0; i<allContests.size(); i++){
+                Contest contestFusion= allContests.get(i);
+                Contest contest=proposalContext.getProposal().getContest();
+                if(contestFusion.getId()==contest.getId()){
+                    mergeable=false;
+                }
+            }
 
             ///check if it is already a merge
             ArrayList<FusionBean> fusionBeans=FusionClient.listALlFusions();
-            boolean mergeable=true;
             for(FusionBean fusionBean: fusionBeans){
              if(fusionBean.getProposal()!=null&&fusionBean.getProposal().getId()!=null){
                  if(fusionBean.getProposal().getId()==proposalId){
