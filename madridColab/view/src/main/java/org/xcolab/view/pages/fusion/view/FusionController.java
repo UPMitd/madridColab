@@ -38,9 +38,9 @@ public class FusionController {
         if (loggedInMember == null) {
             return new AccessDeniedPage(null).toViewName(response);
         }
-        List<FusionBean> fusionRequests=FusionClient.listByToUserID(loggedInMember.getId());
+        ArrayList<FusionBean> fusionRequests= new ArrayList<>();
+                fusionRequests=FusionClient.listByToUserID(loggedInMember.getId());
         sent=false;
-        System.out.println(fusionRequests.get(0).getToProposal().getName());
         model.addAttribute("user", loggedInMember);
         model.addAttribute("fusionRequests", fusionRequests);
         model.addAttribute("sent", sent);
@@ -54,7 +54,8 @@ public class FusionController {
         if (loggedInMember == null) {
             return new AccessDeniedPage(null).toViewName(response);
         }
-        ArrayList<FusionBean> fusionRequests=FusionClient.listByFromUserID(loggedInMember.getId());
+        ArrayList<FusionBean> fusionRequests= new ArrayList<>();
+        fusionRequests=FusionClient.listByFromUserID(loggedInMember.getId());
         sent=true;
         model.addAttribute("user", loggedInMember);
         model.addAttribute("fusionRequests", fusionRequests);
