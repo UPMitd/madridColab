@@ -636,7 +636,7 @@ public final class ProposalClient {
                         teamA=attribute.getStringValue();
                     }
                     if(attribute2!=null){
-                        teamB=attribute.getStringValue();
+                        teamB=attribute2.getStringValue();
                     }
                     value = teamA + " & " + teamB;
                     proposalAttributeClient.setProposalAttribute(proposal1.getAuthorUserId(),
