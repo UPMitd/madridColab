@@ -44,8 +44,6 @@
                 <span class="c-Count__number">${fn:length(proposal.members)}</span>
                 ${fn:length(proposal.members) == 1 ? memberText : membersText}
             </div>
-
-            <!--
             <c:if test="${(proposalsDisplayPermissions.canSeeRequestMembershipButton and membershipRequestId eq -1) or proposalsPermissions.isTeamMember}">
                 <div>
                     <collab:image src="/images/icon-request-membership.png" width="24" height="22"
@@ -97,7 +95,6 @@
                     </div>
                 </div>
             </c:if>
-            -->
         </div>
 
         <table class="contributors">

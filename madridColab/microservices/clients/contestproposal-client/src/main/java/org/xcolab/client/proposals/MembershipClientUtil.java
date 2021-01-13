@@ -68,4 +68,8 @@ public class MembershipClientUtil {
         return client.getMembershipRequestsByStatus(proposalId, statusId);
     }
 
+    public static void addUserToProposalTeam(Long userId, Proposal proposal) {
+        client.addUserToProposalTeam(userId, proposal);
+    }
+
 }

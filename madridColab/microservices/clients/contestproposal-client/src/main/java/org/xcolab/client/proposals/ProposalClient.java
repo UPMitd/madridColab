@@ -738,6 +738,7 @@ public final class ProposalClient {
             proposalFusionRequest.setStatus(FusionStatus.ACCEPTED.getValue());
             Long proposalId = createProposal(proposalFusionRequest.getFromUserId(),
                     ContestClientUtil.getActivePhase(proposalFusionRequest.getContestId()).getId(), true).getId();
+            MembershipClientUtil.addUserToProposalTeam(proposalFusionRequest.getToUserId(), getProposal(proposalId));
             proposalFusionRequest.setProposalId(proposalId);
             generateAttributes(proposalFusionRequest);
             proposalFusionRequestResource.update(proposalFusionRequest, fusionId).execute();
