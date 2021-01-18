@@ -125,3 +125,45 @@ INSERT INTO user__ods VALUES(0,	"1. Fin de la pobreza"),
 (14,	"15. Vida de ecosistemas terrestres"),
 (15,	"16. Paz, justicia e instituciones sólidas"),
 (16,	"17. Alianzas para lograr los objetivos");
+
+CREATE TABLE contest__contest_fusion (
+	id_fusion bigint(20) PRIMARY KEY,
+    contest_id_1 bigint(20),
+    contest_id_2 bigint(20),
+    
+    FOREIGN KEY (id_fusion)
+	REFERENCES contest__contest (id),
+    FOREIGN KEY (contest_id_1)
+	REFERENCES contest__contest (id),
+    FOREIGN KEY (contest_id_2)
+	REFERENCES contest__contest (id)
+);
+
+CREATE TABLE contest__proposal_fusion_request(
+	id bigint(20) PRIMARY KEY AUTO_INCREMENT,
+	from_user_id bigint(20),
+    to_user_id bigint(20),
+    from_proposal_id bigint(20),
+    to_proposal_id bigint(20),
+    created_at DATETIME,
+    updated_at DATETIME,
+    status VARCHAR(75),
+    contest_id bigint(20),
+    proposal_id bigint(20),
+    request_text varchar(200),
+    common_text varchar(1000),
+    
+	FOREIGN KEY (from_user_id)
+	REFERENCES user__user (id),
+    FOREIGN KEY (to_user_id)
+	REFERENCES user__user (id),
+    FOREIGN KEY (from_proposal_id)
+	REFERENCES contest__proposal (id),
+	FOREIGN KEY (to_proposal_id)
+	REFERENCES contest__proposal (id),
+    FOREIGN KEY (proposal_id)
+	REFERENCES contest__proposal (id),
+    FOREIGN KEY (contest_id)
+	REFERENCES contest__contest (id));
+
+ALTER TABLE contest__contest MODIFY contest_url_name 200;
